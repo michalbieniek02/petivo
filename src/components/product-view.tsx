@@ -105,7 +105,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
                 <li className="flex items-center gap-3"><CreditCard className="h-4 w-4 text-purple-400" /> Bezpieczna płatność kartą lub PayPal</li>
                 <li className="flex items-center gap-3"><RotateCcw className="h-4 w-4 text-purple-400" /> 14 dni na odstąpienie od umowy</li>
                 <li className="flex items-center gap-3"><Check className="h-4 w-4 text-purple-400" /> Darmowa dostawa w Polsce od 200 zł · zwykle 5–10 dni roboczych</li>
-                <li className="flex items-center gap-3"><Factory className="h-4 w-4 text-purple-400" /> {product.vendor === "Bez marki" ? "Produkt bez marki producenta" : `Producent: ${product.vendor}`}</li>
+                <li className="flex items-center gap-3"><Factory className="h-4 w-4 text-purple-400" /> Producent: {product.vendor}</li>
               </ul>
 
               <div className="product-desc mt-10 pt-10 border-t border-white/[0.06]"
