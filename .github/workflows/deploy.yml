@@ -66,6 +66,7 @@ jobs:
 
           for attempt in {1..20}; do
             if curl --fail --silent http://127.0.0.1:3000/ >/dev/null; then
+              find /var/www/petivo/releases -mindepth 1 -maxdepth 1 -type d ! -path "$release" -exec rm -rf -- {} +
               exit 0
             fi
             sleep 1

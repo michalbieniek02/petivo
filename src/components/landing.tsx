@@ -78,7 +78,7 @@ export function Landing({ products }: { products: Product[] }) {
 
           {/* pill badge */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-            className="glass rounded-full px-4 py-1.5 text-xs font-semibold text-white/60 tracking-widest uppercase mb-8 inline-flex items-center gap-2">
+            className="glass rounded-full px-4 py-1.5 text-xs font-semibold text-white/60 tracking-widest uppercase mt-8 mb-8 inline-flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
             Inteligentne karmniki dla zwierząt
           </motion.div>
