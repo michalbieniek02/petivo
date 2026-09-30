@@ -58,7 +58,7 @@ export function Landing({ products }: { products: Product[] }) {
 
   return (
     <MotionConfig reducedMotion="user">
-    <main id="main-content" className="min-h-screen bg-[#1e1b4b] text-white overflow-x-hidden">
+    <main id="main-content" className="min-h-screen bg-[#06060e] text-white overflow-x-hidden">
 
       <SiteNav />
 
@@ -66,9 +66,9 @@ export function Landing({ products }: { products: Product[] }) {
       <section ref={heroRef} className="relative sm:min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20 pb-12 sm:pt-28 sm:pb-20">
         {/* background orbs */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] sm:w-[800px] sm:h-[800px] rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 70%)" }} />
+          style={{ background: "radial-gradient(circle, rgba(139,92,246,0.18) 0%, transparent 70%)" }} />
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(ellipse, rgba(217,198,169,0.12) 0%, transparent 70%)" }} />
+          style={{ background: "radial-gradient(ellipse, rgba(34,211,238,0.12) 0%, transparent 70%)" }} />
 
         <motion.div style={{ y: heroY, opacity: heroOpacity }}
           className="relative z-10 flex flex-col items-center text-center px-4 max-w-5xl mx-auto">
@@ -114,10 +114,10 @@ export function Landing({ products }: { products: Product[] }) {
 
             {/* glow beneath */}
             <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-64 h-20 blur-3xl rounded-full animate-pulse-glow"
-              style={{ background: "radial-gradient(ellipse, rgba(124,58,237,0.7) 0%, transparent 70%)" }} />
+              style={{ background: "radial-gradient(ellipse, rgba(139,92,246,0.7) 0%, transparent 70%)" }} />
 
             <Image src={IMG} alt="Automatyczny karmnik z kamerą HD" width={480} height={532}
-              className="relative w-full object-contain drop-shadow-[0_40px_80px_rgba(124,58,237,0.4)]"
+              className="relative w-full object-contain drop-shadow-[0_40px_80px_rgba(139,92,246,0.4)]"
               priority />
 
             {/* floating chips */}
@@ -125,7 +125,7 @@ export function Landing({ products }: { products: Product[] }) {
               initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1, duration: 0.6 }}
               className="absolute top-4 sm:top-8 -left-3 sm:-left-12 glass-bright rounded-xl sm:rounded-2xl px-2.5 py-2 sm:px-4 sm:py-3 flex items-center gap-2 sm:gap-3">
               <div className="h-7 w-7 sm:h-8 sm:w-8 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0"
-                style={{ background: "linear-gradient(135deg, #7c3aed, #5b21b6)" }}>
+                style={{ background: "linear-gradient(135deg, #8b5cf6, #06b6d4)" }}>
                 <Wifi className="h-4 w-4 text-white" />
               </div>
               <div>
@@ -138,7 +138,7 @@ export function Landing({ products }: { products: Product[] }) {
               initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.15, duration: 0.6 }}
               className="absolute bottom-10 sm:bottom-16 -right-3 sm:-right-12 glass-bright rounded-xl sm:rounded-2xl px-2.5 py-2 sm:px-4 sm:py-3 flex items-center gap-2 sm:gap-3">
               <div className="h-7 w-7 sm:h-8 sm:w-8 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0"
-                style={{ background: "linear-gradient(135deg, #d9c6a9, #7c3aed)" }}>
+                style={{ background: "linear-gradient(135deg, #f472b6, #8b5cf6)" }}>
                 <Camera className="h-4 w-4 text-white" />
               </div>
               <div>
@@ -242,9 +242,9 @@ export function Landing({ products }: { products: Product[] }) {
           <Reveal from="left">
             <div className="relative max-w-xs sm:max-w-md lg:max-w-none mx-auto">
               <div className="absolute inset-0 -m-10 rounded-full blur-3xl pointer-events-none"
-                style={{ background: "radial-gradient(circle, rgba(124,58,237,0.2) 0%, transparent 70%)" }} />
+                style={{ background: "radial-gradient(circle, rgba(139,92,246,0.2) 0%, transparent 70%)" }} />
               <Image src={IMG} alt="Automatyczny karmnik z kamerą HD" width={560} height={621}
-                className="relative w-full object-contain drop-shadow-[0_60px_120px_rgba(124,58,237,0.35)]" />
+                className="relative w-full object-contain drop-shadow-[0_60px_120px_rgba(139,92,246,0.35)]" />
             </div>
           </Reveal>
           <div className="space-y-8">
@@ -272,7 +272,7 @@ export function Landing({ products }: { products: Product[] }) {
                 <Reveal key={item} delay={0.05 * i + 0.3}>
                   <div className="flex items-center gap-3">
                     <div className="h-5 w-5 rounded-full flex-shrink-0 flex items-center justify-center"
-                      style={{ background: "linear-gradient(135deg, #7c3aed, #d9c6a9)" }}>
+                      style={{ background: "linear-gradient(135deg, #8b5cf6, #22d3ee)" }}>
                       <Check className="h-3 w-3 text-white" />
                     </div>
                     <span className="text-white/70 text-sm">{item}</span>
@@ -311,7 +311,7 @@ export function Landing({ products }: { products: Product[] }) {
               <Reveal key={title} delay={i * 0.07} from="bottom">
                 <div className="glass rounded-3xl p-6 h-full border border-white/[0.06] hover:border-purple-500/40 hover:bg-white/[0.06] transition-[background-color,border-color] duration-300 group">
                   <div className="h-12 w-12 rounded-2xl mb-5 flex items-center justify-center group-hover:scale-110 transition-transform"
-                    style={{ background: "linear-gradient(135deg, rgba(124,58,237,0.3), rgba(217,198,169,0.2))", border: "1px solid rgba(124,58,237,0.3)" }}>
+                    style={{ background: "linear-gradient(135deg, rgba(139,92,246,0.3), rgba(34,211,238,0.2))", border: "1px solid rgba(139,92,246,0.3)" }}>
                     <Icon className="h-5 w-5 text-purple-300" />
                   </div>
                   <h3 className="font-bold text-white mb-2">{title}</h3>
@@ -337,7 +337,7 @@ export function Landing({ products }: { products: Product[] }) {
           <div className="grid sm:grid-cols-3 gap-10 sm:gap-8 relative">
             {/* connector line */}
             <div className="hidden sm:block absolute top-8 left-1/6 right-1/6 h-px"
-              style={{ background: "linear-gradient(90deg, transparent, rgba(124,58,237,0.4), rgba(217,198,169,0.4), transparent)" }} />
+              style={{ background: "linear-gradient(90deg, transparent, rgba(139,92,246,0.4), rgba(34,211,238,0.4), transparent)" }} />
             {[
               { n: "01", t: "Podłącz i skonfiguruj",  d: "Ustaw karmnik, podłącz do prądu i połącz z aplikacją przez WiFi." },
               { n: "02", t: "Ustaw harmonogram",       d: "Wybierz godziny i wielkość porcji. Aplikacja zapamiętuje wszystko automatycznie." },
@@ -346,7 +346,7 @@ export function Landing({ products }: { products: Product[] }) {
               <Reveal key={n} delay={i * 0.12}>
                 <div className="flex flex-col items-center text-center">
                   <div className="h-16 w-16 rounded-2xl mb-6 flex items-center justify-center text-white font-black text-lg glow-purple-sm"
-                    style={{ background: "linear-gradient(135deg, #7c3aed, #5b21b6)" }}>
+                    style={{ background: "linear-gradient(135deg, #8b5cf6, #06b6d4)" }}>
                     {n}
                   </div>
                   <h3 className="font-bold text-white text-xl mb-3">{t}</h3>
@@ -380,7 +380,7 @@ export function Landing({ products }: { products: Product[] }) {
 
               <div className="relative mx-auto w-48 mb-6">
                 <div className="absolute inset-0 blur-2xl rounded-full animate-pulse-glow"
-                  style={{ background: "radial-gradient(circle, rgba(124,58,237,0.5) 0%, transparent 70%)" }} />
+                  style={{ background: "radial-gradient(circle, rgba(139,92,246,0.5) 0%, transparent 70%)" }} />
                 <Image src={IMG} alt="Automatyczny karmnik z kamerą HD" width={200} height={222}
                   className="relative w-full object-contain drop-shadow-2xl" />
               </div>
@@ -445,7 +445,7 @@ export function Landing({ products }: { products: Product[] }) {
       {/* ─── FINAL CTA ─── */}
       <section className="py-16 sm:py-24 px-4 sm:px-6 border-t border-white/[0.04] text-center relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse at 50% 100%, rgba(124,58,237,0.2) 0%, transparent 60%)" }} />
+          style={{ background: "radial-gradient(ellipse at 50% 100%, rgba(139,92,246,0.2) 0%, transparent 60%)" }} />
         <Reveal>
           <h2 className="text-4xl min-[400px]:text-5xl sm:text-6xl font-black tracking-tight mb-6 flex flex-wrap items-center justify-center gap-x-3">
             Twój pupil na to{" "}
