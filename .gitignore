@@ -33,6 +33,11 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# deployment credentials
+/deploy-key
+/deploy-key.pub
+/vps-known-hosts
+
 # vercel
 .vercel
 
