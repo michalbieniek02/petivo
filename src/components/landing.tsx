@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { Reveal } from "@/components/scroll-reveal";
 import { AddToCartBtn as BaseAddToCartBtn } from "@/components/add-to-cart-btn";
 import { SiteNav } from "@/components/site-nav";
+import { SiteFooter } from "@/components/site-footer";
 import { ProductCard } from "@/components/product-card";
 import type { Product } from "@/lib/products";
 import type { ComponentProps } from "react";
@@ -468,18 +469,7 @@ export function Landing({ products }: { products: Product[] }) {
         </Reveal>
       </section>
 
-      {/* ─── FOOTER ─── */}
-      <footer className="border-t border-white/[0.06] py-12 px-6">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-          <span className="text-xl font-black text-gradient">PETIVO</span>
-          <div className="flex gap-6 text-xs text-white/30">
-            <a href="#kolekcja" className="hover:text-white transition-colors">Sklep</a>
-            <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
-            <span>📧 kontakt@petivo.pl</span>
-          </div>
-          <p className="text-xs text-white/20">© 2026 Petivo. Wszelkie prawa zastrzeżone.</p>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

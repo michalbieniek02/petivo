@@ -209,3 +209,17 @@ body::before {
 .product-desc li { position: relative; padding-left: 1.5rem; margin-bottom: 0.5rem; }
 .product-desc li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 0.5rem; height: 0.5rem; border-radius: 9999px; background: linear-gradient(135deg, #8b5cf6, #22d3ee); }
 .product-desc img { max-width: 100%; height: auto; border-radius: 1rem; margin: 1rem 0; }
+
+/* policy pages */
+.policy-body { color: rgba(255,255,255,0.62); font-size: 0.95rem; line-height: 1.75; }
+.policy-body h2 { color: #fff; font-weight: 900; font-size: 1.9rem; letter-spacing: -0.02em; margin: 0 0 0.5rem; }
+.policy-body h3 { color: #fff; font-weight: 800; font-size: 1.1rem; margin: 2rem 0 0.75rem; }
+.policy-body p { margin: 0 0 1rem; }
+.policy-body strong { color: rgba(255,255,255,0.92); }
+.policy-body em { color: rgba(255,255,255,0.75); }
+.policy-body ul, .policy-body ol { margin: 0 0 1rem; padding-left: 1.4rem; }
+.policy-body ul { list-style: disc; }
+.policy-body ol { list-style: decimal; }
+.policy-body li { margin-bottom: 0.55rem; padding-left: 0.25rem; }
+.policy-body li::marker { color: #a78bfa; }
+.policy-body a { color: #a78bfa; text-decoration: underline; text-underline-offset: 3px; }

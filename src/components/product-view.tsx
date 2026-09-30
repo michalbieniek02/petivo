@@ -8,6 +8,7 @@ import { AddToCartBtn } from "./add-to-cart-btn";
 import { ProductCard } from "./product-card";
 import { ProductStage } from "./product-stage";
 import { SiteNav } from "./site-nav";
+import { SiteFooter } from "./site-footer";
 
 export function ProductView({ product, others }: { product: Product; others: Product[] }) {
   const [variant, setVariant] = useState(product.variants[0]);
@@ -127,6 +128,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
           </div>
         </section>
       )}
+      <SiteFooter />
     </main>
   );
 }
