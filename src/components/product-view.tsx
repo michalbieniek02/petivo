@@ -94,7 +94,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
               <ul className="mt-6 space-y-2 text-sm text-white/50">
                 <li className="flex items-center gap-3"><CreditCard className="h-4 w-4 text-purple-400" /> Bezpieczna płatność kartą lub PayPal</li>
                 <li className="flex items-center gap-3"><RotateCcw className="h-4 w-4 text-purple-400" /> 14 dni na odstąpienie od umowy</li>
-                <li className="flex items-center gap-3"><Check className="h-4 w-4 text-purple-400" /> Koszt dostawy widoczny przed zapłatą</li>
+                <li className="flex items-center gap-3"><Check className="h-4 w-4 text-purple-400" /> Darmowa dostawa w Polsce od 200 zł · zwykle 5–10 dni roboczych</li>
               </ul>
 
               <div className="product-desc mt-10 pt-10 border-t border-white/[0.06]"

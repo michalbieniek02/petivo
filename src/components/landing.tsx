@@ -9,8 +9,8 @@ import { ProductCard } from "@/components/product-card";
 import type { Product } from "@/lib/products";
 import type { ComponentProps } from "react";
 import {
-  Wifi, Smartphone, Clock, Shield, Star, Check,
-  ArrowRight, Zap, Settings2, Bell, ChevronDown,
+  Wifi, Smartphone, Clock, Shield, Check,
+  Zap, Settings2, ChevronDown, Camera,
 } from "lucide-react";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
@@ -33,39 +33,21 @@ function AddToCartBtn(props: Omit<ComponentProps<typeof BaseAddToCartBtn>, "item
 }
 
 const features = [
-  { icon: Wifi,       title: "WiFi & Cloud",          desc: "Steruj z telefonu z dowolnego miejsca na świecie. Zawsze online." },
-  { icon: Smartphone, title: "Aplikacja iOS/Android",  desc: "Intuicyjny interfejs. Harmonogramy, powiadomienia, historia karmień." },
-  { icon: Clock,      title: "10 posiłków dziennie",   desc: "Precyzyjny timer — Twój pupil je zawsze o tej samej porze." },
-  { icon: Settings2,  title: "Dokładne porcje",        desc: "Reguluj gramaturę co do grama. Idealne dla zwierząt na diecie." },
-  { icon: Bell,       title: "Alerty push",            desc: "Powiadomisz się gdy karma się kończy lub posiłek nie został pobrany." },
-  { icon: Shield,     title: "Hermetyczny zbiornik",   desc: "3,5L szczelnego pojemnika — karma zawsze świeża i chrupiąca." },
-];
-
-const testimonials = [
-  {
-    name: "Anna K.",
-    sub: "Właścicielka kota Mizia",
-    text: "Wyjeżdżam na weekend bez stresu. Aplikacja działa perfekcyjnie, koty zawsze mają jedzenie na czas. Absolutny hit.",
-  },
-  {
-    name: "Marcin W.",
-    sub: "Właściciel psa Burego",
-    text: "Pracuję do późna. Petivo Auto rozwiązało ten problem raz na zawsze. Bury jest szczęśliwy, ja mam spokojną głowę.",
-  },
-  {
-    name: "Kasia i Tomek",
-    sub: "Właściciele 2 kotów",
-    text: "Solidny metal, łatwy do czyszczenia, elementy do zmywarki. Karmimy dwa koty z jednego urządzenia. Polecamy.",
-  },
+  { icon: Wifi,       title: "WiFi i zdalne sterowanie", desc: "Zmieniaj harmonogram i podawaj dodatkową porcję z telefonu, gdziekolwiek jesteś." },
+  { icon: Smartphone, title: "Aplikacja iOS i Android",  desc: "Harmonogram, porcje i podgląd karmienia w darmowej aplikacji." },
+  { icon: Camera,     title: "Kamera HD",                desc: "Podgląd na żywo — sprawdzisz, czy pupil zjadł posiłek." },
+  { icon: Clock,      title: "Stałe pory posiłków",      desc: "Karmnik sam wydaje posiłek o ustawionych godzinach." },
+  { icon: Settings2,  title: "Ustalone porcje",          desc: "Wybierasz liczbę porcji na posiłek — pomocne przy diecie pupila." },
+  { icon: Shield,     title: "Szczelny zbiornik 2 L",    desc: "Chroni suchą karmę przed wilgocią i utratą świeżości." },
 ];
 
 const faqs = [
-  { q: "Czy działa bez internetu?",                   a: "Tak. Raz zaprogramowany harmonogram działa offline. WiFi potrzebne jest tylko do zdalnego sterowania z aplikacji." },
-  { q: "Jaki rodzaj karmy mogę używać?",              a: "Wyłącznie sucha karma (krokiety) w standardowym rozmiarze. Nie nadaje się do karmy mokrej ani przysmaków w kawałkach." },
-  { q: "Ile karmy mieści zbiornik?",                  a: "Zbiornik ma pojemność 3,5 litra — to ok. 2–3 tygodnie dla jednego zwierzęcia przy standardowych porcjach." },
-  { q: "iOS i Android?",                              a: "Tak — aplikacja Petivo dostępna bezpłatnie w App Store (iOS 12+) i Google Play (Android 7+)." },
-  { q: "Ile czasu zajmuje wysyłka?",                  a: "Zamówienia złożone przed 14:00 wysyłamy tego samego dnia. Dostawa DPD / InPost: 1–2 dni robocze." },
-  { q: "Czy mogę zwrócić produkt?",                   a: "30 dni na zwrot bez podania przyczyny. 2 lata gwarancji producenta. Wsparcie po polsku." },
+  { q: "Czy działa bez internetu?",          a: "Tak. Harmonogram zapisany w urządzeniu działa bez internetu. WiFi jest potrzebne do podglądu z kamery i zmian w aplikacji." },
+  { q: "Jaki rodzaj karmy mogę używać?",     a: "Wyłącznie suchą karmę (granulki). Karmnik nie nadaje się do karmy mokrej." },
+  { q: "Ile karmy mieści zbiornik?",         a: "Zbiornik ma pojemność 2 litrów. Na ile dni wystarczy, zależy od wielkości pupila i porcji." },
+  { q: "Czy zasilacz jest w zestawie?",      a: "Nie — zasilacz sieciowy nie jest dołączony. Wystarczy zwykła ładowarka USB 5V 2A, np. od telefonu." },
+  { q: "Ile trwa dostawa?",                  a: "Zamówienia wysyłamy od producenta — dostawa trwa zwykle 5–10 dni roboczych. W Polsce dostawa jest darmowa od 200 zł, poniżej 20 zł." },
+  { q: "Czy mogę zwrócić produkt?",          a: "Tak. Masz 14 dni na odstąpienie od umowy bez podania przyczyny, a reklamacje przyjmujemy przez 2 lata zgodnie z prawem konsumenckim." },
 ];
 
 export function Landing({ products }: { products: Product[] }) {
@@ -160,11 +142,11 @@ export function Landing({ products }: { products: Product[] }) {
               className="absolute bottom-16 -right-4 sm:-right-12 glass-bright rounded-2xl px-4 py-3 flex items-center gap-3">
               <div className="h-8 w-8 rounded-xl flex items-center justify-center"
                 style={{ background: "linear-gradient(135deg, #f472b6, #8b5cf6)" }}>
-                <Star className="h-4 w-4 text-white fill-white" />
+                <Camera className="h-4 w-4 text-white" />
               </div>
               <div>
-                <div className="text-xs font-bold text-white">4.9 / 5.0</div>
-                <div className="text-[10px] text-white/40">12 000+ opinii</div>
+                <div className="text-xs font-bold text-white">Kamera HD</div>
+                <div className="text-[10px] text-white/40">Podgląd na żywo</div>
               </div>
             </motion.div>
           </motion.div>
@@ -185,10 +167,10 @@ export function Landing({ products }: { products: Product[] }) {
       <section className="border-y border-white/[0.06] py-10">
         <div className="max-w-5xl mx-auto px-6 grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
           {[
-            { v: "12 000+",  l: "zadowolonych właścicieli" },
-            { v: "399 zł",   l: "jedyna słuszna cena" },
-            { v: "4.9 ★",   l: "średnia ocen klientów" },
-            { v: "24/7",     l: "dba o Twojego pupila" },
+            { v: "2 L",   l: "zbiornik na suchą karmę" },
+            { v: "HD",    l: "kamera z podglądem na żywo" },
+            { v: "WiFi",  l: "sterowanie z telefonu" },
+            { v: "24/7",  l: "dba o Twojego pupila" },
           ].map(({ v, l }, i) => (
             <Reveal key={l} delay={i * 0.08}>
               <div className="text-3xl sm:text-4xl font-black text-gradient mb-1">{v}</div>
@@ -287,10 +269,10 @@ export function Landing({ products }: { products: Product[] }) {
               {[
                 "Sterowanie przez aplikację iOS / Android",
                 "WiFi — zarządzaj z dowolnego miejsca",
-                "Do 10 posiłków dziennie z precyzyjnymi porcjami",
-                "Zbiornik 3,5L z hermetycznym zamknięciem",
-                "Powiadomienia push gdy karma się kończy",
-                "Elementy zbiornika bezpieczne do zmywarki",
+                "Kamera HD — podgląd karmienia na żywo",
+                "Dodatkowa porcja zdalnie, jednym dotknięciem",
+                "Szczelny zbiornik 2 L na suchą karmę",
+                "Harmonogram działa także bez internetu",
               ].map((item, i) => (
                 <Reveal key={item} delay={0.05 * i + 0.3}>
                   <div className="flex items-center gap-3">
@@ -307,7 +289,7 @@ export function Landing({ products }: { products: Product[] }) {
               <div className="flex items-center gap-5 pt-4">
                 <div>
                   <div className="text-4xl font-black text-gradient">399 zł</div>
-                  <div className="text-xs text-white/30 mt-0.5">dostawa gratis</div>
+                  <div className="text-xs text-white/30 mt-0.5">darmowa dostawa w Polsce</div>
                 </div>
                 <AddToCartBtn className="flex-1 py-4 text-sm font-bold justify-center">
                   Dodaj do koszyka
@@ -355,7 +337,7 @@ export function Landing({ products }: { products: Product[] }) {
               <p className="text-xs font-semibold tracking-[0.25em] uppercase text-cyan-400 mb-4">Jak działa</p>
               <h2 className="text-4xl sm:text-5xl font-black tracking-tight">
                 Gotowe w{" "}
-                <span className="text-gradient">3 minuty</span>
+                <span className="text-gradient">kilka minut</span>
               </h2>
             </Reveal>
           </div>
@@ -364,7 +346,7 @@ export function Landing({ products }: { products: Product[] }) {
             <div className="hidden sm:block absolute top-8 left-1/6 right-1/6 h-px"
               style={{ background: "linear-gradient(90deg, transparent, rgba(139,92,246,0.4), rgba(34,211,238,0.4), transparent)" }} />
             {[
-              { n: "01", t: "Podłącz i skonfiguruj",  d: "Ustaw Petivo Auto, podłącz do prądu. Skonfiguruj przez aplikację w 3 minuty." },
+              { n: "01", t: "Podłącz i skonfiguruj",  d: "Ustaw Petivo Auto, podłącz do prądu i połącz z aplikacją przez WiFi." },
               { n: "02", t: "Ustaw harmonogram",       d: "Wybierz godziny i wielkość porcji. Aplikacja zapamiętuje wszystko automatycznie." },
               { n: "03", t: "Ciesz się spokojem",      d: "Wyjedź, idź do pracy, zrób zakupy. Petivo Auto zajmie się resztą." },
             ].map(({ n, t, d }, i) => (
@@ -390,45 +372,6 @@ export function Landing({ products }: { products: Product[] }) {
         </div>
       </section>
 
-      {/* ─── TESTIMONIALS ─── */}
-      <section id="opinie" className="py-28 px-6 border-t border-white/[0.04]">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <Reveal>
-              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-pink-400 mb-4">Opinie</p>
-              <h2 className="text-4xl sm:text-5xl font-black tracking-tight">
-                12 000+ szczęśliwych{" "}
-                <span className="text-gradient-warm">właścicieli</span>
-              </h2>
-            </Reveal>
-          </div>
-          <div className="grid sm:grid-cols-3 gap-4">
-            {testimonials.map(({ name, sub, text }, i) => (
-              <Reveal key={name} delay={i * 0.1}>
-                <div className="glass rounded-3xl p-6 h-full border border-white/[0.06] hover:border-pink-500/30 transition-colors">
-                  <div className="flex gap-0.5 mb-4">
-                    {[...Array(5)].map((_, j) => (
-                      <Star key={j} className="h-3.5 w-3.5 text-yellow-400 fill-yellow-400" />
-                    ))}
-                  </div>
-                  <p className="text-white/60 text-sm leading-relaxed mb-6">"{text}"</p>
-                  <div className="flex items-center gap-3">
-                    <div className="h-9 w-9 rounded-full flex items-center justify-center text-xs font-black text-white"
-                      style={{ background: "linear-gradient(135deg, #f472b6, #8b5cf6)" }}>
-                      {name[0]}
-                    </div>
-                    <div>
-                      <div className="text-sm font-bold text-white">{name}</div>
-                      <div className="text-[11px] text-white/30">{sub}</div>
-                    </div>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ─── PRICING ─── */}
       <section id="oferta" className="py-28 px-6 border-t border-white/[0.04]">
         <div className="max-w-lg mx-auto text-center">
@@ -440,7 +383,7 @@ export function Landing({ products }: { products: Product[] }) {
             <div className="relative glass-bright rounded-3xl p-8 border border-purple-500/20 glow-purple">
               {/* badge */}
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 btn-primary text-xs px-4 py-1.5 rounded-full whitespace-nowrap">
-                Najczęściej wybierany
+                Polecany
               </div>
 
               <div className="relative mx-auto w-48 mb-6">
@@ -456,11 +399,11 @@ export function Landing({ products }: { products: Product[] }) {
 
               <ul className="space-y-3 text-sm text-left mb-8">
                 {[
-                  "Darmowa dostawa DPD / InPost",
-                  "30 dni na zwrot bez pytań",
-                  "2 lata gwarancji producenta",
-                  "Aplikacja iOS i Android gratis",
-                  "Wsparcie techniczne po polsku",
+                  "Darmowa dostawa w Polsce",
+                  "14 dni na odstąpienie od umowy",
+                  "2 lata na reklamację zgodnie z prawem",
+                  "Darmowa aplikacja iOS i Android",
+                  "Bezpieczna płatność kartą lub PayPal",
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-3 text-white/60">
                     <Check className="h-4 w-4 text-purple-400 flex-shrink-0" />
@@ -472,7 +415,7 @@ export function Landing({ products }: { products: Product[] }) {
               <AddToCartBtn className="w-full py-4 text-sm font-bold justify-center">
                 Zamów Petivo Auto
               </AddToCartBtn>
-              <p className="text-xs text-white/20 mt-4">SSL · Bezpieczna płatność · Gwarancja satysfakcji</p>
+              <p className="text-xs text-white/20 mt-4">Szyfrowane połączenie SSL · Płatności obsługuje Shopify</p>
             </div>
           </Reveal>
         </div>
@@ -518,10 +461,10 @@ export function Landing({ products }: { products: Product[] }) {
             <span className="text-gradient">zasługuje</span> 🐾
           </p>
           <p className="text-white/40 text-lg mb-10 max-w-md mx-auto">
-            Dołącz do 12 000+ właścicieli, którzy śpią spokojnie wiedząc, że ich zwierzak ma zawsze pełną miskę.
+            Ustaw harmonogram raz i wyjeżdżaj spokojnie — miska będzie pełna o czasie.
           </p>
           <AddToCartBtn className="px-10 py-5 text-base font-bold">
-            Zamów za 399 zł — dostawa gratis
+            Zamów za 399 zł — darmowa dostawa
           </AddToCartBtn>
         </Reveal>
       </section>

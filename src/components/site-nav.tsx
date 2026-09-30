@@ -5,7 +5,7 @@ import { CartButton } from "./cart-drawer";
 const links = [
   { href: "/#kolekcja", label: "Sklep" },
   { href: "/#funkcje", label: "Petivo Auto" },
-  { href: "/#opinie", label: "Opinie" },
+  { href: "/#jak-działa", label: "Jak działa" },
   { href: "/#faq", label: "FAQ" },
 ];
 

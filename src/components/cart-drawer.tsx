@@ -84,7 +84,7 @@ export function CartDrawer() {
                   <span className="text-white/60 text-sm">Razem</span>
                   <span className="text-2xl font-black text-white">{formatPrice(total)}</span>
                 </div>
-                <p className="text-xs text-white/30 text-center">Koszt dostawy zobaczysz w kolejnym kroku · Bezpieczna płatność</p>
+                <p className="text-xs text-white/30 text-center">{total >= 200 ? "Darmowa dostawa w Polsce" : "Dostawa w Polsce 20 zł, darmowa od 200 zł"} · Bezpieczna płatność</p>
                 <a href={checkoutUrl}
                   className="btn-primary py-4 text-sm font-bold w-full inline-flex items-center justify-center gap-2">
                   Przejdź do płatności

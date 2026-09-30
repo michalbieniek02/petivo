@@ -10,7 +10,7 @@ export function ProductCard({ product, featured = false }: { product: Product; f
     <Link href={`/produkt/${product.handle}`}
       className="group relative glass rounded-3xl p-5 h-full flex flex-col border border-white/[0.06] hover:border-purple-500/40 hover:bg-white/[0.06] transition-all duration-300">
       {featured && (
-        <span className="absolute top-4 left-4 z-10 btn-primary text-[10px] px-3 py-1 rounded-full">Bestseller</span>
+        <span className="absolute top-4 left-4 z-10 btn-primary text-[10px] px-3 py-1 rounded-full">Polecany</span>
       )}
       <div className="relative aspect-square rounded-2xl overflow-hidden mb-5 bg-white">
         <Image src={product.images[0]} alt={product.name} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
