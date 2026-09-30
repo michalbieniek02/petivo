@@ -11,15 +11,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Petivo Auto — Inteligentny Karmnik dla Psa i Kota",
+  title: "Petivo — automatyczne karmniki i fontanny dla kota i psa",
   description:
-    "Nigdy więcej spóźnionych posiłków. Steruj z aplikacji, gdziekolwiek jesteś.",
+    "Karmniki z kamerą i aplikacją, karmnik dla dwóch kotów i fontanna ze stali nierdzewnej. Darmowa dostawa w Polsce od 200 zł.",
   openGraph: {
-    title: "Petivo Auto",
-    description: "Zadbaj o pupila zdalnie. WiFi + Aplikacja + Precyzyjne porcje.",
-    images: [
-      "https://cdn.shopify.com/s/files/1/1020/7222/2070/files/S5ed485c8135e4785821a1f551c7ce25cQ.webp",
-    ],
+    title: "Petivo — karmniki i fontanny dla pupili",
+    description: "Karmniki z kamerą i aplikacją oraz fontanna dla kota. Steruj karmieniem z telefonu.",
+    images: ["/products/karmnik-kamera-hd.webp"],
   },
 };
 

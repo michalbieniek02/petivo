@@ -16,13 +16,12 @@ import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const IMG =
-  "https://cdn.shopify.com/s/files/1/1020/7222/2070/files/S5ed485c8135e4785821a1f551c7ce25cQ.webp?v=1790565478";
+const IMG = "/products/karmnik-kamera-hd.webp";
 
 const AUTO_ITEM = {
   variantId: 58834277204342,
-  handle: "petivo-auto-inteligentny-dozownik-karmy-dla-psa-i-kota-z-aplikacja",
-  name: "Petivo Auto",
+  handle: "automatyczny-karmnik-z-kamera-hd-wifi",
+  name: "Automatyczny karmnik z kamerą HD",
   variantTitle: null,
   price: 399,
   image: IMG,
@@ -94,7 +93,7 @@ export function Landing({ products }: { products: Product[] }) {
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }}
             className="text-lg sm:text-xl text-white/50 max-w-xl mb-10 leading-relaxed">
             Steruj z telefonu. Ustaw harmonogram. Wyjedź bez wyrzutów sumienia.{" "}
-            <span className="text-white/80 font-medium">Petivo Auto</span> zajmie się resztą.
+            <span className="text-white/80 font-medium">Karmnik z kamerą HD</span> zajmie się resztą.
           </motion.p>
 
           <motion.div
@@ -119,7 +118,7 @@ export function Landing({ products }: { products: Product[] }) {
             <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-64 h-20 blur-3xl rounded-full animate-pulse-glow"
               style={{ background: "radial-gradient(ellipse, rgba(139,92,246,0.7) 0%, transparent 70%)" }} />
 
-            <Image src={IMG} alt="Petivo Auto dozownik karmy" width={480} height={480}
+            <Image src={IMG} alt="Automatyczny karmnik z kamerą HD" width={480} height={532}
               className="relative w-full object-contain drop-shadow-[0_40px_80px_rgba(139,92,246,0.4)]"
               priority />
 
@@ -187,8 +186,8 @@ export function Landing({ products }: { products: Product[] }) {
             <Reveal>
               <p className="text-xs font-semibold tracking-[0.25em] uppercase text-cyan-400 mb-4">Sklep</p>
               <h2 className="text-4xl sm:text-5xl font-black tracking-tight">
-                Cała rodzina{" "}
-                <span className="text-gradient">Petivo</span>
+                Wszystko dla{" "}
+                <span className="text-gradient">pełnej miski</span>
               </h2>
               <p className="text-white/50 text-lg max-w-xl mx-auto mt-5 leading-relaxed">
                 Karmniki z aplikacją i kamerą, karmnik dla dwóch pupili i fontanna ze świeżą wodą.
@@ -197,7 +196,7 @@ export function Landing({ products }: { products: Product[] }) {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {products.map((p, i) => (
-              <Reveal key={p.handle} delay={i * 0.07} className="h-full">
+              <Reveal key={p.handle} delay={i * 0.07} className={i === 0 ? "h-full sm:col-span-2" : "h-full"}>
                 <ProductCard product={p} featured={i === 0} />
               </Reveal>
             ))}
@@ -247,13 +246,13 @@ export function Landing({ products }: { products: Product[] }) {
             <div className="relative">
               <div className="absolute inset-0 -m-10 rounded-full blur-3xl pointer-events-none"
                 style={{ background: "radial-gradient(circle, rgba(139,92,246,0.2) 0%, transparent 70%)" }} />
-              <Image src={IMG} alt="Petivo Auto" width={560} height={560}
+              <Image src={IMG} alt="Automatyczny karmnik z kamerą HD" width={560} height={621}
                 className="relative w-full object-contain drop-shadow-[0_60px_120px_rgba(139,92,246,0.35)]" />
             </div>
           </Reveal>
           <div className="space-y-8">
             <Reveal delay={0.1}>
-              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-cyan-400">Petivo Auto</p>
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-cyan-400">Karmnik z kamerą HD</p>
               <h2 className="text-4xl sm:text-5xl font-black tracking-tight mt-3 leading-tight">
                 Inteligentny karmnik{" "}
                 <span className="text-gradient">dla psa i kota</span>
@@ -261,7 +260,7 @@ export function Landing({ products }: { products: Product[] }) {
             </Reveal>
             <Reveal delay={0.2}>
               <p className="text-white/50 leading-relaxed">
-                Petivo Auto łączy precyzję z technologią. Zaprogramuj harmonogram, dobierz porcje
+                Ten karmnik łączy precyzję z technologią. Zaprogramuj harmonogram, dobierz porcje
                 i zapomnij o stresie — Twój pupil dostanie jedzenie zawsze na czas.
               </p>
             </Reveal>
@@ -346,9 +345,9 @@ export function Landing({ products }: { products: Product[] }) {
             <div className="hidden sm:block absolute top-8 left-1/6 right-1/6 h-px"
               style={{ background: "linear-gradient(90deg, transparent, rgba(139,92,246,0.4), rgba(34,211,238,0.4), transparent)" }} />
             {[
-              { n: "01", t: "Podłącz i skonfiguruj",  d: "Ustaw Petivo Auto, podłącz do prądu i połącz z aplikacją przez WiFi." },
+              { n: "01", t: "Podłącz i skonfiguruj",  d: "Ustaw karmnik, podłącz do prądu i połącz z aplikacją przez WiFi." },
               { n: "02", t: "Ustaw harmonogram",       d: "Wybierz godziny i wielkość porcji. Aplikacja zapamiętuje wszystko automatycznie." },
-              { n: "03", t: "Ciesz się spokojem",      d: "Wyjedź, idź do pracy, zrób zakupy. Petivo Auto zajmie się resztą." },
+              { n: "03", t: "Ciesz się spokojem",      d: "Wyjedź, idź do pracy, zrób zakupy. Karmnik zajmie się resztą." },
             ].map(({ n, t, d }, i) => (
               <Reveal key={n} delay={i * 0.12}>
                 <div className="flex flex-col items-center text-center">
@@ -389,12 +388,12 @@ export function Landing({ products }: { products: Product[] }) {
               <div className="relative mx-auto w-48 mb-6">
                 <div className="absolute inset-0 blur-2xl rounded-full animate-pulse-glow"
                   style={{ background: "radial-gradient(circle, rgba(139,92,246,0.5) 0%, transparent 70%)" }} />
-                <Image src={IMG} alt="Petivo Auto" width={200} height={200}
+                <Image src={IMG} alt="Automatyczny karmnik z kamerą HD" width={200} height={222}
                   className="relative w-full object-contain drop-shadow-2xl" />
               </div>
 
-              <h3 className="text-2xl font-black text-white mb-1">Petivo Auto</h3>
-              <p className="text-white/40 text-sm mb-6">Inteligentny dozownik karmy</p>
+              <h3 className="text-2xl font-black text-white mb-1">Karmnik z kamerą HD</h3>
+              <p className="text-white/40 text-sm mb-6">WiFi, aplikacja, zbiornik 2 L</p>
               <div className="text-5xl font-black text-gradient mb-8">399 zł</div>
 
               <ul className="space-y-3 text-sm text-left mb-8">
@@ -413,7 +412,7 @@ export function Landing({ products }: { products: Product[] }) {
               </ul>
 
               <AddToCartBtn className="w-full py-4 text-sm font-bold justify-center">
-                Zamów Petivo Auto
+                Zamów karmnik z kamerą
               </AddToCartBtn>
               <p className="text-xs text-white/20 mt-4">Szyfrowane połączenie SSL · Płatności obsługuje Shopify</p>
             </div>
@@ -478,7 +477,7 @@ export function Landing({ products }: { products: Product[] }) {
             <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
             <span>📧 kontakt@petivo.pl</span>
           </div>
-          <p className="text-xs text-white/20">© 2025 Petivo. Wszelkie prawa zastrzeżone.</p>
+          <p className="text-xs text-white/20">© 2026 Petivo. Wszelkie prawa zastrzeżone.</p>
         </div>
       </footer>
     </main>

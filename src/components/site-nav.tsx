@@ -4,7 +4,7 @@ import { CartButton } from "./cart-drawer";
 
 const links = [
   { href: "/#kolekcja", label: "Sklep" },
-  { href: "/#funkcje", label: "Petivo Auto" },
+  { href: "/#funkcje", label: "Karmnik z kamerą" },
   { href: "/#jak-działa", label: "Jak działa" },
   { href: "/#faq", label: "FAQ" },
 ];

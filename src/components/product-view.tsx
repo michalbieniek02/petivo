@@ -2,23 +2,28 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowLeft, Check, CreditCard, RotateCcw } from "lucide-react";
+import { ArrowLeft, Check, CreditCard, Factory, RotateCcw } from "lucide-react";
 import { Product, formatPrice } from "@/lib/products";
 import { AddToCartBtn } from "./add-to-cart-btn";
 import { ProductCard } from "./product-card";
+import { ProductStage } from "./product-stage";
 import { SiteNav } from "./site-nav";
 
 export function ProductView({ product, others }: { product: Product; others: Product[] }) {
   const [variant, setVariant] = useState(product.variants[0]);
   const [imageIdx, setImageIdx] = useState(0);
 
-  const mainImage = product.images[imageIdx] ?? product.images[0];
+  const gallery = product.cutout ? [product.cutout, ...product.images] : product.images;
+  const mainImage = gallery[imageIdx] ?? gallery[0];
+  const showStage = imageIdx === 0 && product.cutout;
 
   const selectVariant = (v: typeof variant) => {
     setVariant(v);
-    const idx = v.image ? product.images.indexOf(v.image) : -1;
+    const idx = v.image ? gallery.indexOf(v.image) : -1;
     if (idx >= 0) setImageIdx(idx);
   };
+
+  const cartImage = product.optionName && variant.image ? variant.image : product.cutout ?? product.images[0];
 
   return (
     <main className="min-h-screen bg-[#06060e] text-white overflow-x-hidden">
@@ -32,16 +37,21 @@ export function ProductView({ product, others }: { product: Product; others: Pro
 
           <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
             <div>
-              <div className="relative aspect-square rounded-3xl overflow-hidden bg-white">
-                <Image src={mainImage} alt={product.name} fill priority sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-contain p-6" />
-              </div>
-              {product.images.length > 1 && (
+              {showStage ? (
+                <ProductStage src={mainImage} alt={product.name} priority padding="p-[14%]"
+                  className="aspect-square glass border border-white/[0.06]" sizes="(max-width: 1024px) 100vw, 50vw" />
+              ) : (
+                <div className="relative aspect-square rounded-3xl overflow-hidden bg-white">
+                  <Image src={mainImage} alt={product.name} fill priority sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-contain p-6" />
+                </div>
+              )}
+              {gallery.length > 1 && (
                 <div className="flex gap-3 mt-4 overflow-x-auto pb-2">
-                  {product.images.map((src, i) => (
+                  {gallery.map((src, i) => (
                     <button key={src} onClick={() => setImageIdx(i)} aria-label={`Zdjęcie ${i + 1}`}
-                      className={`relative h-20 w-20 flex-shrink-0 rounded-xl overflow-hidden bg-white border-2 transition-colors ${i === imageIdx ? "border-purple-500" : "border-transparent opacity-60 hover:opacity-100"}`}>
-                      <Image src={src} alt="" fill sizes="80px" className="object-contain p-1" />
+                      className={`relative h-20 w-20 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-colors ${i === 0 && product.cutout ? "bg-white/[0.06]" : "bg-white"} ${i === imageIdx ? "border-purple-500" : "border-transparent opacity-60 hover:opacity-100"}`}>
+                      <Image src={src} alt="" fill sizes="80px" className="object-contain p-1.5" />
                     </button>
                   ))}
                 </div>
@@ -85,7 +95,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
                   name: product.name,
                   variantTitle: product.optionName ? variant.title : null,
                   price: variant.price,
-                  image: variant.image ?? product.images[0],
+                  image: cartImage,
                 }}
               >
                 {variant.available ? "Dodaj do koszyka" : "Chwilowo niedostępny"}
@@ -95,6 +105,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
                 <li className="flex items-center gap-3"><CreditCard className="h-4 w-4 text-purple-400" /> Bezpieczna płatność kartą lub PayPal</li>
                 <li className="flex items-center gap-3"><RotateCcw className="h-4 w-4 text-purple-400" /> 14 dni na odstąpienie od umowy</li>
                 <li className="flex items-center gap-3"><Check className="h-4 w-4 text-purple-400" /> Darmowa dostawa w Polsce od 200 zł · zwykle 5–10 dni roboczych</li>
+                <li className="flex items-center gap-3"><Factory className="h-4 w-4 text-purple-400" /> {product.vendor === "Bez marki" ? "Produkt bez marki producenta" : `Producent: ${product.vendor}`}</li>
               </ul>
 
               <div className="product-desc mt-10 pt-10 border-t border-white/[0.06]"

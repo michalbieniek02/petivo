@@ -1,12 +1,20 @@
 const STORE = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || "ecxva5-gd.myshopify.com";
 
 const ORDER = [
-  "petivo-auto-inteligentny-dozownik-karmy-dla-psa-i-kota-z-aplikacja",
-  "petivo-vision-karmnik-z-kamera",
-  "petivo-duo-karmnik-dla-dwoch-pupili",
-  "petivo-basic-automatyczny-karmnik",
-  "petivo-fresh-fontanna-dla-kota-i-psa",
+  "automatyczny-karmnik-z-kamera-hd-wifi",
+  "karmnik-z-kamera-1080p-noktowizja",
+  "karmnik-dla-dwoch-kotow-wifi",
+  "automatyczny-karmnik-z-wyswietlaczem",
+  "fontanna-dla-kota-stal-nierdzewna",
 ];
+
+const CUTOUTS: Record<string, string> = {
+  "automatyczny-karmnik-z-kamera-hd-wifi": "/products/karmnik-kamera-hd.webp",
+  "karmnik-z-kamera-1080p-noktowizja": "/products/karmnik-kamera-1080p.webp",
+  "karmnik-dla-dwoch-kotow-wifi": "/products/karmnik-dwa-koty.webp",
+  "automatyczny-karmnik-z-wyswietlaczem": "/products/karmnik-wyswietlacz.webp",
+  "fontanna-dla-kota-stal-nierdzewna": "/products/fontanna-stal.webp",
+};
 
 export interface Variant {
   id: number;
@@ -21,7 +29,9 @@ export interface Product {
   handle: string;
   name: string;
   tagline: string;
+  vendor: string;
   descriptionHtml: string;
+  cutout: string | null;
   images: string[];
   optionName: string | null;
   variants: Variant[];
@@ -31,6 +41,7 @@ export interface Product {
 interface RawProduct {
   handle: string;
   title: string;
+  vendor: string;
   body_html: string;
   options: { name: string }[];
   images: { src: string }[];
@@ -58,8 +69,10 @@ function toProduct(p: RawProduct): Product {
   return {
     handle: p.handle,
     name,
-    tagline: rest.join(" — "),
+    tagline: rest.join(" — ").replace(/^./, (c) => c.toUpperCase()),
+    vendor: p.vendor,
     descriptionHtml: p.body_html,
+    cutout: CUTOUTS[p.handle] ?? null,
     images: p.images.map((i) => i.src),
     optionName: hasOptions ? p.options[0]?.name ?? null : null,
     variants,
