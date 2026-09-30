@@ -16,7 +16,10 @@ ssh "$user@$server" "umask 077; mkdir -p ~/.ssh; touch ~/.ssh/authorized_keys; g
 scp -i $privateKey -r (Join-Path $repo 'deploy') "$user@${server}:~/"
 ssh -t -i $privateKey "$user@$server" 'chmod +x ~/deploy/setup-vps.sh && ~/deploy/setup-vps.sh'
 
-$knownHosts = cmd.exe /d /c "ssh-keyscan -H $server 2>NUL"
+$previousErrorPreference = $ErrorActionPreference
+$ErrorActionPreference = 'Continue'
+$knownHosts = ssh-keyscan -H $server 2>$null
+$ErrorActionPreference = $previousErrorPreference
 if (-not $knownHosts) {
     throw 'Nie udalo sie pobrac klucza hosta SSH.'
 }

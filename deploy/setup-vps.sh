@@ -13,7 +13,7 @@ if (( node_major < 20 )); then
   exit 1
 fi
 
-if [[ ! -f /etc/letsencrypt/live/petivo.shop/fullchain.pem ]]; then
+if ! sudo test -f /etc/letsencrypt/live/petivo.shop/fullchain.pem; then
   echo "The existing petivo.shop certificate was not found." >&2
   exit 1
 fi
