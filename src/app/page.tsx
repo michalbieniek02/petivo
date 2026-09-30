@@ -3,6 +3,8 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Reveal } from "@/components/scroll-reveal";
+import { AddToCartBtn } from "@/components/add-to-cart-btn";
+import { CartButton } from "@/components/cart-drawer";
 import {
   Wifi, Smartphone, Clock, Shield, Star, Check,
   ArrowRight, Zap, Settings2, Bell, ChevronDown,
@@ -13,8 +15,6 @@ import {
 
 const IMG =
   "https://cdn.shopify.com/s/files/1/1020/7222/2070/files/S5ed485c8135e4785821a1f551c7ce25cQ.webp?v=1790565478";
-const BUY =
-  "https://ecxva5-gd.myshopify.com/products/petivo-auto-inteligentny-dozownik-karmy-dla-psa-i-kota-z-aplikacja";
 
 const features = [
   { icon: Wifi,       title: "WiFi & Cloud",          desc: "Steruj z telefonu z dowolnego miejsca na świecie. Zawsze online." },
@@ -75,11 +75,12 @@ export default function Page() {
             </a>
           ))}
         </div>
-        <a href={BUY} target="_blank" rel="noopener noreferrer"
-          className="btn-primary text-sm px-5 py-2.5 inline-flex items-center gap-2">
-          Kup za 399 zł
-          <ArrowRight className="h-4 w-4" />
-        </a>
+        <div className="flex items-center gap-3">
+          <CartButton />
+          <AddToCartBtn className="text-sm px-5 py-2.5">
+            Kup za 399 zł
+          </AddToCartBtn>
+        </div>
       </nav>
 
       {/* ─── HERO ─── */}
@@ -121,11 +122,9 @@ export default function Page() {
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4 }}
             className="flex flex-col sm:flex-row items-center gap-3 mb-16">
-            <a href={BUY} target="_blank" rel="noopener noreferrer"
-              className="btn-primary text-base px-8 py-4 inline-flex items-center gap-2">
+            <AddToCartBtn className="text-base px-8 py-4">
               Zamów teraz za 399 zł
-              <ArrowRight className="h-5 w-5" />
-            </a>
+            </AddToCartBtn>
             <a href="#jak-działa" className="btn-ghost text-sm px-6 py-4 inline-flex items-center gap-2">
               Jak działa?
               <ChevronDown className="h-4 w-4" />
@@ -289,11 +288,9 @@ export default function Page() {
                   <div className="text-4xl font-black text-gradient">399 zł</div>
                   <div className="text-xs text-white/30 mt-0.5">dostawa gratis</div>
                 </div>
-                <a href={BUY} target="_blank" rel="noopener noreferrer"
-                  className="btn-primary flex-1 py-4 text-center text-sm font-bold inline-flex items-center justify-center gap-2">
+                <AddToCartBtn className="flex-1 py-4 text-sm font-bold justify-center">
                   Dodaj do koszyka
-                  <ArrowRight className="h-4 w-4" />
-                </a>
+                </AddToCartBtn>
               </div>
             </Reveal>
           </div>
@@ -364,11 +361,9 @@ export default function Page() {
           </div>
           <Reveal delay={0.4}>
             <div className="text-center mt-16">
-              <a href={BUY} target="_blank" rel="noopener noreferrer"
-                className="btn-primary inline-flex items-center gap-2 px-8 py-4 text-sm font-bold">
-                Chcę spróbować — 399 zł
-                <Zap className="h-4 w-4" />
-              </a>
+              <AddToCartBtn className="px-8 py-4 text-sm font-bold">
+                Chcę spróbować — 399 zł <Zap className="h-4 w-4" />
+              </AddToCartBtn>
             </div>
           </Reveal>
         </div>
@@ -453,10 +448,9 @@ export default function Page() {
                 ))}
               </ul>
 
-              <a href={BUY} target="_blank" rel="noopener noreferrer"
-                className="btn-primary block text-center py-4 text-sm font-bold">
+              <AddToCartBtn className="w-full py-4 text-sm font-bold justify-center">
                 Zamów Petivo Auto
-              </a>
+              </AddToCartBtn>
               <p className="text-xs text-white/20 mt-4">SSL · Bezpieczna płatność · Gwarancja satysfakcji</p>
             </div>
           </Reveal>
@@ -505,11 +499,9 @@ export default function Page() {
           <p className="text-white/40 text-lg mb-10 max-w-md mx-auto">
             Dołącz do 12 000+ właścicieli, którzy śpią spokojnie wiedząc, że ich zwierzak ma zawsze pełną miskę.
           </p>
-          <a href={BUY} target="_blank" rel="noopener noreferrer"
-            className="btn-primary inline-flex items-center gap-3 px-10 py-5 text-base font-bold">
+          <AddToCartBtn className="px-10 py-5 text-base font-bold">
             Zamów za 399 zł — dostawa gratis
-            <ArrowRight className="h-5 w-5" />
-          </a>
+          </AddToCartBtn>
         </Reveal>
       </section>
 
@@ -521,7 +513,7 @@ export default function Page() {
             <span className="text-[10px] text-white/30 font-semibold tracking-[0.2em] uppercase">AUTO</span>
           </div>
           <div className="flex gap-6 text-xs text-white/30">
-            <a href={BUY} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Sklep</a>
+            <a href="#oferta" className="hover:text-white transition-colors">Sklep</a>
             <a href="#faq" className="hover:text-white transition-colors">FAQ</a>
             <span>📧 kontakt@petivo.pl</span>
           </div>
