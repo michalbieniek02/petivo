@@ -1,0 +1,4 @@
+interface:
+  display_name: "GSAP Scroll"
+  short_description: "Build polished GSAP scroll interactions"
+  default_prompt: "Use $gsap-scroll to build a responsive, accessible scroll-driven interaction."

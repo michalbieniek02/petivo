@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState, ReactNode } from "react";
 
 const STORE = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || "ecxva5-gd.myshopify.com";
 const STORAGE_KEY = "petivo-cart";
@@ -32,25 +32,32 @@ const Ctx = createContext<CartCtx | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
-  const [loaded, setLoaded] = useState(false);
+  const loaded = useRef(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) setItems(JSON.parse(saved));
-    } catch {}
-    setLoaded(true);
+    const frame = requestAnimationFrame(() => {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        const parsed = saved ? JSON.parse(saved) : [];
+        if (Array.isArray(parsed)) setItems(parsed);
+      } catch {}
+      loaded.current = true;
+    });
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   useEffect(() => {
-    if (!loaded) return;
+    if (!loaded.current) return;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
     } catch {}
-  }, [items, loaded]);
+  }, [items]);
 
-  const addItem = (item: CartItemInput) => {
+  const openCart = useCallback(() => setOpen(true), []);
+  const closeCart = useCallback(() => setOpen(false), []);
+
+  const addItem = useCallback((item: CartItemInput) => {
     setItems((prev) => {
       const existing = prev.find((i) => i.variantId === item.variantId);
       if (existing) {
@@ -59,13 +66,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
       return [...prev, { ...item, qty: 1 }];
     });
     setOpen(true);
-  };
+  }, []);
 
-  const setQty = (variantId: number, qty: number) => {
+  const setQty = useCallback((variantId: number, qty: number) => {
     setItems((prev) =>
       qty <= 0 ? prev.filter((i) => i.variantId !== variantId) : prev.map((i) => (i.variantId === variantId ? { ...i, qty } : i)),
     );
-  };
+  }, []);
 
   const count = items.reduce((s, i) => s + i.qty, 0);
   const total = items.reduce((s, i) => s + i.price * i.qty, 0);
@@ -73,7 +80,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   return (
     <Ctx.Provider
-      value={{ items, count, total, checkoutUrl, open, openCart: () => setOpen(true), closeCart: () => setOpen(false), addItem, setQty }}
+      value={{ items, count, total, checkoutUrl, open, openCart, closeCart, addItem, setQty }}
     >
       {children}
     </Ctx.Provider>

@@ -18,7 +18,7 @@ export function AddToCartBtn({ item, children, className = "", variant = "primar
     <button
       onClick={() => addItem(item)}
       disabled={disabled}
-      className={`${variant === "primary" ? "btn-primary" : "btn-ghost"} inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
+      className={`${variant === "primary" ? "btn-primary" : "btn-ghost"} min-h-11 inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
     >
       <ShoppingBag className="h-4 w-4" />
       {children}

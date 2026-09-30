@@ -38,12 +38,8 @@ yarn-error.log*
 /deploy-key.pub
 /vps-known-hosts
 
-# vercel
-.vercel
-
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 
-.vercel
 .env*

@@ -30,12 +30,12 @@ export function ProductView({ product, others }: { product: Product; others: Pro
   const cartImage = product.optionName && variant.image ? variant.image : product.cutout ?? product.images[0];
 
   return (
-    <main className="min-h-screen bg-[#06060e] text-white overflow-x-hidden">
+    <main id="main-content" className="min-h-screen bg-[#06060e] text-white overflow-x-hidden">
       <SiteNav />
 
       <section className="pt-24 pb-20 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
-          <Link href="/#kolekcja" className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-white transition-colors mb-8">
+          <Link href="/#kolekcja" className="inline-flex items-center gap-2 text-sm text-white/65 hover:text-white transition-colors mb-8">
             <ArrowLeft className="h-4 w-4" /> Wszystkie produkty
           </Link>
 
@@ -53,7 +53,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
               {gallery.length > 1 && (
                 <div className="flex gap-3 mt-4 overflow-x-auto pb-2">
                   {gallery.map((src, i) => (
-                    <button key={src} onClick={() => setImageIdx(i)} aria-label={`Zdjęcie ${i + 1}`}
+                    <button key={src} onClick={() => setImageIdx(i)} aria-label={`Zdjęcie ${i + 1}`} aria-pressed={i === imageIdx}
                       className={`relative h-20 w-20 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-colors ${i === 0 && cutout ? "bg-white/[0.06]" : "bg-white"} ${i === imageIdx ? "border-purple-500" : "border-transparent opacity-60 hover:opacity-100"}`}>
                       <Image src={src} alt="" fill sizes="80px" className="object-contain p-1.5" />
                     </button>
@@ -71,19 +71,19 @@ export function ProductView({ product, others }: { product: Product; others: Pro
               <div className="flex items-baseline gap-3 mt-8">
                 <span className="text-4xl font-black text-white">{formatPrice(variant.price)}</span>
                 {variant.compareAt && variant.compareAt > variant.price && (
-                  <span className="text-lg text-white/30 line-through">{formatPrice(variant.compareAt)}</span>
+                  <span className="text-lg text-white/60 line-through">{formatPrice(variant.compareAt)}</span>
                 )}
               </div>
 
               {product.optionName && (
                 <div className="mt-8">
-                  <p className="text-xs font-semibold tracking-[0.2em] uppercase text-white/40 mb-3">{product.optionName}</p>
+                  <p className="text-xs font-semibold tracking-[0.2em] uppercase text-white/65 mb-3">{product.optionName}</p>
                   <div className="flex flex-wrap gap-2">
                     {product.variants.map((v) => (
-                      <button key={v.id} onClick={() => selectVariant(v)}
+                      <button key={v.id} onClick={() => selectVariant(v)} aria-pressed={v.id === variant.id}
                         className={`rounded-xl px-4 py-2.5 text-sm border transition-colors ${v.id === variant.id ? "border-purple-500 bg-purple-500/15 text-white" : "border-white/10 text-white/60 hover:border-white/30 hover:text-white"}`}>
                         {v.title}
-                        <span className="ml-2 text-white/40">{formatPrice(v.price)}</span>
+                        <span className="ml-2 text-white/60">{formatPrice(v.price)}</span>
                       </button>
                     ))}
                   </div>
@@ -104,7 +104,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
                 Dodaj do koszyka
               </AddToCartBtn>
 
-              <ul className="mt-6 space-y-2 text-sm text-white/50">
+              <ul className="mt-6 space-y-2 text-sm text-white/65">
                 <li className="flex items-center gap-3"><CreditCard className="h-4 w-4 text-purple-400" /> Bezpieczna płatność kartą lub PayPal</li>
                 <li className="flex items-center gap-3"><RotateCcw className="h-4 w-4 text-purple-400" /> 14 dni na odstąpienie od umowy</li>
                 <li className="flex items-center gap-3"><Check className="h-4 w-4 text-purple-400" /> Darmowa dostawa w Polsce od 200 zł · zwykle 5–10 dni roboczych</li>

@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { MotionConfig, motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Reveal } from "@/components/scroll-reveal";
 import { AddToCartBtn as BaseAddToCartBtn } from "@/components/add-to-cart-btn";
@@ -11,7 +11,7 @@ import type { Product } from "@/lib/products";
 import type { ComponentProps } from "react";
 import {
   Wifi, Smartphone, Clock, Shield, Check,
-  Zap, Settings2, ChevronDown, Camera,
+  Zap, Settings2, ChevronDown, Camera, BriefcaseBusiness, Car, Plane, PawPrint,
 } from "lucide-react";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
@@ -57,28 +57,25 @@ export function Landing({ products }: { products: Product[] }) {
   const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <main className="min-h-screen bg-[#06060e] text-white overflow-x-hidden">
+    <MotionConfig reducedMotion="user">
+    <main id="main-content" className="min-h-screen bg-[#06060e] text-white overflow-x-hidden">
 
       <SiteNav />
 
       {/* ─── HERO ─── */}
-      <section ref={heroRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-16">
+      <section ref={heroRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-24 pb-20 sm:pt-28">
         {/* background orbs */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full pointer-events-none"
           style={{ background: "radial-gradient(circle, rgba(139,92,246,0.18) 0%, transparent 70%)" }} />
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full pointer-events-none"
           style={{ background: "radial-gradient(ellipse, rgba(34,211,238,0.12) 0%, transparent 70%)" }} />
 
-        {/* grid pattern */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.04]"
-          style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.5) 1px,transparent 1px)", backgroundSize: "80px 80px" }} />
-
         <motion.div style={{ y: heroY, opacity: heroOpacity }}
           className="relative z-10 flex flex-col items-center text-center px-4 max-w-5xl mx-auto">
 
           {/* pill badge */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-            className="glass rounded-full px-4 py-1.5 text-xs font-semibold text-white/60 tracking-widest uppercase mt-8 mb-8 inline-flex items-center gap-2">
+            className="glass rounded-full px-4 py-1.5 text-xs font-semibold text-white/70 tracking-widest uppercase mt-4 mb-8 inline-flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
             Inteligentne karmniki dla zwierząt
           </motion.div>
@@ -92,7 +89,7 @@ export function Landing({ products }: { products: Product[] }) {
 
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }}
-            className="text-lg sm:text-xl text-white/50 max-w-xl mb-10 leading-relaxed">
+            className="text-lg sm:text-xl text-white/65 max-w-xl mb-10 leading-relaxed">
             Steruj z telefonu. Ustaw harmonogram. Wyjedź bez wyrzutów sumienia.{" "}
             <span className="text-white/80 font-medium">Karmnik z kamerą HD</span> zajmie się resztą.
           </motion.p>
@@ -133,7 +130,7 @@ export function Landing({ products }: { products: Product[] }) {
               </div>
               <div>
                 <div className="text-xs font-bold text-white">WiFi Ready</div>
-                <div className="text-[10px] text-white/40">Zawsze online</div>
+                <div className="text-[10px] text-white/60">Zawsze online</div>
               </div>
             </motion.div>
 
@@ -146,7 +143,7 @@ export function Landing({ products }: { products: Product[] }) {
               </div>
               <div>
                 <div className="text-xs font-bold text-white">Kamera HD</div>
-                <div className="text-[10px] text-white/40">Podgląd na żywo</div>
+                <div className="text-[10px] text-white/60">Podgląd na żywo</div>
               </div>
             </motion.div>
           </motion.div>
@@ -155,7 +152,8 @@ export function Landing({ products }: { products: Product[] }) {
         {/* scroll cue */}
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/20">
+          aria-hidden="true"
+          className="hidden xl:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-white/50">
           <span className="text-[10px] tracking-widest uppercase">Przewiń</span>
           <motion.div animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 1.5 }}>
             <ChevronDown className="h-4 w-4" />
@@ -174,7 +172,7 @@ export function Landing({ products }: { products: Product[] }) {
           ].map(({ v, l }, i) => (
             <Reveal key={l} delay={i * 0.08}>
               <div className="text-3xl sm:text-4xl font-black text-gradient mb-1">{v}</div>
-              <div className="text-xs text-white/40 uppercase tracking-wide">{l}</div>
+              <div className="text-xs text-white/60 uppercase tracking-wide">{l}</div>
             </Reveal>
           ))}
         </div>
@@ -185,12 +183,11 @@ export function Landing({ products }: { products: Product[] }) {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <Reveal>
-              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-cyan-400 mb-4">Sklep</p>
               <h2 className="text-4xl sm:text-5xl font-black tracking-tight">
                 Wszystko dla{" "}
                 <span className="text-gradient">pełnej miski</span>
               </h2>
-              <p className="text-white/50 text-lg max-w-xl mx-auto mt-5 leading-relaxed">
+              <p className="text-white/65 text-lg max-w-xl mx-auto mt-5 leading-relaxed">
                 Karmniki z aplikacją i kamerą, karmnik dla dwóch pupili i fontanna ze świeżą wodą.
               </p>
             </Reveal>
@@ -208,9 +205,6 @@ export function Landing({ products }: { products: Product[] }) {
       {/* ─── PROBLEM ─── */}
       <section className="py-28 px-6">
         <div className="max-w-4xl mx-auto text-center">
-          <Reveal>
-            <p className="text-xs font-semibold tracking-[0.25em] uppercase text-purple-400 mb-4">Znasz to?</p>
-          </Reveal>
           <Reveal delay={0.1}>
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-6 leading-tight">
               Korek, nadgodziny,{" "}
@@ -218,21 +212,23 @@ export function Landing({ products }: { products: Product[] }) {
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-white/50 text-lg max-w-xl mx-auto mb-16 leading-relaxed">
+            <p className="text-white/65 text-lg max-w-xl mx-auto mb-16 leading-relaxed">
               Życie jest nieprzewidywalne. Twój pies albo kot nie rozumie dlaczego miska jest pusta o 18:00. Do tej pory.
             </p>
           </Reveal>
           <div className="grid sm:grid-cols-3 gap-4">
             {[
-              { e: "😰", t: "Stres w pracy",        d: "Myślisz o pupilem zamiast skupić się na robocie" },
-              { e: "🚗", t: "Korek w drodze",        d: "Wracasz za późno, miska od rana pusta" },
-              { e: "✈️", t: "Wyjazd na weekend",     d: "Prosisz sąsiadkę po raz dziesiąty w tym miesiącu" },
-            ].map(({ e, t, d }, i) => (
+              { icon: BriefcaseBusiness, t: "Stres w pracy", d: "Myślisz o pupilu zamiast skupić się na pracy" },
+              { icon: Car, t: "Korek w drodze", d: "Wracasz za późno, a pora karmienia już minęła" },
+              { icon: Plane, t: "Wyjazd na weekend", d: "Prosisz bliskich o pomoc przy każdym wyjeździe" },
+            ].map(({ icon: Icon, t, d }, i) => (
               <Reveal key={t} delay={0.1 * i} from="bottom">
                 <div className="glass rounded-3xl p-6 text-left border border-white/[0.06] hover:border-purple-500/30 transition-colors">
-                  <div className="text-3xl mb-4">{e}</div>
+                  <div className="h-11 w-11 rounded-2xl mb-5 flex items-center justify-center bg-purple-400/10 border border-purple-300/15">
+                    <Icon className="h-5 w-5 text-purple-200" aria-hidden="true" />
+                  </div>
                   <h3 className="font-bold text-white mb-2">{t}</h3>
-                  <p className="text-sm text-white/40 leading-relaxed">{d}</p>
+                  <p className="text-sm text-white/65 leading-relaxed">{d}</p>
                 </div>
               </Reveal>
             ))}
@@ -253,14 +249,13 @@ export function Landing({ products }: { products: Product[] }) {
           </Reveal>
           <div className="space-y-8">
             <Reveal delay={0.1}>
-              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-cyan-400">Karmnik z kamerą HD</p>
-              <h2 className="text-4xl sm:text-5xl font-black tracking-tight mt-3 leading-tight">
+              <h2 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight">
                 Inteligentny karmnik{" "}
                 <span className="text-gradient">dla psa i kota</span>
               </h2>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-white/50 leading-relaxed">
+              <p className="text-white/65 leading-relaxed">
                 Ten karmnik łączy precyzję z technologią. Zaprogramuj harmonogram, dobierz porcje
                 i zapomnij o stresie — Twój pupil dostanie jedzenie zawsze na czas.
               </p>
@@ -289,7 +284,7 @@ export function Landing({ products }: { products: Product[] }) {
               <div className="flex items-center gap-5 pt-4">
                 <div>
                   <div className="text-4xl font-black text-gradient">399 zł</div>
-                  <div className="text-xs text-white/30 mt-0.5">darmowa dostawa w Polsce</div>
+                  <div className="text-xs text-white/60 mt-0.5">darmowa dostawa w Polsce</div>
                 </div>
                 <AddToCartBtn className="flex-1 py-4 text-sm font-bold justify-center">
                   Dodaj do koszyka
@@ -305,7 +300,6 @@ export function Landing({ products }: { products: Product[] }) {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <Reveal>
-              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-purple-400 mb-4">Funkcje</p>
               <h2 className="text-4xl sm:text-5xl font-black tracking-tight">
                 Wszystko w{" "}
                 <span className="text-gradient">jednym urządzeniu</span>
@@ -315,13 +309,13 @@ export function Landing({ products }: { products: Product[] }) {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {features.map(({ icon: Icon, title, desc }, i) => (
               <Reveal key={title} delay={i * 0.07} from="bottom">
-                <div className="glass rounded-3xl p-6 h-full border border-white/[0.06] hover:border-purple-500/40 hover:bg-white/[0.06] transition-all duration-300 group">
+                <div className="glass rounded-3xl p-6 h-full border border-white/[0.06] hover:border-purple-500/40 hover:bg-white/[0.06] transition-[background-color,border-color] duration-300 group">
                   <div className="h-12 w-12 rounded-2xl mb-5 flex items-center justify-center group-hover:scale-110 transition-transform"
                     style={{ background: "linear-gradient(135deg, rgba(139,92,246,0.3), rgba(34,211,238,0.2))", border: "1px solid rgba(139,92,246,0.3)" }}>
                     <Icon className="h-5 w-5 text-purple-300" />
                   </div>
                   <h3 className="font-bold text-white mb-2">{title}</h3>
-                  <p className="text-sm text-white/40 leading-relaxed">{desc}</p>
+                  <p className="text-sm text-white/65 leading-relaxed">{desc}</p>
                 </div>
               </Reveal>
             ))}
@@ -334,7 +328,6 @@ export function Landing({ products }: { products: Product[] }) {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-20">
             <Reveal>
-              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-cyan-400 mb-4">Jak działa</p>
               <h2 className="text-4xl sm:text-5xl font-black tracking-tight">
                 Gotowe w{" "}
                 <span className="text-gradient">kilka minut</span>
@@ -357,7 +350,7 @@ export function Landing({ products }: { products: Product[] }) {
                     {n}
                   </div>
                   <h3 className="font-bold text-white text-xl mb-3">{t}</h3>
-                  <p className="text-white/40 text-sm leading-relaxed">{d}</p>
+                  <p className="text-white/65 text-sm leading-relaxed">{d}</p>
                 </div>
               </Reveal>
             ))}
@@ -376,7 +369,6 @@ export function Landing({ products }: { products: Product[] }) {
       <section id="oferta" className="py-28 px-6 border-t border-white/[0.04]">
         <div className="max-w-lg mx-auto text-center">
           <Reveal>
-            <p className="text-xs font-semibold tracking-[0.25em] uppercase text-purple-400 mb-4">Oferta</p>
             <h2 className="text-4xl font-black tracking-tight mb-12">Zadbaj o pupila już dziś</h2>
           </Reveal>
           <Reveal delay={0.15} from="scale">
@@ -394,7 +386,7 @@ export function Landing({ products }: { products: Product[] }) {
               </div>
 
               <h3 className="text-2xl font-black text-white mb-1">Karmnik z kamerą HD</h3>
-              <p className="text-white/40 text-sm mb-6">WiFi, aplikacja, zbiornik 2 L</p>
+              <p className="text-white/65 text-sm mb-6">WiFi, aplikacja, zbiornik 2 L</p>
               <div className="text-5xl font-black text-gradient mb-8">399 zł</div>
 
               <ul className="space-y-3 text-sm text-left mb-8">
@@ -415,7 +407,7 @@ export function Landing({ products }: { products: Product[] }) {
               <AddToCartBtn className="w-full py-4 text-sm font-bold justify-center">
                 Zamów karmnik z kamerą
               </AddToCartBtn>
-              <p className="text-xs text-white/20 mt-4">Szyfrowane połączenie SSL · Płatności obsługuje Shopify</p>
+              <p className="text-xs text-white/60 mt-4">Szyfrowane połączenie SSL · Płatności obsługuje Shopify</p>
             </div>
           </Reveal>
         </div>
@@ -426,7 +418,6 @@ export function Landing({ products }: { products: Product[] }) {
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-16">
             <Reveal>
-              <p className="text-xs font-semibold tracking-[0.25em] uppercase text-cyan-400 mb-4">FAQ</p>
               <h2 className="text-4xl font-black tracking-tight">
                 Masz pytania?{" "}
                 <span className="text-gradient">Mamy odpowiedzi.</span>
@@ -441,7 +432,7 @@ export function Landing({ products }: { products: Product[] }) {
                   <AccordionTrigger className="text-white font-semibold text-sm py-5 text-left hover:no-underline">
                     {q}
                   </AccordionTrigger>
-                  <AccordionContent className="text-white/40 text-sm leading-relaxed pb-5">
+                  <AccordionContent className="text-white/65 text-sm leading-relaxed pb-5">
                     {a}
                   </AccordionContent>
                 </AccordionItem>
@@ -456,11 +447,12 @@ export function Landing({ products }: { products: Product[] }) {
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(ellipse at 50% 100%, rgba(139,92,246,0.2) 0%, transparent 60%)" }} />
         <Reveal>
-          <p className="text-5xl sm:text-6xl font-black tracking-tight mb-6">
+          <h2 className="text-5xl sm:text-6xl font-black tracking-tight mb-6 flex flex-wrap items-center justify-center gap-x-3">
             Twój pupil na to{" "}
-            <span className="text-gradient">zasługuje</span> 🐾
-          </p>
-          <p className="text-white/40 text-lg mb-10 max-w-md mx-auto">
+            <span className="text-gradient">zasługuje</span>
+            <PawPrint className="h-10 w-10 sm:h-12 sm:w-12 text-purple-300" aria-hidden="true" />
+          </h2>
+          <p className="text-white/65 text-lg mb-10 max-w-md mx-auto">
             Ustaw harmonogram raz i wyjeżdżaj spokojnie — miska będzie pełna o czasie.
           </p>
           <AddToCartBtn className="px-10 py-5 text-base font-bold">
@@ -471,5 +463,6 @@ export function Landing({ products }: { products: Product[] }) {
 
       <SiteFooter />
     </main>
+    </MotionConfig>
   );
 }

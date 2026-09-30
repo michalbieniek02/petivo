@@ -19,20 +19,20 @@ export function ProductCard({ product, featured = false }: { product: Product; f
 
   return (
     <Link href={`/produkt/${product.handle}`}
-      className={`group relative glass rounded-[2rem] p-3 h-full flex border border-white/[0.06] hover:border-purple-500/40 transition-colors duration-300 ${featured ? "flex-col lg:flex-row lg:items-stretch" : "flex-col"}`}>
+      className={`group relative glass rounded-3xl p-3 h-full flex border border-white/[0.08] hover:border-purple-400/45 focus-visible:border-purple-300 transition-[border-color,background-color] duration-300 ${featured ? "flex-col lg:flex-row lg:items-stretch" : "flex-col"}`}>
       {featured && (
-        <span className="absolute top-6 left-6 z-10 btn-primary text-[10px] px-3 py-1 rounded-full">Polecany</span>
+        <span className="absolute top-6 left-6 z-10 bg-gradient-to-r from-violet-500 to-cyan-500 text-white text-[10px] font-bold px-3 py-1 rounded-full">Polecany</span>
       )}
       <div className={featured ? "lg:w-1/2" : ""}>{visual}</div>
       <div className={`flex flex-col flex-1 px-3 pb-3 pt-5 ${featured ? "lg:px-10 lg:py-10 lg:justify-center" : ""}`}>
         <h3 className={`font-black text-white leading-tight ${featured ? "text-2xl lg:text-4xl tracking-tight" : "text-lg"}`}>{product.name}</h3>
-        <p className={`text-white/45 leading-snug mt-2 flex-1 ${featured ? "text-base lg:text-lg lg:flex-none lg:mb-8" : "text-sm mb-5"}`}>{product.tagline}</p>
+        <p className={`text-white/65 leading-snug mt-2 flex-1 ${featured ? "text-base lg:text-lg lg:flex-none lg:mb-8" : "text-sm mb-5"}`}>{product.tagline}</p>
         <div className="flex items-center justify-between gap-4">
           <div className={`font-black text-gradient ${featured ? "text-3xl" : "text-xl"}`}>
-            {hasVariants && <span className="text-xs font-semibold text-white/40 mr-1.5">od</span>}
+            {hasVariants && <span className="text-xs font-semibold text-white/60 mr-1.5">od</span>}
             {formatPrice(product.minPrice)}
           </div>
-          <span className={`inline-flex items-center gap-1.5 text-sm font-semibold transition-colors ${featured ? "btn-primary px-5 py-2.5" : "text-white/60 group-hover:text-white"}`}>
+          <span className={`inline-flex items-center gap-1.5 text-sm font-semibold transition-colors ${featured ? "btn-primary min-h-11 px-5 py-2.5" : "text-white/70 group-hover:text-white"}`}>
             Zobacz <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
           </span>
         </div>
