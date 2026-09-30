@@ -53,8 +53,8 @@ const faqs = [
 export function Landing({ products }: { products: Product[] }) {
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
+  const heroOpacity = useTransform(scrollYProgress, [0.45, 0.95], [1, 0]);
 
   return (
     <MotionConfig reducedMotion="user">
@@ -63,9 +63,9 @@ export function Landing({ products }: { products: Product[] }) {
       <SiteNav />
 
       {/* ─── HERO ─── */}
-      <section ref={heroRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-24 pb-20 sm:pt-28">
+      <section ref={heroRef} className="relative sm:min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20 pb-12 sm:pt-28 sm:pb-20">
         {/* background orbs */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full pointer-events-none"
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] sm:w-[800px] sm:h-[800px] rounded-full pointer-events-none"
           style={{ background: "radial-gradient(circle, rgba(139,92,246,0.18) 0%, transparent 70%)" }} />
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] rounded-full pointer-events-none"
           style={{ background: "radial-gradient(ellipse, rgba(34,211,238,0.12) 0%, transparent 70%)" }} />
@@ -75,32 +75,32 @@ export function Landing({ products }: { products: Product[] }) {
 
           {/* pill badge */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-            className="glass rounded-full px-4 py-1.5 text-xs font-semibold text-white/70 tracking-widest uppercase mt-4 mb-8 inline-flex items-center gap-2">
+            className="glass rounded-full px-3 sm:px-4 py-1.5 text-[11px] sm:text-xs font-semibold text-white/70 tracking-wider sm:tracking-widest uppercase mt-2 sm:mt-4 mb-5 sm:mb-8 inline-flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
             Inteligentne karmniki dla zwierząt
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-5xl sm:text-6xl lg:text-8xl font-black leading-[1.02] tracking-tighter mb-6">
+            className="text-[2.5rem] min-[400px]:text-5xl sm:text-6xl lg:text-8xl font-black leading-[1.05] tracking-tighter mb-4 sm:mb-6">
             Twój pupil{" "}
             <span className="text-gradient glow-text block">zawsze nakarmiony</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.25 }}
-            className="text-lg sm:text-xl text-white/65 max-w-xl mb-10 leading-relaxed">
+            className="text-base sm:text-xl text-white/65 max-w-xl mb-6 sm:mb-10 leading-relaxed">
             Steruj z telefonu. Ustaw harmonogram. Wyjedź bez wyrzutów sumienia.{" "}
             <span className="text-white/80 font-medium">Karmnik z kamerą HD</span> zajmie się resztą.
           </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.4 }}
-            className="flex flex-col sm:flex-row items-center gap-3 mb-16">
-            <AddToCartBtn className="text-base px-8 py-4">
+            className="flex flex-col sm:flex-row items-center gap-3 mb-10 sm:mb-16 w-full sm:w-auto">
+            <AddToCartBtn className="text-base px-8 py-4 w-full sm:w-auto justify-center">
               Zamów teraz za 399 zł
             </AddToCartBtn>
-            <a href="#jak-działa" className="btn-ghost text-sm px-6 py-4 inline-flex items-center gap-2">
+            <a href="#jak-działa" className="btn-ghost text-sm px-6 py-3 sm:py-4 inline-flex items-center justify-center gap-2 w-full sm:w-auto">
               Jak działa?
               <ChevronDown className="h-4 w-4" />
             </a>
@@ -110,7 +110,7 @@ export function Landing({ products }: { products: Product[] }) {
           <motion.div
             initial={{ opacity: 0, scale: 0.88 }} animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full max-w-sm sm:max-w-md mx-auto animate-float">
+            className="relative w-full max-w-[17rem] min-[400px]:max-w-xs sm:max-w-md mx-auto animate-float">
 
             {/* glow beneath */}
             <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 w-64 h-20 blur-3xl rounded-full animate-pulse-glow"
@@ -123,27 +123,27 @@ export function Landing({ products }: { products: Product[] }) {
             {/* floating chips */}
             <motion.div
               initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1, duration: 0.6 }}
-              className="absolute top-8 -left-4 sm:-left-12 glass-bright rounded-2xl px-4 py-3 flex items-center gap-3">
-              <div className="h-8 w-8 rounded-xl flex items-center justify-center"
+              className="absolute top-4 sm:top-8 -left-3 sm:-left-12 glass-bright rounded-xl sm:rounded-2xl px-2.5 py-2 sm:px-4 sm:py-3 flex items-center gap-2 sm:gap-3">
+              <div className="h-7 w-7 sm:h-8 sm:w-8 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0"
                 style={{ background: "linear-gradient(135deg, #8b5cf6, #06b6d4)" }}>
                 <Wifi className="h-4 w-4 text-white" />
               </div>
               <div>
                 <div className="text-xs font-bold text-white">WiFi Ready</div>
-                <div className="text-[10px] text-white/60">Zawsze online</div>
+                <div className="text-[10px] text-white/60 whitespace-nowrap">Zawsze online</div>
               </div>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.15, duration: 0.6 }}
-              className="absolute bottom-16 -right-4 sm:-right-12 glass-bright rounded-2xl px-4 py-3 flex items-center gap-3">
-              <div className="h-8 w-8 rounded-xl flex items-center justify-center"
+              className="absolute bottom-10 sm:bottom-16 -right-3 sm:-right-12 glass-bright rounded-xl sm:rounded-2xl px-2.5 py-2 sm:px-4 sm:py-3 flex items-center gap-2 sm:gap-3">
+              <div className="h-7 w-7 sm:h-8 sm:w-8 rounded-lg sm:rounded-xl flex items-center justify-center shrink-0"
                 style={{ background: "linear-gradient(135deg, #f472b6, #8b5cf6)" }}>
                 <Camera className="h-4 w-4 text-white" />
               </div>
               <div>
                 <div className="text-xs font-bold text-white">Kamera HD</div>
-                <div className="text-[10px] text-white/60">Podgląd na żywo</div>
+                <div className="text-[10px] text-white/60 whitespace-nowrap">Podgląd na żywo</div>
               </div>
             </motion.div>
           </motion.div>
@@ -162,8 +162,8 @@ export function Landing({ products }: { products: Product[] }) {
       </section>
 
       {/* ─── STATS BAR ─── */}
-      <section className="border-y border-white/[0.06] py-10">
-        <div className="max-w-5xl mx-auto px-6 grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
+      <section className="border-y border-white/[0.06] py-8 sm:py-10">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-6 sm:gap-8 text-center">
           {[
             { v: "2 L",   l: "zbiornik na suchą karmę" },
             { v: "HD",    l: "kamera z podglądem na żywo" },
@@ -179,15 +179,15 @@ export function Landing({ products }: { products: Product[] }) {
       </section>
 
       {/* ─── COLLECTION ─── */}
-      <section id="kolekcja" className="py-28 px-4 sm:px-6 scroll-mt-16">
+      <section id="kolekcja" className="py-16 sm:py-28 px-4 sm:px-6 scroll-mt-16">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 sm:mb-16">
             <Reveal>
-              <h2 className="text-4xl sm:text-5xl font-black tracking-tight">
+              <h2 className="text-3xl min-[400px]:text-4xl sm:text-5xl font-black tracking-tight">
                 Wszystko dla{" "}
                 <span className="text-gradient">pełnej miski</span>
               </h2>
-              <p className="text-white/65 text-lg max-w-xl mx-auto mt-5 leading-relaxed">
+              <p className="text-white/65 text-base sm:text-lg max-w-xl mx-auto mt-5 leading-relaxed">
                 Karmniki z aplikacją i kamerą, karmnik dla dwóch pupili i fontanna ze świeżą wodą.
               </p>
             </Reveal>
@@ -203,16 +203,16 @@ export function Landing({ products }: { products: Product[] }) {
       </section>
 
       {/* ─── PROBLEM ─── */}
-      <section className="py-28 px-6">
+      <section className="py-16 sm:py-28 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto text-center">
           <Reveal delay={0.1}>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-6 leading-tight">
+            <h2 className="text-3xl min-[400px]:text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-6 leading-tight">
               Korek, nadgodziny,{" "}
               <span className="text-gradient-warm">a miska pusta</span>
             </h2>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-white/65 text-lg max-w-xl mx-auto mb-16 leading-relaxed">
+            <p className="text-white/65 text-lg max-w-xl mx-auto mb-10 sm:mb-16 leading-relaxed">
               Życie jest nieprzewidywalne. Twój pies albo kot nie rozumie dlaczego miska jest pusta o 18:00. Do tej pory.
             </p>
           </Reveal>
@@ -237,10 +237,10 @@ export function Landing({ products }: { products: Product[] }) {
       </section>
 
       {/* ─── PRODUCT DEEP DIVE ─── */}
-      <section id="funkcje" className="py-20 px-6 border-t border-white/[0.04]">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+      <section id="funkcje" className="py-14 sm:py-20 px-4 sm:px-6 scroll-mt-16 border-t border-white/[0.04]">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <Reveal from="left">
-            <div className="relative">
+            <div className="relative max-w-xs sm:max-w-md lg:max-w-none mx-auto">
               <div className="absolute inset-0 -m-10 rounded-full blur-3xl pointer-events-none"
                 style={{ background: "radial-gradient(circle, rgba(139,92,246,0.2) 0%, transparent 70%)" }} />
               <Image src={IMG} alt="Automatyczny karmnik z kamerą HD" width={560} height={621}
@@ -249,7 +249,7 @@ export function Landing({ products }: { products: Product[] }) {
           </Reveal>
           <div className="space-y-8">
             <Reveal delay={0.1}>
-              <h2 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight">
+              <h2 className="text-3xl min-[400px]:text-4xl sm:text-5xl font-black tracking-tight leading-tight">
                 Inteligentny karmnik{" "}
                 <span className="text-gradient">dla psa i kota</span>
               </h2>
@@ -281,12 +281,12 @@ export function Landing({ products }: { products: Product[] }) {
               ))}
             </div>
             <Reveal delay={0.6}>
-              <div className="flex items-center gap-5 pt-4">
+              <div className="flex flex-col min-[400px]:flex-row min-[400px]:items-center gap-4 sm:gap-5 pt-4">
                 <div>
                   <div className="text-4xl font-black text-gradient">399 zł</div>
                   <div className="text-xs text-white/60 mt-0.5">darmowa dostawa w Polsce</div>
                 </div>
-                <AddToCartBtn className="flex-1 py-4 text-sm font-bold justify-center">
+                <AddToCartBtn className="min-[400px]:flex-1 w-full py-4 text-sm font-bold justify-center">
                   Dodaj do koszyka
                 </AddToCartBtn>
               </div>
@@ -296,11 +296,11 @@ export function Landing({ products }: { products: Product[] }) {
       </section>
 
       {/* ─── FEATURES GRID ─── */}
-      <section id="funkcje2" className="py-28 px-6 border-t border-white/[0.04]">
+      <section id="funkcje2" className="py-16 sm:py-28 px-4 sm:px-6 scroll-mt-16 border-t border-white/[0.04]">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 sm:mb-16">
             <Reveal>
-              <h2 className="text-4xl sm:text-5xl font-black tracking-tight">
+              <h2 className="text-3xl min-[400px]:text-4xl sm:text-5xl font-black tracking-tight">
                 Wszystko w{" "}
                 <span className="text-gradient">jednym urządzeniu</span>
               </h2>
@@ -324,17 +324,17 @@ export function Landing({ products }: { products: Product[] }) {
       </section>
 
       {/* ─── HOW IT WORKS ─── */}
-      <section id="jak-działa" className="py-28 px-6 border-t border-white/[0.04]">
+      <section id="jak-działa" className="py-16 sm:py-28 px-4 sm:px-6 scroll-mt-16 border-t border-white/[0.04]">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-20">
+          <div className="text-center mb-12 sm:mb-20">
             <Reveal>
-              <h2 className="text-4xl sm:text-5xl font-black tracking-tight">
+              <h2 className="text-3xl min-[400px]:text-4xl sm:text-5xl font-black tracking-tight">
                 Gotowe w{" "}
                 <span className="text-gradient">kilka minut</span>
               </h2>
             </Reveal>
           </div>
-          <div className="grid sm:grid-cols-3 gap-8 relative">
+          <div className="grid sm:grid-cols-3 gap-10 sm:gap-8 relative">
             {/* connector line */}
             <div className="hidden sm:block absolute top-8 left-1/6 right-1/6 h-px"
               style={{ background: "linear-gradient(90deg, transparent, rgba(139,92,246,0.4), rgba(34,211,238,0.4), transparent)" }} />
@@ -356,8 +356,8 @@ export function Landing({ products }: { products: Product[] }) {
             ))}
           </div>
           <Reveal delay={0.4}>
-            <div className="text-center mt-16">
-              <AddToCartBtn className="px-8 py-4 text-sm font-bold">
+            <div className="text-center mt-12 sm:mt-16">
+              <AddToCartBtn className="px-6 sm:px-8 py-4 text-sm font-bold w-full sm:w-auto justify-center">
                 Chcę spróbować — 399 zł <Zap className="h-4 w-4" />
               </AddToCartBtn>
             </div>
@@ -366,13 +366,13 @@ export function Landing({ products }: { products: Product[] }) {
       </section>
 
       {/* ─── PRICING ─── */}
-      <section id="oferta" className="py-28 px-6 border-t border-white/[0.04]">
+      <section id="oferta" className="py-16 sm:py-28 px-4 sm:px-6 scroll-mt-16 border-t border-white/[0.04]">
         <div className="max-w-lg mx-auto text-center">
           <Reveal>
-            <h2 className="text-4xl font-black tracking-tight mb-12">Zadbaj o pupila już dziś</h2>
+            <h2 className="text-3xl min-[400px]:text-4xl font-black tracking-tight mb-10 sm:mb-12">Zadbaj o pupila już dziś</h2>
           </Reveal>
           <Reveal delay={0.15} from="scale">
-            <div className="relative glass-bright rounded-3xl p-8 border border-purple-500/20 glow-purple">
+            <div className="relative glass-bright rounded-3xl p-5 min-[400px]:p-8 border border-purple-500/20 glow-purple">
               {/* badge */}
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 btn-primary text-xs px-4 py-1.5 rounded-full whitespace-nowrap">
                 Polecany
@@ -414,11 +414,11 @@ export function Landing({ products }: { products: Product[] }) {
       </section>
 
       {/* ─── FAQ ─── */}
-      <section id="faq" className="py-28 px-6 border-t border-white/[0.04]">
+      <section id="faq" className="py-16 sm:py-28 px-4 sm:px-6 scroll-mt-16 border-t border-white/[0.04]">
         <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 sm:mb-16">
             <Reveal>
-              <h2 className="text-4xl font-black tracking-tight">
+              <h2 className="text-3xl min-[400px]:text-4xl font-black tracking-tight">
                 Masz pytania?{" "}
                 <span className="text-gradient">Mamy odpowiedzi.</span>
               </h2>
@@ -428,8 +428,8 @@ export function Landing({ products }: { products: Product[] }) {
             {faqs.map(({ q, a }, i) => (
               <Reveal key={i} delay={i * 0.06}>
                 <AccordionItem value={`${i}`}
-                  className="glass rounded-2xl border border-white/[0.06] px-6 hover:border-purple-500/30 transition-colors data-[state=open]:border-purple-500/40">
-                  <AccordionTrigger className="text-white font-semibold text-sm py-5 text-left hover:no-underline">
+                  className="glass rounded-2xl border border-white/[0.06] px-4 sm:px-6 hover:border-purple-500/30 transition-colors data-[state=open]:border-purple-500/40">
+                  <AccordionTrigger className="text-white font-semibold text-sm py-4 sm:py-5 text-left gap-4 hover:no-underline">
                     {q}
                   </AccordionTrigger>
                   <AccordionContent className="text-white/65 text-sm leading-relaxed pb-5">
@@ -443,19 +443,19 @@ export function Landing({ products }: { products: Product[] }) {
       </section>
 
       {/* ─── FINAL CTA ─── */}
-      <section className="py-24 px-6 border-t border-white/[0.04] text-center relative overflow-hidden">
+      <section className="py-16 sm:py-24 px-4 sm:px-6 border-t border-white/[0.04] text-center relative overflow-hidden">
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: "radial-gradient(ellipse at 50% 100%, rgba(139,92,246,0.2) 0%, transparent 60%)" }} />
         <Reveal>
-          <h2 className="text-5xl sm:text-6xl font-black tracking-tight mb-6 flex flex-wrap items-center justify-center gap-x-3">
+          <h2 className="text-4xl min-[400px]:text-5xl sm:text-6xl font-black tracking-tight mb-6 flex flex-wrap items-center justify-center gap-x-3">
             Twój pupil na to{" "}
             <span className="text-gradient">zasługuje</span>
             <PawPrint className="h-10 w-10 sm:h-12 sm:w-12 text-purple-300" aria-hidden="true" />
           </h2>
-          <p className="text-white/65 text-lg mb-10 max-w-md mx-auto">
+          <p className="text-white/65 text-base sm:text-lg mb-8 sm:mb-10 max-w-md mx-auto">
             Ustaw harmonogram raz i wyjeżdżaj spokojnie — miska będzie pełna o czasie.
           </p>
-          <AddToCartBtn className="px-10 py-5 text-base font-bold">
+          <AddToCartBtn className="px-6 sm:px-10 py-4 sm:py-5 text-sm sm:text-base font-bold w-full sm:w-auto justify-center">
             Zamów za 399 zł — darmowa dostawa
           </AddToCartBtn>
         </Reveal>

@@ -59,10 +59,10 @@ export function CartDrawer() {
             onKeyDown={trapFocus}
             initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-md flex flex-col"
+            className="fixed right-0 top-0 bottom-0 h-dvh z-50 w-full max-w-md flex flex-col"
             style={{ background: "#0e0e1a", borderLeft: "1px solid rgba(255,255,255,0.08)" }}
           >
-            <div className="flex items-center justify-between px-6 py-5 border-b border-white/[0.06]">
+            <div className="flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5 border-b border-white/[0.06]">
               <div className="flex items-center gap-3">
                 <ShoppingBag className="h-5 w-5 text-purple-400" />
                 <span id="cart-title" className="font-bold text-white">Koszyk {count > 0 && `(${count})`}</span>
@@ -73,7 +73,7 @@ export function CartDrawer() {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-6 py-6">
+            <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 sm:py-6">
               {items.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center gap-4 text-center">
                   <div className="h-16 w-16 rounded-2xl flex items-center justify-center"
@@ -89,7 +89,7 @@ export function CartDrawer() {
               ) : (
                 <div className="space-y-3">
                   {items.map((item) => (
-                    <div key={item.variantId} className="flex gap-4 rounded-2xl p-4"
+                    <div key={item.variantId} className="flex gap-3 sm:gap-4 rounded-2xl p-3 sm:p-4"
                       style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}>
                       <Image src={item.image} alt={item.name} width={72} height={72}
                         className="h-[72px] w-[72px] object-contain rounded-xl bg-white/5 flex-shrink-0" />
@@ -118,7 +118,7 @@ export function CartDrawer() {
             </div>
 
             {items.length > 0 && (
-              <div className="px-6 py-6 border-t border-white/[0.06] space-y-4">
+              <div className="px-4 sm:px-6 py-4 sm:py-6 pb-[max(1rem,env(safe-area-inset-bottom))] border-t border-white/[0.06] space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-white/60 text-sm">Razem</span>
                   <span className="text-2xl font-black text-white">{formatPrice(total)}</span>

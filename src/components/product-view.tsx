@@ -33,13 +33,13 @@ export function ProductView({ product, others }: { product: Product; others: Pro
     <main id="main-content" className="min-h-screen bg-[#06060e] text-white overflow-x-hidden">
       <SiteNav />
 
-      <section className="pt-24 pb-20 px-4 sm:px-6">
+      <section className="pt-20 sm:pt-24 pb-14 sm:pb-20 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
-          <Link href="/#kolekcja" className="inline-flex items-center gap-2 text-sm text-white/65 hover:text-white transition-colors mb-8">
+          <Link href="/#kolekcja" className="inline-flex items-center gap-2 text-sm text-white/65 hover:text-white transition-colors mb-6 sm:mb-8">
             <ArrowLeft className="h-4 w-4" /> Wszystkie produkty
           </Link>
 
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
             <div>
               {showStage ? (
                 <ProductStage src={mainImage} alt={product.name} priority padding="p-[14%]"
@@ -63,12 +63,12 @@ export function ProductView({ product, others }: { product: Product; others: Pro
             </div>
 
             <div className="lg:pt-4">
-              <h1 className="text-4xl sm:text-5xl font-black tracking-tight">
+              <h1 className="text-3xl min-[400px]:text-4xl sm:text-5xl font-black tracking-tight text-balance">
                 <span className="text-gradient">{product.name}</span>
               </h1>
               <p className="text-lg text-white/60 mt-3 leading-snug">{product.tagline}</p>
 
-              <div className="flex items-baseline gap-3 mt-8">
+              <div className="flex items-baseline gap-3 mt-6 sm:mt-8">
                 <span className="text-4xl font-black text-white">{formatPrice(variant.price)}</span>
                 {variant.compareAt && variant.compareAt > variant.price && (
                   <span className="text-lg text-white/60 line-through">{formatPrice(variant.compareAt)}</span>
@@ -119,7 +119,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
       </section>
 
       {others.length > 0 && (
-        <section className="py-20 px-4 sm:px-6 border-t border-white/[0.04]">
+        <section className="py-14 sm:py-20 px-4 sm:px-6 border-t border-white/[0.04]">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-black tracking-tight mb-10">Zobacz też</h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
