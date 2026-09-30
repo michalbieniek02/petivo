@@ -13,12 +13,15 @@ export function ProductView({ product, others }: { product: Product; others: Pro
   const [variant, setVariant] = useState(product.variants[0]);
   const [imageIdx, setImageIdx] = useState(0);
 
-  const gallery = product.cutout ? [product.cutout, ...product.images] : product.images;
+  const variantCutout = variant.image?.startsWith("/products/") ? variant.image : null;
+  const cutout = variantCutout ?? product.cutout;
+  const gallery = cutout ? [cutout, ...product.images] : product.images;
   const mainImage = gallery[imageIdx] ?? gallery[0];
-  const showStage = imageIdx === 0 && product.cutout;
+  const showStage = imageIdx === 0 && cutout;
 
   const selectVariant = (v: typeof variant) => {
     setVariant(v);
+    if (v.image?.startsWith("/products/")) return setImageIdx(0);
     const idx = v.image ? gallery.indexOf(v.image) : -1;
     if (idx >= 0) setImageIdx(idx);
   };
@@ -50,7 +53,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
                 <div className="flex gap-3 mt-4 overflow-x-auto pb-2">
                   {gallery.map((src, i) => (
                     <button key={src} onClick={() => setImageIdx(i)} aria-label={`Zdjęcie ${i + 1}`}
-                      className={`relative h-20 w-20 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-colors ${i === 0 && product.cutout ? "bg-white/[0.06]" : "bg-white"} ${i === imageIdx ? "border-purple-500" : "border-transparent opacity-60 hover:opacity-100"}`}>
+                      className={`relative h-20 w-20 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-colors ${i === 0 && cutout ? "bg-white/[0.06]" : "bg-white"} ${i === imageIdx ? "border-purple-500" : "border-transparent opacity-60 hover:opacity-100"}`}>
                       <Image src={src} alt="" fill sizes="80px" className="object-contain p-1.5" />
                     </button>
                   ))}

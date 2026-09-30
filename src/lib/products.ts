@@ -53,6 +53,22 @@ interface RawProduct {
   }[];
 }
 
+const CUTOUT_FILES = [
+  "karmnik-kamera-hd",
+  "karmnik-kamera-1080p",
+  "karmnik-dwa-koty",
+  "karmnik-wyswietlacz-bialy",
+  "karmnik-wyswietlacz",
+  "fontanna-stal",
+];
+
+// The cut-outs are also uploaded to Shopify (for checkout thumbnails); serve our local copy instead.
+function localCutout(src: string): string | null {
+  const file = new URL(src).pathname.split("/").pop() ?? "";
+  const name = CUTOUT_FILES.find((n) => file.startsWith(`${n}.`) || file.startsWith(`${n}_`));
+  return name ? `/products/${name}.webp` : null;
+}
+
 function toProduct(p: RawProduct): Product {
   const [name, ...rest] = p.title.split(" — ");
   const variants = p.variants.map((v) => ({
@@ -60,7 +76,7 @@ function toProduct(p: RawProduct): Product {
     title: v.title,
     price: parseFloat(v.price),
     compareAt: v.compare_at_price ? parseFloat(v.compare_at_price) : null,
-    image: v.featured_image?.src ?? null,
+    image: v.featured_image ? localCutout(v.featured_image.src) ?? v.featured_image.src : null,
   }));
   const hasOptions = !(variants.length === 1 && variants[0].title === "Default Title");
   return {
@@ -70,7 +86,7 @@ function toProduct(p: RawProduct): Product {
     vendor: p.vendor,
     descriptionHtml: p.body_html,
     cutout: CUTOUTS[p.handle] ?? null,
-    images: p.images.map((i) => i.src),
+    images: p.images.map((i) => i.src).filter((src) => !localCutout(src)),
     optionName: hasOptions ? p.options[0]?.name ?? null : null,
     variants,
     minPrice: Math.min(...variants.map((v) => v.price)),
