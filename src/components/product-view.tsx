@@ -30,7 +30,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
   const cartImage = product.optionName && variant.image ? variant.image : product.cutout ?? product.images[0];
 
   return (
-    <main id="main-content" className="min-h-screen bg-[#06060e] text-white overflow-x-hidden">
+    <main id="main-content" className="min-h-screen bg-[#1e1b4b] text-white overflow-x-hidden">
       <SiteNav />
 
       <section className="pt-20 sm:pt-24 pb-14 sm:pb-20 px-4 sm:px-6">

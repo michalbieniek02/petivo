@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { POLICIES } from "@/lib/policies";
 
@@ -6,7 +7,7 @@ export function SiteFooter() {
     <footer className="border-t border-white/[0.06] py-12 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr]">
         <div>
-          <span className="text-xl font-black text-gradient">PETIVO</span>
+          <Image src="/brand/petivo-logo.png" alt="Petivo" width={449} height={155} className="h-12 w-auto -ml-1" />
           <p className="text-xs text-white/65 leading-relaxed mt-4">
             Sprzedawca: Kamil Łastowski<br />
             <a href="https://checkout.petivo.shop/pages/contact" className="hover:text-white transition-colors underline underline-offset-4">

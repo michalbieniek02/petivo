@@ -60,7 +60,7 @@ export function CartDrawer() {
             initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
             className="fixed right-0 top-0 bottom-0 h-dvh z-50 w-full max-w-md flex flex-col"
-            style={{ background: "#0e0e1a", borderLeft: "1px solid rgba(255,255,255,0.08)" }}
+            style={{ background: "#191643", borderLeft: "1px solid rgba(255,255,255,0.08)" }}
           >
             <div className="flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5 border-b border-white/[0.06]">
               <div className="flex items-center gap-3">
@@ -77,7 +77,7 @@ export function CartDrawer() {
               {items.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center gap-4 text-center">
                   <div className="h-16 w-16 rounded-2xl flex items-center justify-center"
-                    style={{ background: "rgba(139,92,246,0.1)", border: "1px solid rgba(139,92,246,0.2)" }}>
+                    style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.2)" }}>
                     <Package className="h-7 w-7 text-purple-400" />
                   </div>
                   <p className="text-white/65 text-sm">Koszyk jest pusty</p>
@@ -149,7 +149,7 @@ export function CartButton() {
       style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}>
       <ShoppingBag className="h-4 w-4" />
       <span className="absolute -top-1 -right-1 h-4 min-w-4 px-1 rounded-full text-[10px] font-bold text-white flex items-center justify-center"
-        style={{ background: "linear-gradient(135deg, #8b5cf6, #06b6d4)" }}>
+        style={{ background: "linear-gradient(135deg, #7c3aed, #5b21b6)" }}>
         {count}
       </span>
     </button>
