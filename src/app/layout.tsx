@@ -20,13 +20,13 @@ export const metadata: Metadata = {
     locale: "pl_PL",
     title: "Petivo — karmniki i fontanny dla pupili",
     description: "Karmniki z kamerą i aplikacją oraz fontanna dla kota. Steruj karmieniem z telefonu.",
-    images: [{ url: "/products/karmnik-kamera-hd.webp", alt: "Automatyczny karmnik Petivo z kamerą HD" }],
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Petivo — karmniki z kamerą i fontanny dla kota i psa" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Petivo — karmniki i fontanny dla pupili",
     description: "Karmniki z kamerą i aplikacją oraz fontanna dla kota. Steruj karmieniem z telefonu.",
-    images: ["/products/karmnik-kamera-hd.webp"],
+    images: ["/og.png"],
   },
 };
 
