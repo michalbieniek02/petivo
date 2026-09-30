@@ -18,7 +18,7 @@ if ! sudo test -f /etc/letsencrypt/live/petivo.shop/fullchain.pem; then
   exit 1
 fi
 
-sudo install -d -o "$deploy_user" -g "$deploy_user" -m 0755 /var/www/petivo/releases
+sudo install -d -o "$deploy_user" -g "$deploy_user" -m 0755 /var/www/petivo /var/www/petivo/releases
 sed "s/__DEPLOY_USER__/$deploy_user/g" "$script_dir/petivo.service" | sudo tee /etc/systemd/system/petivo.service >/dev/null
 sudo install -m 0644 "$script_dir/nginx.conf" /etc/nginx/sites-available/petivo.shop
 sudo ln -sfn /etc/nginx/sites-available/petivo.shop /etc/nginx/sites-enabled/petivo.shop
