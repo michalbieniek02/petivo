@@ -10,6 +10,7 @@ WorkingDirectory=/var/www/petivo/current
 Environment=NODE_ENV=production
 Environment=HOSTNAME=127.0.0.1
 Environment=PORT=3000
+EnvironmentFile=-/etc/petivo.env
 ExecStart=/usr/bin/node server.js
 Restart=always
 RestartSec=5

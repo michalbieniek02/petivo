@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { POLICIES, policyHtml } from "@/lib/policies";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
+import { ContactForm } from "@/components/contact-form";
 
 export const dynamicParams = false;
 
@@ -28,6 +29,7 @@ export default async function PolicyPage({ params }: PageProps<"/[policy]">) {
       <article className="pt-28 pb-20 px-4 sm:px-6">
         <div className="max-w-3xl mx-auto glass rounded-3xl border border-white/[0.06] p-6 sm:p-12">
           <div className="policy-body" dangerouslySetInnerHTML={{ __html: policyHtml(policy.key) }} />
+          {slug === "kontakt" && <ContactForm />}
         </div>
       </article>
       <SiteFooter />

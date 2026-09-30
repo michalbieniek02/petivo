@@ -10,7 +10,7 @@ export function SiteFooter() {
           <Image src="/brand/petivo-logo-o-full.png" alt="Petivo — inteligentne karmniki dla psa i kota" width={1323} height={360} sizes="240px" className="h-16 w-auto" />
           <p className="text-xs text-white/65 leading-relaxed mt-4">
             Sprzedawca: Kamil Łastowski<br />
-            <a href="https://checkout.petivo.shop/pages/contact" className="hover:text-white transition-colors underline underline-offset-4">
+            <a href="/kontakt" className="hover:text-white transition-colors underline underline-offset-4">
               Formularz kontaktowy
             </a>
           </p>
