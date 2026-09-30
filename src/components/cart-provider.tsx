@@ -1,48 +1,80 @@
 "use client";
-import { createContext, useContext, useState, useCallback, ReactNode } from "react";
-import { Cart, createCart, addToCart, buildLocalCart } from "@/lib/shopify";
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+
+const STORE = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || "ecxva5-gd.myshopify.com";
+const STORAGE_KEY = "petivo-cart";
+
+export interface CartItem {
+  variantId: number;
+  handle: string;
+  name: string;
+  variantTitle: string | null;
+  price: number;
+  image: string;
+  qty: number;
+}
+
+export type CartItemInput = Omit<CartItem, "qty">;
 
 interface CartCtx {
-  cart: Cart | null;
+  items: CartItem[];
+  count: number;
+  total: number;
+  checkoutUrl: string;
   open: boolean;
-  adding: boolean;
   openCart: () => void;
   closeCart: () => void;
-  addItem: (merchandiseId: string) => Promise<void>;
+  addItem: (item: CartItemInput) => void;
+  setQty: (variantId: number, qty: number) => void;
 }
 
 const Ctx = createContext<CartCtx | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [cart, setCart] = useState<Cart | null>(null);
+  const [items, setItems] = useState<CartItem[]>([]);
+  const [loaded, setLoaded] = useState(false);
   const [open, setOpen] = useState(false);
-  const [adding, setAdding] = useState(false);
 
-  const addItem = useCallback(async (merchandiseId: string) => {
-    setAdding(true);
+  useEffect(() => {
     try {
-      let updated: Cart;
-      if (cart && cart.id === "local") {
-        const currentQty = cart.lines.edges.reduce((s, e) => s + e.node.quantity, 0);
-        updated = buildLocalCart(currentQty + 1);
-      } else if (cart) {
-        updated = await addToCart(cart.id, merchandiseId);
-      } else {
-        updated = await createCart(merchandiseId);
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) setItems(JSON.parse(saved));
+    } catch {}
+    setLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!loaded) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    } catch {}
+  }, [items, loaded]);
+
+  const addItem = (item: CartItemInput) => {
+    setItems((prev) => {
+      const existing = prev.find((i) => i.variantId === item.variantId);
+      if (existing) {
+        return prev.map((i) => (i.variantId === item.variantId ? { ...i, qty: i.qty + 1 } : i));
       }
-      setCart(updated);
-      setOpen(true);
-    } catch {
-      const currentQty = cart?.lines.edges.reduce((s, e) => s + e.node.quantity, 0) ?? 0;
-      setCart(buildLocalCart(currentQty + 1));
-      setOpen(true);
-    } finally {
-      setAdding(false);
-    }
-  }, [cart]);
+      return [...prev, { ...item, qty: 1 }];
+    });
+    setOpen(true);
+  };
+
+  const setQty = (variantId: number, qty: number) => {
+    setItems((prev) =>
+      qty <= 0 ? prev.filter((i) => i.variantId !== variantId) : prev.map((i) => (i.variantId === variantId ? { ...i, qty } : i)),
+    );
+  };
+
+  const count = items.reduce((s, i) => s + i.qty, 0);
+  const total = items.reduce((s, i) => s + i.price * i.qty, 0);
+  const checkoutUrl = `https://${STORE}/cart/${items.map((i) => `${i.variantId}:${i.qty}`).join(",")}`;
 
   return (
-    <Ctx.Provider value={{ cart, open, adding, openCart: () => setOpen(true), closeCart: () => setOpen(false), addItem }}>
+    <Ctx.Provider
+      value={{ items, count, total, checkoutUrl, open, openCart: () => setOpen(true), closeCart: () => setOpen(false), addItem, setQty }}
+    >
       {children}
     </Ctx.Provider>
   );

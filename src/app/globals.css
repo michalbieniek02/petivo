@@ -199,3 +199,13 @@ body::before {
   width: max-content;
 }
 .marquee-track:hover { animation-play-state: paused; }
+
+/* product description from Shopify */
+.product-desc { color: rgba(255,255,255,0.6); font-size: 0.925rem; line-height: 1.7; }
+.product-desc h2, .product-desc h3 { color: #fff; font-weight: 800; font-size: 1.1rem; margin: 1.75rem 0 0.75rem; }
+.product-desc p { margin: 0 0 1rem; }
+.product-desc strong { color: rgba(255,255,255,0.9); }
+.product-desc ul { list-style: none; padding: 0; margin: 0 0 1rem; }
+.product-desc li { position: relative; padding-left: 1.5rem; margin-bottom: 0.5rem; }
+.product-desc li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 0.5rem; height: 0.5rem; border-radius: 9999px; background: linear-gradient(135deg, #8b5cf6, #22d3ee); }
+.product-desc img { max-width: 100%; height: auto; border-radius: 1rem; margin: 1rem 0; }
