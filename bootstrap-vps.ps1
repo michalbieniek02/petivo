@@ -16,12 +16,11 @@ ssh "$user@$server" "umask 077; mkdir -p ~/.ssh; touch ~/.ssh/authorized_keys; g
 scp -i $privateKey -r (Join-Path $repo 'deploy') "$user@${server}:~/"
 ssh -t -i $privateKey "$user@$server" 'chmod +x ~/deploy/setup-vps.sh && ~/deploy/setup-vps.sh'
 
-$knownHostsFile = Join-Path $HOME '.ssh\known_hosts'
-$knownHosts = ssh-keygen -F $server -f $knownHostsFile | Where-Object { $_ -notmatch '^#' }
-if (-not $knownHosts) {
+$hostKey = ssh -i $privateKey "$user@$server" "cut -d' ' -f1,2 /etc/ssh/ssh_host_ed25519_key.pub"
+if (-not $hostKey) {
     throw 'Nie udalo sie pobrac klucza hosta SSH.'
 }
-$knownHosts | Set-Content -LiteralPath (Join-Path $repo 'vps-known-hosts') -Encoding ascii
+"$server $hostKey" | Set-Content -LiteralPath (Join-Path $repo 'vps-known-hosts') -Encoding ascii
 
 Write-Host ''
 Write-Host 'VPS jest gotowy.'
