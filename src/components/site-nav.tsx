@@ -15,8 +15,8 @@ export function SiteNav() {
     <>
       <a href="#main-content" className="skip-link">Przejdź do treści</a>
       <nav aria-label="Główna nawigacja" className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-3 sm:px-10 h-16 glass border-b border-white/[0.06]">
-        <Link href="/" aria-label="Petivo — strona główna" className="inline-flex items-center">
-          <Image src="/brand/petivo-logo.png" alt="Petivo" width={694} height={234} priority className="h-11 w-auto" />
+        <Link href="/" aria-label="Petivo — strona główna" className="inline-flex items-center rounded-xl bg-[#fffdf7] px-2.5 py-1 shadow-[0_0_24px_rgba(139,92,246,0.25)]">
+          <Image src="/brand/petivo-wordmark.png" alt="Petivo" width={902} height={316} priority className="h-9 w-auto" />
         </Link>
         <div className="hidden md:flex items-center gap-8 text-sm text-white/60">
           {links.map((l) => (

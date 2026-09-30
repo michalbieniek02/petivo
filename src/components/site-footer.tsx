@@ -7,7 +7,9 @@ export function SiteFooter() {
     <footer className="border-t border-white/[0.06] py-12 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr]">
         <div>
-          <Image src="/brand/petivo-logo.png" alt="Petivo" width={694} height={234} className="h-14 w-auto" />
+          <span className="inline-flex rounded-2xl bg-[#fffdf7] px-4 py-3">
+            <Image src="/brand/petivo-wordmark-full.png" alt="Petivo — inteligentne karmniki dla psa i kota" width={902} height={372} className="h-20 w-auto" />
+          </span>
           <p className="text-xs text-white/65 leading-relaxed mt-4">
             Sprzedawca: Kamil Łastowski<br />
             <a href="https://checkout.petivo.shop/pages/contact" className="hover:text-white transition-colors underline underline-offset-4">
