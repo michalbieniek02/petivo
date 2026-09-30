@@ -76,8 +76,8 @@ export function ProductView({ product, others }: { product: Product; others: Pro
                   <p className="text-xs font-semibold tracking-[0.2em] uppercase text-white/40 mb-3">{product.optionName}</p>
                   <div className="flex flex-wrap gap-2">
                     {product.variants.map((v) => (
-                      <button key={v.id} onClick={() => selectVariant(v)} disabled={!v.available}
-                        className={`rounded-xl px-4 py-2.5 text-sm border transition-colors disabled:opacity-30 disabled:line-through ${v.id === variant.id ? "border-purple-500 bg-purple-500/15 text-white" : "border-white/10 text-white/60 hover:border-white/30 hover:text-white"}`}>
+                      <button key={v.id} onClick={() => selectVariant(v)}
+                        className={`rounded-xl px-4 py-2.5 text-sm border transition-colors ${v.id === variant.id ? "border-purple-500 bg-purple-500/15 text-white" : "border-white/10 text-white/60 hover:border-white/30 hover:text-white"}`}>
                         {v.title}
                         <span className="ml-2 text-white/40">{formatPrice(v.price)}</span>
                       </button>
@@ -87,7 +87,6 @@ export function ProductView({ product, others }: { product: Product; others: Pro
               )}
 
               <AddToCartBtn
-                disabled={!variant.available}
                 className="w-full justify-center py-4 text-base font-bold mt-8"
                 item={{
                   variantId: variant.id,
@@ -98,7 +97,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
                   image: cartImage,
                 }}
               >
-                {variant.available ? "Dodaj do koszyka" : "Chwilowo niedostępny"}
+                Dodaj do koszyka
               </AddToCartBtn>
 
               <ul className="mt-6 space-y-2 text-sm text-white/50">

@@ -21,7 +21,6 @@ export interface Variant {
   title: string;
   price: number;
   compareAt: number | null;
-  available: boolean;
   image: string | null;
 }
 
@@ -50,7 +49,6 @@ interface RawProduct {
     title: string;
     price: string;
     compare_at_price: string | null;
-    available: boolean;
     featured_image: { src: string } | null;
   }[];
 }
@@ -62,7 +60,6 @@ function toProduct(p: RawProduct): Product {
     title: v.title,
     price: parseFloat(v.price),
     compareAt: v.compare_at_price ? parseFloat(v.compare_at_price) : null,
-    available: v.available,
     image: v.featured_image?.src ?? null,
   }));
   const hasOptions = !(variants.length === 1 && variants[0].title === "Default Title");
