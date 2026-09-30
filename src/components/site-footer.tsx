@@ -9,9 +9,8 @@ export function SiteFooter() {
           <span className="text-xl font-black text-gradient">PETIVO</span>
           <p className="text-xs text-white/40 leading-relaxed mt-4">
             Sprzedawca: Kamil Łastowski<br />
-            [adres usuniety], [miasto]<br />
-            <a href="mailto:kontakt@petivo.shop" className="hover:text-white transition-colors">
-              kontakt@petivo.shop
+            <a href="https://checkout.petivo.shop/pages/contact" className="hover:text-white transition-colors underline underline-offset-4">
+              Formularz kontaktowy
             </a>
           </p>
         </div>
