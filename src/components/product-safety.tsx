@@ -1,5 +1,10 @@
 import { AlertTriangle } from "lucide-react";
 
+/** Product identifiers supplied by the manufacturer/marketplace listing (GPSR product identification). Add more as they are confirmed. */
+const PRODUCT_IDS: Record<string, string> = {
+  "automatyczny-karmnik-z-kamera-hd-wifi": "1005008830731346-12000046864972887",
+};
+
 interface Props {
   handle: string;
   title: string;
@@ -36,6 +41,7 @@ export function ProductSafety({ handle, title }: Props) {
     : [];
 
   const items = [...common, ...specific, ...camera];
+  const productId = PRODUCT_IDS[handle];
 
   return (
     <section aria-labelledby="safety-title" className="mt-10 rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6">
@@ -51,6 +57,11 @@ export function ProductSafety({ handle, title }: Props) {
           </li>
         ))}
       </ul>
+      {productId && (
+        <p className="mt-4 text-xs text-white/65">
+          <strong className="font-semibold text-white/80">Identyfikator produktu:</strong> {productId}
+        </p>
+      )}
       <p className="mt-4 text-xs text-white/55">
         To ogólne zasady bezpieczeństwa. Pełne ostrzeżenia, dane techniczne i instrukcja obsługi znajdują się w dokumentacji dołączonej do produktu.
       </p>
