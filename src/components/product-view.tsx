@@ -7,6 +7,7 @@ import { Product, formatPrice } from "@/lib/products";
 import { AddToCartBtn } from "./add-to-cart-btn";
 import { ProductCard } from "./product-card";
 import { ProductStage } from "./product-stage";
+import { ProductSafety } from "./product-safety";
 import { SiteNav } from "./site-nav";
 import { SiteFooter } from "./site-footer";
 
@@ -113,6 +114,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
 
               <div className="product-desc mt-10 pt-10 border-t border-white/[0.06]"
                 dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
+              <ProductSafety handle={product.handle} title={product.name} />
             </div>
           </div>
         </div>

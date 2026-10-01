@@ -8,6 +8,7 @@ export const POLICIES: { slug: string; key: PolicyKey; title: string; descriptio
   { slug: "dostawa", key: "ship", title: "Dostawa", description: "Koszty i czas dostawy." },
   { slug: "polityka-prywatnosci", key: "priv", title: "Polityka prywatności", description: "Jak przetwarzamy dane osobowe." },
   { slug: "kontakt", key: "contact", title: "Kontakt", description: "Dane sprzedawcy i kontakt." },
+  { slug: "formularz-odstapienia", key: "withdrawal", title: "Formularz odstąpienia od umowy", description: "Wzór formularza odstąpienia od umowy zawartej na odległość." },
 ];
 
 export function policyHtml(key: PolicyKey) {
