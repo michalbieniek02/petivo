@@ -33,7 +33,7 @@ export function ProductGrid({ products }: { products: Product[] }) {
     <>
       <div className="mb-6 sm:mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         {filters.length > 2 && (
-          <div role="group" aria-label="Kategorie produktów" className="-mx-4 px-4 sm:mx-0 sm:px-0 flex gap-2 overflow-x-auto pb-1 sm:pb-0">
+          <div role="group" aria-label="Kategorie produktów" className="-mx-4 px-4 sm:mx-0 sm:px-1.5 py-1.5 -my-1.5 flex gap-2 overflow-x-auto no-scrollbar">
             {filters.map((c) => (
               <button
                 key={c.id}

@@ -103,7 +103,7 @@ export function Landing({ products }: { products: Product[] }) {
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
             <p className="eyebrow mb-4 sm:mb-5">Karmniki i fontanny dla kota i psa</p>
             <h1 className="text-[2.35rem] leading-[1.04] min-[400px]:text-5xl sm:text-6xl lg:text-[4.25rem] font-extrabold">
-              Pełna miska i świeża woda,{" "}
+              Pełna miska i świeża woda<span className="font-sans">,</span>{" "}
               <span className="text-gradient">nawet gdy Cię nie ma</span>
             </h1>
             <p className="text-base sm:text-lg text-white/70 max-w-lg mt-5 sm:mt-6 leading-relaxed">
@@ -232,7 +232,7 @@ export function Landing({ products }: { products: Product[] }) {
           <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <Reveal>
               <ProductStage src={flagship.cutout ?? flagship.images[0]} alt={flagship.name} padding="p-[13%]"
-                className="aspect-square border border-white/[0.07]" sizes="(max-width: 1024px) 100vw, 50vw" />
+                radius="rounded-3xl" className="aspect-square border border-white/[0.07]" sizes="(max-width: 1024px) 100vw, 50vw" />
             </Reveal>
             <div>
               <Reveal>
@@ -298,7 +298,7 @@ export function Landing({ products }: { products: Product[] }) {
             <div className="lg:order-2">
               <Reveal>
                 <ProductStage src={fountain.cutout ?? fountain.images[0]} alt={fountain.name} padding="p-[16%]"
-                  className="aspect-[4/3] lg:aspect-square border border-white/[0.07]" sizes="(max-width: 1024px) 100vw, 50vw" />
+                  radius="rounded-3xl" className="aspect-[4/3] lg:aspect-square border border-white/[0.07]" sizes="(max-width: 1024px) 100vw, 50vw" />
               </Reveal>
             </div>
             <div className="lg:order-1">

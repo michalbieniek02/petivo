@@ -13,9 +13,9 @@ export function SiteFooter() {
               kontakt@petivo.shop
             </a>
             <br />
-            <a href="/kontakt" className="hover:text-white transition-colors underline underline-offset-4">
+            <Link href="/kontakt" className="hover:text-white transition-colors underline underline-offset-4">
               Formularz kontaktowy
-            </a>
+            </Link>
           </p>
         </div>
         <nav aria-label="Sklep">
