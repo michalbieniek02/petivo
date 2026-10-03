@@ -97,7 +97,11 @@ export async function getProducts(): Promise<Product[]> {
   // Shopify rate-limits (429) bursts, which happens when many pages are prerendered at once; retry with backoff.
   let res: Response | undefined;
   for (let attempt = 0; attempt < 5; attempt++) {
-    res = await fetch(`https://${STORE}/products.json?limit=250`, { next: { revalidate: 300 } });
+    res = await fetch(`https://${STORE}/products.json?limit=250`, {
+      // Shopify throttles (429) requests that carry the default Node user agent.
+      headers: { "User-Agent": "Mozilla/5.0 (compatible; PetivoStorefront/1.0; +https://petivo.shop)", Accept: "application/json" },
+      next: { revalidate: 300 },
+    });
     if (res.ok || (res.status !== 429 && res.status < 500)) break;
     await new Promise((r) => setTimeout(r, 1000 * 2 ** attempt));
   }
