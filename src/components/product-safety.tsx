@@ -3,6 +3,10 @@ import { AlertTriangle } from "lucide-react";
 /** Product identifiers supplied by the manufacturer/marketplace listing (GPSR product identification). Add more as they are confirmed. */
 const PRODUCT_IDS: Record<string, string> = {
   "automatyczny-karmnik-z-kamera-hd-wifi": "1005008830731346-12000046864972887",
+  "fontanna-dla-kota-stal-nierdzewna": "1005009978909432-12000050748414453",
+  "karmnik-z-kamera-1080p-noktowizja": "1005007086094845-12000040329923260",
+  "karmnik-dla-dwoch-kotow-wifi": "1005005858662276-12000051588027873",
+  "automatyczny-karmnik-z-wyswietlaczem": "1005007306852958-12000040179834213",
 };
 
 interface Props {
