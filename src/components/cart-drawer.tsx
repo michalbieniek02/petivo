@@ -1,12 +1,12 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence, MotionConfig } from "framer-motion";
 import { useEffect, useRef, type KeyboardEvent } from "react";
-import { X, ShoppingBag, ArrowRight, Package, Minus, Plus, Trash2 } from "lucide-react";
+import { X, ShoppingBag, ArrowRight, Package, Minus, Plus, Trash2, Lock } from "lucide-react";
 import { useCart } from "./cart-provider";
 import { formatPrice } from "@/lib/products";
-
-const FREE_SHIPPING = 200;
+import { FREE_SHIPPING_FROM as FREE_SHIPPING, SHIPPING_PL } from "@/lib/shop";
 const FOCUSABLE = "a[href], button:not([disabled]), [tabindex]:not([tabindex='-1'])";
 
 function trapFocus(event: KeyboardEvent<HTMLElement>) {
@@ -81,11 +81,10 @@ export function CartDrawer() {
                     style={{ background: "rgba(139,92,246,0.1)", border: "1px solid rgba(139,92,246,0.2)" }}>
                     <Package className="h-7 w-7 text-purple-400" />
                   </div>
-                  <p className="text-white/65 text-sm">Koszyk jest pusty</p>
-                  <button onClick={closeCart}
-                    className="text-sm text-purple-400 hover:text-purple-300 transition-colors underline underline-offset-4">
-                    Wróć do sklepu
-                  </button>
+                  <p className="text-white/70 text-sm">Koszyk jest pusty</p>
+                  <Link href="/#kolekcja" onClick={closeCart} className="btn-ghost min-h-11 px-5 inline-flex items-center text-sm">
+                    Zobacz produkty
+                  </Link>
                 </div>
               ) : (
                 <div className="space-y-3">
@@ -95,7 +94,10 @@ export function CartDrawer() {
                       <Image src={item.image} alt={item.name} width={72} height={72}
                         className="h-[72px] w-[72px] object-contain rounded-xl bg-white/5 flex-shrink-0" />
                       <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-white text-sm truncate">{item.name}</p>
+                        <Link href={`/produkt/${item.handle}`} onClick={closeCart}
+                          className="block font-semibold text-white text-sm truncate hover:text-purple-200 transition-colors">
+                          {item.name}
+                        </Link>
                         {item.variantTitle && <p className="text-white/65 text-xs mt-0.5 truncate">{item.variantTitle}</p>}
                         <div className="flex items-center justify-between mt-3">
                           <div className="flex items-center rounded-full border border-white/10">
@@ -109,7 +111,7 @@ export function CartDrawer() {
                               <Plus className="h-3.5 w-3.5" />
                             </button>
                           </div>
-                          <span className="text-purple-300 font-bold text-sm">{formatPrice(item.price * item.qty)}</span>
+                          <span className="text-white font-semibold text-sm tabular-nums">{formatPrice(item.price * item.qty)}</span>
                         </div>
                       </div>
                     </div>
@@ -133,16 +135,24 @@ export function CartDrawer() {
                       style={{ width: `${Math.min(100, (total / FREE_SHIPPING) * 100)}%`, background: "linear-gradient(90deg, #8b5cf6, #22d3ee)" }} />
                   </div>
                 </div>
-                                <div className="flex justify-between items-center">
-                  <span className="text-white/60 text-sm">Razem</span>
-                  <span className="text-2xl font-black text-white">{formatPrice(total)}</span>
-                </div>
-                <p className="text-xs text-white/60 text-center">{total >= 200 ? "Darmowa dostawa w Polsce" : "Dostawa w Polsce 20 zł, darmowa od 200 zł"} · Bezpieczna płatność</p>
+                <dl className="space-y-1.5 text-sm">
+                  <div className="flex justify-between items-baseline">
+                    <dt className="text-white/65">Produkty</dt>
+                    <dd className="font-display text-2xl font-bold text-white tabular-nums">{formatPrice(total)}</dd>
+                  </div>
+                  <div className="flex justify-between items-baseline">
+                    <dt className="text-white/65">Dostawa w Polsce</dt>
+                    <dd className="text-white/85 tabular-nums">{total >= FREE_SHIPPING ? "Gratis" : formatPrice(SHIPPING_PL)}</dd>
+                  </div>
+                </dl>
                 <a href={checkoutUrl}
-                  className="btn-primary py-4 text-sm font-bold w-full inline-flex items-center justify-center gap-2">
+                  className="btn-primary min-h-12 py-4 text-sm font-bold w-full inline-flex items-center justify-center gap-2">
                   Przejdź do płatności
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </a>
+                <p className="text-xs text-white/60 text-center inline-flex w-full items-center justify-center gap-1.5">
+                  <Lock className="h-3 w-3" aria-hidden="true" /> Karta lub PayPal · płatność obsługuje Shopify
+                </p>
               </div>
             )}
           </motion.aside>
@@ -155,17 +165,18 @@ export function CartDrawer() {
 
 export function CartButton() {
   const { count, openCart } = useCart();
-  if (count === 0) return null;
 
   return (
-    <button onClick={openCart} aria-label={`Otwórz koszyk, liczba produktów: ${count}`}
+    <button onClick={openCart} aria-label={count > 0 ? `Otwórz koszyk, liczba produktów: ${count}` : "Otwórz koszyk"}
       className="relative h-11 w-11 flex items-center justify-center rounded-full text-white/70 hover:text-white transition-colors"
       style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}>
-      <ShoppingBag className="h-4 w-4" />
-      <span className="absolute -top-1 -right-1 h-4 min-w-4 px-1 rounded-full text-[10px] font-bold text-white flex items-center justify-center"
-        style={{ background: "linear-gradient(135deg, #8b5cf6, #06b6d4)" }}>
-        {count}
-      </span>
+      <ShoppingBag className="h-4 w-4" aria-hidden="true" />
+      {count > 0 && (
+        <span className="absolute -top-1 -right-1 h-5 min-w-5 px-1 rounded-full text-[11px] font-bold text-white flex items-center justify-center tabular-nums"
+          style={{ background: "linear-gradient(135deg, #8b5cf6, #06b6d4)" }}>
+          {count}
+        </span>
+      )}
     </button>
   );
 }
