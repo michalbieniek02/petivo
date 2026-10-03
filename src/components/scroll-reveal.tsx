@@ -13,16 +13,16 @@ export function Reveal({ children, delay = 0, className = "", from = "bottom" }:
   const variants = {
     hidden: {
       opacity: 0,
-      y: from === "bottom" ? 40 : 0,
-      x: from === "left" ? -40 : from === "right" ? 40 : 0,
-      scale: from === "scale" ? 0.92 : 1,
+      y: from === "bottom" ? 16 : 0,
+      x: from === "left" ? -16 : from === "right" ? 16 : 0,
+      scale: from === "scale" ? 0.97 : 1,
     },
     visible: {
       opacity: 1,
       y: 0,
       x: 0,
       scale: 1,
-      transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] as const },
+      transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] as const },
     },
   };
 
@@ -30,7 +30,7 @@ export function Reveal({ children, delay = 0, className = "", from = "bottom" }:
     <motion.div
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, margin: "-60px" }}
       variants={variants}
       className={className}
     >
