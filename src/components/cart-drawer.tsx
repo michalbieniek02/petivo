@@ -6,6 +6,7 @@ import { X, ShoppingBag, ArrowRight, Package, Minus, Plus, Trash2 } from "lucide
 import { useCart } from "./cart-provider";
 import { formatPrice } from "@/lib/products";
 
+const FREE_SHIPPING = 200;
 const FOCUSABLE = "a[href], button:not([disabled]), [tabindex]:not([tabindex='-1'])";
 
 function trapFocus(event: KeyboardEvent<HTMLElement>) {
@@ -119,7 +120,20 @@ export function CartDrawer() {
 
             {items.length > 0 && (
               <div className="px-4 sm:px-6 py-4 sm:py-6 pb-[max(1rem,env(safe-area-inset-bottom))] border-t border-white/[0.06] space-y-4">
-                <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-xs text-white/75 mb-2">
+                    {total >= FREE_SHIPPING
+                      ? "Masz darmową dostawę w Polsce"
+                      : <>Do darmowej dostawy brakuje <strong className="text-white">{formatPrice(FREE_SHIPPING - total)}</strong></>}
+                  </p>
+                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/10" role="progressbar"
+                    aria-valuemin={0} aria-valuemax={FREE_SHIPPING} aria-valuenow={Math.min(total, FREE_SHIPPING)}
+                    aria-label="Postęp do darmowej dostawy">
+                    <div className="h-full rounded-full transition-[width] duration-500"
+                      style={{ width: `${Math.min(100, (total / FREE_SHIPPING) * 100)}%`, background: "linear-gradient(90deg, #8b5cf6, #22d3ee)" }} />
+                  </div>
+                </div>
+                                <div className="flex justify-between items-center">
                   <span className="text-white/60 text-sm">Razem</span>
                   <span className="text-2xl font-black text-white">{formatPrice(total)}</span>
                 </div>

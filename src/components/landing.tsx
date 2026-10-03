@@ -6,7 +6,7 @@ import { Reveal } from "@/components/scroll-reveal";
 import { AddToCartBtn as BaseAddToCartBtn } from "@/components/add-to-cart-btn";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
-import { ProductCard } from "@/components/product-card";
+import { ProductGrid } from "@/components/product-grid";
 import type { Product } from "@/lib/products";
 import type { ComponentProps } from "react";
 import {
@@ -192,13 +192,7 @@ export function Landing({ products }: { products: Product[] }) {
               </p>
             </Reveal>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {products.map((p, i) => (
-              <Reveal key={p.handle} delay={i * 0.07} className={i === 0 ? "h-full sm:col-span-2" : "h-full"}>
-                <ProductCard product={p} featured={i === 0} />
-              </Reveal>
-            ))}
-          </div>
+          <ProductGrid products={products} />
         </div>
       </section>
 
