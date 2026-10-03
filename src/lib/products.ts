@@ -1,4 +1,5 @@
 import { categoryOf, type CategoryId } from "./categories";
+import { buildGallery, galleryCutout, type Slide } from "./gallery";
 
 const STORE = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || "ecxva5-gd.myshopify.com";
 
@@ -34,7 +35,10 @@ export interface Product {
   category: CategoryId;
   descriptionHtml: string;
   cutout: string | null;
+  /** original Shopify photos (for metadata and fallbacks) */
   images: string[];
+  /** curated slides for the product page gallery */
+  gallery: Slide[];
   optionName: string | null;
   variants: Variant[];
   minPrice: number;
@@ -47,7 +51,7 @@ interface RawProduct {
   product_type: string;
   body_html: string;
   options: { name: string }[];
-  images: { src: string }[];
+  images: { src: string; width: number; height: number }[];
   variants: {
     id: number;
     title: string;
@@ -80,7 +84,9 @@ function toProduct(p: RawProduct): Product {
     title: v.title,
     price: parseFloat(v.price),
     compareAt: v.compare_at_price ? parseFloat(v.compare_at_price) : null,
-    image: v.featured_image ? localCutout(v.featured_image.src) ?? v.featured_image.src : null,
+    image: v.featured_image
+      ? localCutout(v.featured_image.src) ?? galleryCutout(p.handle, v.featured_image.src) ?? v.featured_image.src
+      : null,
   }));
   const hasOptions = !(variants.length === 1 && variants[0].title === "Default Title");
   return {
@@ -92,6 +98,7 @@ function toProduct(p: RawProduct): Product {
     descriptionHtml: p.body_html,
     cutout: CUTOUTS[p.handle] ?? null,
     images: p.images.map((i) => i.src).filter((src) => !localCutout(src)),
+    gallery: buildGallery(p.handle, p.images.filter((i) => !localCutout(i.src))),
     optionName: hasOptions ? p.options[0]?.name ?? null : null,
     variants,
     minPrice: Math.min(...variants.map((v) => v.price)),

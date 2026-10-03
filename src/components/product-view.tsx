@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ChevronRight, CreditCard, Factory, RotateCcw, Truck } from "lucide-react";
@@ -8,7 +7,7 @@ import { categoryById } from "@/lib/categories";
 import { FREE_SHIPPING_FROM, SHIPPING_PL } from "@/lib/shop";
 import { AddToCartBtn } from "./add-to-cart-btn";
 import { ProductCard } from "./product-card";
-import { ProductStage } from "./product-stage";
+import { ProductGallery, type GallerySlide } from "./product-gallery";
 import { ProductSafety } from "./product-safety";
 import { SiteNav } from "./site-nav";
 import { SiteFooter } from "./site-footer";
@@ -30,18 +29,21 @@ export function ProductView({ product, others }: { product: Product; others: Pro
     return () => io.disconnect();
   }, []);
 
-  const variantCutout = variant.image?.startsWith("/products/") ? variant.image : null;
-  const cutout = variantCutout ?? product.cutout;
-  const gallery = cutout ? [cutout, ...product.images] : product.images;
-  const mainImage = gallery[imageIdx] ?? gallery[0];
-  const showStage = imageIdx === 0 && cutout;
+  // Main packshots (e.g. black/white colour variants) replace the first slide;
+  // other variant images (fountain with filters) are slides further in the gallery.
+  const isPrimaryCutout = (src: string | null) => !!src && src.startsWith("/products/") && !src.startsWith("/products/gallery/");
+  const primary = isPrimaryCutout(variant.image) ? variant.image : product.cutout;
+  const slides: GallerySlide[] = [
+    ...(primary ? [{ src: primary, kind: "cutout" as const, width: 1, height: 1 }] : []),
+    ...product.gallery,
+  ];
   const category = categoryById(product.category);
 
   const selectVariant = (v: typeof variant) => {
     setVariant(v);
-    if (v.image?.startsWith("/products/")) return setImageIdx(0);
-    const idx = v.image ? gallery.indexOf(v.image) : -1;
-    if (idx >= 0) setImageIdx(idx);
+    if (isPrimaryCutout(v.image)) return setImageIdx(0);
+    const idx = v.image ? product.gallery.findIndex((s) => s.src === v.image || s.shopifySrc === v.image) : -1;
+    if (idx >= 0) setImageIdx(idx + (primary ? 1 : 0));
   };
 
   const cartImage = product.optionName && variant.image ? variant.image : product.cutout ?? product.images[0];
@@ -73,25 +75,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
 
           <div className="grid lg:grid-cols-[1.1fr_1fr] gap-8 lg:gap-14">
             <div className="min-w-0 lg:sticky lg:top-24 lg:self-start">
-              {showStage ? (
-                <ProductStage src={mainImage} alt={product.name} priority padding="p-[14%]"
-                  radius="rounded-3xl" className="aspect-square border border-white/[0.07]" sizes="(max-width: 1024px) 100vw, 55vw" />
-              ) : (
-                <div className="relative aspect-square rounded-3xl overflow-hidden bg-white">
-                  <Image src={mainImage} alt={product.name} fill priority sizes="(max-width: 1024px) 100vw, 55vw"
-                    className="object-contain p-6" />
-                </div>
-              )}
-              {gallery.length > 1 && (
-                <div className="flex gap-2.5 mt-2 py-1.5 overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-1.5">
-                  {gallery.map((src, i) => (
-                    <button key={src} type="button" onClick={() => setImageIdx(i)} aria-label={`Zdjęcie ${i + 1} z ${gallery.length}`} aria-pressed={i === imageIdx}
-                      className={`relative h-16 w-16 sm:h-20 sm:w-20 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-[border-color,opacity] ${i === 0 && cutout ? "bg-white/[0.06]" : "bg-white"} ${i === imageIdx ? "border-purple-400" : "border-transparent opacity-60 hover:opacity-100"}`}>
-                      <Image src={src} alt="" fill sizes="80px" className="object-contain p-1.5" />
-                    </button>
-                  ))}
-                </div>
-              )}
+              <ProductGallery slides={slides} name={product.name} index={imageIdx} onIndex={setImageIdx} />
             </div>
 
             <div className="min-w-0">
