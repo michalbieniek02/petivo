@@ -94,10 +94,14 @@ function toProduct(p: RawProduct): Product {
 }
 
 export async function getProducts(): Promise<Product[]> {
-  const res = await fetch(`https://${STORE}/products.json?limit=250`, {
-    next: { revalidate: 300 },
-  });
-  if (!res.ok) throw new Error(`Shopify products.json: ${res.status}`);
+  // Shopify rate-limits (429) bursts, which happens when many pages are prerendered at once; retry with backoff.
+  let res: Response | undefined;
+  for (let attempt = 0; attempt < 5; attempt++) {
+    res = await fetch(`https://${STORE}/products.json?limit=250`, { next: { revalidate: 300 } });
+    if (res.ok || (res.status !== 429 && res.status < 500)) break;
+    await new Promise((r) => setTimeout(r, 1000 * 2 ** attempt));
+  }
+  if (!res || !res.ok) throw new Error(`Shopify products.json: ${res?.status}`);
   const { products } = (await res.json()) as { products: RawProduct[] };
   const rank = (h: string) => (ORDER.indexOf(h) === -1 ? ORDER.length : ORDER.indexOf(h));
   return products.map(toProduct).sort((a, b) => rank(a.handle) - rank(b.handle));
