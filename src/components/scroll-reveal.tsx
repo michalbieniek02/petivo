@@ -7,9 +7,11 @@ interface Props {
   delay?: number;
   className?: string;
   from?: "bottom" | "left" | "right" | "scale";
+  as?: "div" | "li";
 }
 
-export function Reveal({ children, delay = 0, className = "", from = "bottom" }: Props) {
+export function Reveal({ children, delay = 0, className = "", from = "bottom", as = "div" }: Props) {
+  const Tag = as === "li" ? motion.li : motion.div;
   const variants = {
     hidden: {
       opacity: 0,
@@ -27,7 +29,7 @@ export function Reveal({ children, delay = 0, className = "", from = "bottom" }:
   };
 
   return (
-    <motion.div
+    <Tag
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-60px" }}
@@ -35,6 +37,6 @@ export function Reveal({ children, delay = 0, className = "", from = "bottom" }:
       className={className}
     >
       {children}
-    </motion.div>
+    </Tag>
   );
 }

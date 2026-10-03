@@ -1,3 +1,5 @@
+import { categoryOf, type CategoryId } from "./categories";
+
 const STORE = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || "ecxva5-gd.myshopify.com";
 
 const ORDER = [
@@ -29,6 +31,7 @@ export interface Product {
   name: string;
   tagline: string;
   vendor: string;
+  category: CategoryId;
   descriptionHtml: string;
   cutout: string | null;
   images: string[];
@@ -41,6 +44,7 @@ interface RawProduct {
   handle: string;
   title: string;
   vendor: string;
+  product_type: string;
   body_html: string;
   options: { name: string }[];
   images: { src: string }[];
@@ -84,6 +88,7 @@ function toProduct(p: RawProduct): Product {
     name,
     tagline: rest.join(" — ").replace(/^./, (c) => c.toUpperCase()),
     vendor: p.vendor,
+    category: categoryOf(p.product_type, name),
     descriptionHtml: p.body_html,
     cutout: CUTOUTS[p.handle] ?? null,
     images: p.images.map((i) => i.src).filter((src) => !localCutout(src)),
