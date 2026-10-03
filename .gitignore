@@ -43,3 +43,11 @@ yarn-error.log*
 next-env.d.ts
 
 .env*
+
+# local AI skills (third-party, not part of the site)
+/.agents/
+/.claude/skills/
+/skills-lock.json
+
+# Vercel local link
+/.vercel/
