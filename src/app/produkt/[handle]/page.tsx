@@ -25,5 +25,8 @@ export default async function ProductPage({ params }: PageProps<"/produkt/[handl
   const product = products.find((p) => p.handle === handle);
   if (!product) notFound();
 
-  return <ProductView product={product} others={products.filter((p) => p.handle !== handle).slice(0, 4)} />;
+  return <ProductView product={product} others={products
+        .filter((p) => p.handle !== handle)
+        .sort((a, b) => Number(b.category === product.category) - Number(a.category === product.category))
+        .slice(0, 4)} />;
 }
