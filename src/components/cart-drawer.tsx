@@ -89,7 +89,7 @@ export function CartDrawer() {
                   {items.map((item) => (
                     <div key={item.variantId} className="flex gap-3 sm:gap-4 rounded-2xl p-3 sm:p-4 surface">
                       <Image src={item.image} alt={item.name} width={72} height={72}
-                        className="h-[72px] w-[72px] object-cover rounded-xl bg-white flex-shrink-0" />
+                        className={`h-[72px] w-[72px] rounded-xl bg-sand flex-shrink-0 ${item.image.startsWith("/products/") ? "object-contain p-1.5" : "object-cover"}`} />
                       <div className="flex-1 min-w-0">
                         <Link href={`/produkt/${item.handle}`} onClick={closeCart}
                           className="block font-semibold text-ink text-sm truncate hover:text-accent-primary-strong transition-colors">

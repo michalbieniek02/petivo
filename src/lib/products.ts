@@ -1,5 +1,5 @@
 import { categoryOf, type CategoryId } from "./categories";
-import { buildGallery, galleryCutout, type Slide } from "./gallery";
+import { buildGallery, firstCutout, galleryCutout, type Slide } from "./gallery";
 
 const STORE = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || "ecxva5-gd.myshopify.com";
 
@@ -41,6 +41,8 @@ export interface Product {
   category: CategoryId;
   descriptionHtml: string;
   cutout: string | null;
+  /** background-free packshot for cards and the homepage (the cut-out above, or the first one in the gallery) */
+  packshot: string | null;
   /** original Shopify photos (for metadata and fallbacks) */
   images: string[];
   /** curated slides for the product page gallery */
@@ -109,6 +111,7 @@ function toProduct(p: RawProduct): Product {
     category: categoryOf(p.product_type, name),
     descriptionHtml: p.body_html,
     cutout: CUTOUTS[p.handle] ?? null,
+    packshot: CUTOUTS[p.handle] ?? firstCutout(p.handle),
     images: p.images.map((i) => i.src).filter((src) => !localCutout(src)),
     gallery: buildGallery(p.handle, p.images.filter((i) => !localCutout(i.src))),
     optionName: hasOptions ? p.options[0]?.name ?? null : null,

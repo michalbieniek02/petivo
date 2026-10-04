@@ -7,46 +7,56 @@ import { Reveal } from "@/components/scroll-reveal";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 import { ProductGrid, type Filter } from "@/components/product-grid";
+import { ProductStage } from "@/components/product-stage";
 import { formatPrice, type Product } from "@/lib/products";
 import { CATEGORIES, type CategoryId } from "@/lib/categories";
 import { FREE_SHIPPING_FROM, SHIPPING_PL } from "@/lib/shop";
-import { ArrowRight, ArrowUpRight, Truck, RotateCcw, ShieldCheck, Lock } from "lucide-react";
+import { ArrowRight, Truck, RotateCcw, ShieldCheck, Lock, Ruler, Plus } from "lucide-react";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
 
-/** Hero photos, in this order (products without a scene photo are skipped). */
-const HERO_HANDLES = [
-  "legowisko-donut-puszyste",
-  "legowisko-domek-dla-kota",
-  "legowisko-pianka-3d-zmywalna-poszewka",
-  "pokrowiec-samochodowy-dla-psa",
+/** Hero scene: the cat house and the dog bed, side by side. */
+const HERO_CAT = "legowisko-domek-dla-kota";
+const HERO_DOG = "legowisko-pianka-3d-zmywalna-poszewka";
+
+/** Two packshots per category tile (first one is the larger). */
+const CATEGORY_PIECES: Record<CategoryId, string[]> = {
+  legowiska: ["legowisko-donut-puszyste", "legowisko-domek-dla-kota"],
+  spacer: ["szelki-ze-smycza-dla-malego-psa", "skladana-miska-podrozna"],
+  zabawa: ["mata-wechowa-dla-psa", "drapak-tekturowy-dla-kota"],
+  akcesoria: [],
+};
+
+const CATEGORY_STYLE: Record<CategoryId, { tile: string; blurb: string }> = {
+  legowiska: { tile: "bg-accent-primary/15", blurb: "Puszyste donuty, płaskie z pianki i domki do chowania się" },
+  spacer: { tile: "bg-accent-secondary/20", blurb: "Szelki ze smyczą, składana miska i ochrona kanapy w aucie" },
+  zabawa: { tile: "bg-neutral-warm/40", blurb: "Maty węchowe, mata do lizania i drapak z tektury" },
+  akcesoria: { tile: "bg-sand", blurb: "" },
+};
+
+/** Bed chooser: one row per bed type, facts taken from the product descriptions. */
+const BED_TYPES = [
+  { handle: "legowisko-donut-puszyste", who: "Śpi zwinięty w kłębek", facts: ["Podwyższony brzeg do oparcia głowy", "Średnica 40, 50, 60 lub 70 cm"] },
+  { handle: "legowisko-pianka-3d-zmywalna-poszewka", who: "Lubi się wyciągnąć", facts: ["Zdejmowana, zmywalna poszewka", "Antypoślizgowy spód, rozmiary M–XXL"] },
+  { handle: "legowisko-domek-dla-kota", who: "Szuka kryjówki", facts: ["Półzamknięta konstrukcja z wejściem", "Rozmiary M 33 cm i XL 39–40 cm"] },
 ];
 
-/** Preferred photo for each category tile. */
-const CATEGORY_COVER: Partial<Record<CategoryId, string>> = {
-  legowiska: "legowisko-pianka-3d-zmywalna-poszewka",
-  spacer: "szelki-ze-smycza-dla-malego-psa",
-  zabawa: "mata-wechowa-dla-psa",
-};
-
-const CATEGORY_BLURB: Partial<Record<CategoryId, string>> = {
-  legowiska: "Puszyste, z pianki i domki do chowania się",
-  spacer: "Szelki, miska na wyjazd i ochrona kanapy w aucie",
-  zabawa: "Maty węchowe, do lizania i drapak",
-};
+/** Real-life photos for the "Na co dzień" mosaic (Shopify file-name prefixes). */
+const MOMENTS: { handle: string; key: string }[] = [
+  { handle: "legowisko-pianka-3d-zmywalna-poszewka", key: "Sbdd5ea6bddee4f2" },
+  { handle: "legowisko-domek-dla-kota", key: "Scba01f9f59d2436" },
+  { handle: "szelki-ze-smycza-dla-malego-psa", key: "S9f010bf11356484" },
+  { handle: "mata-wechowa-dla-psa", key: "Sa952da7a93b1488" },
+  { handle: "drapak-tekturowy-dla-kota", key: "Sa47decf069a1481" },
+  { handle: "pokrowiec-samochodowy-dla-psa", key: "Sb6123774f3bc404" },
+];
 
 const promises = [
   { icon: Truck,       title: `Darmowa dostawa od ${FREE_SHIPPING_FROM} zł`, desc: `W Polsce, poniżej tej kwoty ${SHIPPING_PL} zł` },
   { icon: RotateCcw,   title: "14 dni na zwrot",       desc: "Bez podawania przyczyny" },
   { icon: ShieldCheck, title: "2 lata na reklamację",  desc: "Zgodnie z prawem konsumenckim" },
   { icon: Lock,        title: "Bezpieczna płatność",   desc: "Karta lub PayPal przez Shopify" },
-];
-
-const sizingSteps = [
-  { t: "Zmierz pupila",            d: "Zmierz długość od nosa do nasady ogona, gdy pupil leży wyciągnięty, oraz jego średnicę, gdy śpi zwinięty w kłębek." },
-  { t: "Wybierz rodzaj legowiska", d: "Okrągłe i puszyste dla tych, co się zwijają. Płaskie z pianki dla tych, co się wyciągają. Domek dla kotów, które lubią kryjówki." },
-  { t: "Dodaj kilka centymetrów",  d: "Wybierz rozmiar o kilka centymetrów większy. Wymiary w opisach są przybliżone (1–3 cm różnicy), a w razie wątpliwości napisz do nas." },
 ];
 
 const faqs = [
@@ -68,25 +78,53 @@ function SectionHeading({ eyebrow, title, children, center = false }: { eyebrow:
   );
 }
 
-const photoOf = (p: Product) => p.gallery.find((g) => g.kind === "photo");
+function plural(n: number, one: string, few: string, many: string) {
+  if (n === 1) return `${n} ${one}`;
+  const isFew = n % 10 >= 2 && n % 10 <= 4 && !(n % 100 >= 12 && n % 100 <= 14);
+  return `${n} ${isFew ? few : many}`;
+}
+
+/** Price tag pinned to a product in the hero scene. */
+function SceneTag({ product, label, className }: { product: Product; label: string; className: string }) {
+  return (
+    <Link href={`/produkt/${product.handle}`}
+      className={`group absolute z-20 inline-flex items-center gap-2.5 rounded-full bg-card/95 backdrop-blur border border-neutral-warm/70 pl-3.5 pr-1.5 py-1.5 shadow-[0_12px_30px_-16px_rgba(13,43,82,0.6)] hover:border-accent-primary transition-colors ${className}`}>
+      <span className="leading-tight">
+        <span className="block text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-accent-secondary-strong">{label}</span>
+        <span className="block text-sm font-semibold text-ink">od {formatPrice(product.minPrice)}</span>
+      </span>
+      <span className="h-8 w-8 shrink-0 rounded-full bg-accent-primary-strong text-white flex items-center justify-center group-hover:bg-ink transition-colors">
+        <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+      </span>
+    </Link>
+  );
+}
 
 export function Landing({ products }: { products: Product[] }) {
   const [category, setCategory] = useState<Filter>("all");
+  const byHandle = (h: string) => products.find((p) => p.handle === h);
 
-  const withPhoto = (handles: string[]) => handles.map((h) => products.find((p) => p.handle === h)).filter((p): p is Product => !!p && !!photoOf(p));
-  const hero = [...withPhoto(HERO_HANDLES), ...products.filter((p) => !HERO_HANDLES.includes(p.handle) && photoOf(p))].slice(0, 2);
+  const cat = byHandle(HERO_CAT), dog = byHandle(HERO_DOG);
+  const scene = cat?.packshot && dog?.packshot ? { cat, dog } : null;
 
   const categories = CATEGORIES.map((c) => {
     const inCat = products.filter((p) => p.category === c.id);
     if (!inCat.length) return null;
-    const preferred = inCat.find((p) => p.handle === CATEGORY_COVER[c.id] && photoOf(p)) ?? inCat.find((p) => photoOf(p));
-    return { ...c, count: inCat.length, from: Math.min(...inCat.map((p) => p.minPrice)), cover: preferred ? photoOf(preferred)!.src : null };
+    const pieces = CATEGORY_PIECES[c.id].map(byHandle).filter((p): p is Product => !!p?.packshot);
+    return { ...c, count: inCat.length, from: Math.min(...inCat.map((p) => p.minPrice)), pieces, style: CATEGORY_STYLE[c.id] };
   }).filter((x) => x !== null);
 
-  // a photo not already used in the hero, for the closing block
-  const ctaPhoto = products.filter((p) => !hero.includes(p)).map(photoOf).find(Boolean)?.src ?? null;
+  const beds = BED_TYPES.map((b) => ({ ...b, product: byHandle(b.handle) })).filter((b) => b.product?.packshot);
+
+  const moments = MOMENTS.map(({ handle, key }) => {
+    const p = byHandle(handle);
+    const slide = p?.gallery.find((g) => g.shopifySrc?.includes(key));
+    return p && slide ? { product: p, src: slide.src } : null;
+  }).filter((x) => x !== null);
 
   const cheapest = products.length ? Math.min(...products.map((p) => p.minPrice)) : null;
+  const ctaPiece = byHandle("legowisko-donut-puszyste")?.gallery.find((g) => g.kind === "cutout" && g.src.includes("S68613391656744c"))?.src
+    ?? byHandle("legowisko-donut-puszyste")?.packshot ?? null;
 
   const pickCategory = (id: Filter) => {
     setCategory(id);
@@ -101,15 +139,15 @@ export function Landing({ products }: { products: Product[] }) {
 
       {/* ─── HERO ─── */}
       <section className="grain relative overflow-hidden pt-24 pb-14 sm:pt-32 sm:pb-20 lg:pt-36 lg:pb-24 px-4 sm:px-6">
-        <div className="relative max-w-6xl mx-auto grid lg:grid-cols-[1.05fr_1fr] gap-12 lg:gap-16 items-center">
+        <div className="relative max-w-6xl mx-auto grid lg:grid-cols-[0.95fr_1.05fr] gap-10 lg:gap-12 items-center">
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
             <p className="eyebrow mb-5 sm:mb-6">Legowiska · spacer · zabawa</p>
-            <h1 className="text-[2.6rem] leading-[1.02] min-[400px]:text-5xl sm:text-6xl lg:text-[4.6rem]">
+            <h1 className="text-[2.6rem] leading-[1.02] min-[400px]:text-5xl sm:text-6xl lg:text-[4.4rem]">
               Miękko w domu<span className="font-sans font-normal">,</span>{" "}
               <span className="accent-script">dobrze na&nbsp;spacerze</span>
             </h1>
             <p className="text-base sm:text-lg text-ink/80 max-w-md mt-6 leading-relaxed">
-              Puszyste legowiska, maty do zabawy i akcesoria na spacery i w podróż — dla psa i kota.
+              Legowiska dla kota i psa, maty do zabawy i akcesoria na spacery i w podróż.
               Opisy po polsku i dane producenta przy każdym produkcie.
             </p>
 
@@ -131,33 +169,33 @@ export function Landing({ products }: { products: Product[] }) {
             )}
           </motion.div>
 
-          {/* two real product photos: a tall arch and a smaller rounded card, each linking to its product */}
-          {hero.length === 2 && (
+          {/* scene: the cat house and the dog bed, cut out, side by side on one floor */}
+          {scene && (
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="relative mx-auto w-full max-w-[30rem] lg:max-w-none">
-              <div aria-hidden="true" className="absolute -right-6 top-6 h-40 w-40 sm:h-56 sm:w-56 rounded-full bg-neutral-warm/45" />
-              <Link href={`/produkt/${hero[0].handle}`}
-                className="group relative block ml-auto w-[78%] aspect-[4/5] overflow-hidden rounded-t-[999px] rounded-b-[2rem] bg-sand shadow-[0_40px_80px_-40px_rgba(27,54,68,0.55)]">
-                <Image src={photoOf(hero[0])!.src} alt={hero[0].name} fill priority sizes="(max-width: 1024px) 80vw, 36vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+              className="relative mx-auto w-full max-w-[34rem] lg:max-w-none aspect-[1/1] sm:aspect-[10/9]">
+              {/* backdrop arch, sun and a small sage moon */}
+              <div aria-hidden="true" className="absolute inset-x-[3%] top-[2%] bottom-[9%] rounded-t-[999px] rounded-b-[2.5rem]"
+                style={{ background: "linear-gradient(180deg, #F8EBDD 0%, rgba(217,158,115,0.5) 100%)" }} />
+              <div aria-hidden="true" className="absolute right-[12%] top-[10%] w-[19%] aspect-square rounded-full bg-accent-primary/90" />
+              <div aria-hidden="true" className="absolute left-[20%] top-[14%] w-[6%] aspect-square rounded-full bg-accent-secondary/70" />
+              {/* contact shadows */}
+              <div aria-hidden="true" className="absolute left-[9%] bottom-[11%] w-[42%] h-[6%] rounded-[50%] bg-ink/30 blur-xl" />
+              <div aria-hidden="true" className="absolute right-[5%] bottom-[10%] w-[44%] h-[6%] rounded-[50%] bg-ink/25 blur-xl" />
+
+              <Link href={`/produkt/${scene.cat.handle}`} aria-label={scene.cat.name}
+                className="absolute left-[6%] bottom-[12%] w-[49%] aspect-[1.05] transition-transform duration-500 hover:-translate-y-1">
+                <Image src={scene.cat.packshot!} alt={scene.cat.name} fill priority sizes="(max-width: 1024px) 50vw, 28vw"
+                  className="object-contain object-bottom drop-shadow-[0_18px_22px_rgba(13,43,82,0.22)]" />
               </Link>
-              <Link href={`/produkt/${hero[1].handle}`}
-                className="group absolute left-0 bottom-[-6%] w-[46%] rounded-[1.5rem] bg-card p-2 shadow-[0_30px_60px_-30px_rgba(27,54,68,0.6)] rotate-[-3deg] hover:rotate-0 transition-transform duration-300">
-                <span className="relative block aspect-square overflow-hidden rounded-[1.1rem] bg-sand">
-                  <Image src={photoOf(hero[1])!.src} alt={hero[1].name} fill sizes="(max-width: 1024px) 45vw, 20vw" className="object-cover" />
-                </span>
-                <span className="flex items-center justify-between gap-2 px-1.5 pt-2 pb-0.5">
-                  <span className="min-w-0">
-                    <span className="block text-xs font-semibold text-ink truncate">{hero[1].name}</span>
-                    <span className="block text-xs text-ink/75 tabular-nums">od {formatPrice(hero[1].minPrice)}</span>
-                  </span>
-                  <ArrowUpRight className="h-4 w-4 shrink-0 text-accent-primary-strong" aria-hidden="true" />
-                </span>
+              <Link href={`/produkt/${scene.dog.handle}`} aria-label={scene.dog.name}
+                className="absolute right-[3%] bottom-[11%] z-10 w-[46%] aspect-[1.55] transition-transform duration-500 hover:-translate-y-1">
+                <Image src={scene.dog.packshot!} alt={scene.dog.name} fill priority sizes="(max-width: 1024px) 50vw, 26vw"
+                  className="object-contain object-bottom drop-shadow-[0_18px_22px_rgba(13,43,82,0.22)]" />
               </Link>
-              <span className="absolute right-6 bottom-4 hidden sm:inline-flex rounded-full bg-ink text-background px-4 py-2 text-xs font-semibold shadow-lg">
-                {hero[0].name.split(" — ")[0]} · od {formatPrice(hero[0].minPrice)}
-              </span>
+
+              <SceneTag product={scene.cat} label="Dla kota" className="left-[2%] bottom-0" />
+              <SceneTag product={scene.dog} label="Dla psa" className="right-[2%] bottom-0" />
             </motion.div>
           )}
         </div>
@@ -171,7 +209,7 @@ export function Landing({ products }: { products: Product[] }) {
               <Icon className="h-5 w-5 mt-0.5 shrink-0 text-neutral-warm" aria-hidden="true" />
               <span>
                 <span className="block text-sm font-semibold text-background">{title}</span>
-                <span className="block text-xs text-background/75 mt-0.5 leading-relaxed">{desc}</span>
+                <span className="block text-xs text-background/80 mt-0.5 leading-relaxed">{desc}</span>
               </span>
             </li>
           ))}
@@ -182,27 +220,32 @@ export function Landing({ products }: { products: Product[] }) {
       {categories.length > 1 && (
         <section className="pt-16 sm:pt-24 px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
-            <Reveal className="mb-8 sm:mb-10 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+            <Reveal className="mb-8 sm:mb-10">
               <SectionHeading eyebrow="Kategorie" title={<>Czego <span className="accent-script">szukasz?</span></>} />
             </Reveal>
             <ul className={`grid gap-4 sm:gap-5 ${categories.length >= 3 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
               {categories.map((c, i) => (
                 <Reveal as="li" key={c.id} delay={i * 0.06}>
                   <button type="button" onClick={() => pickCategory(c.id)}
-                    className="group relative block w-full text-left overflow-hidden rounded-[1.75rem] bg-sand aspect-[4/3] md:aspect-[3/4]">
-                    {c.cover && (
-                      <Image src={c.cover} alt="" fill sizes="(max-width: 768px) 100vw, 33vw"
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]" />
-                    )}
-                    <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/45 to-transparent" />
-                    <span className="absolute inset-x-0 bottom-0 p-5 sm:p-6 text-background">
-                      <span className="block font-display text-2xl sm:text-3xl leading-tight">{c.label}</span>
-                      {CATEGORY_BLURB[c.id] && <span className="block text-sm text-background/85 mt-1.5">{CATEGORY_BLURB[c.id]}</span>}
-                      <span className="mt-4 flex items-center justify-between gap-3">
-                        <span className="text-sm text-background/90">{c.count} {c.count === 1 ? "produkt" : c.count < 5 ? "produkty" : "produktów"} · od {formatPrice(c.from)}</span>
-                        <span className="h-10 w-10 shrink-0 rounded-full bg-accent-primary-strong text-white flex items-center justify-center group-hover:bg-background group-hover:text-ink transition-colors">
-                          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                    className={`group relative flex w-full flex-col text-left overflow-hidden rounded-[2rem] ${c.style.tile} aspect-[4/5] min-[480px]:aspect-[5/4] md:aspect-[4/5] p-6 sm:p-7`}>
+                    <span className="relative z-10 block font-display text-[1.75rem] sm:text-3xl leading-tight text-ink">{c.label}</span>
+                    {c.style.blurb && <span className="relative z-10 block text-sm text-ink/80 mt-1.5 max-w-[17rem]">{c.style.blurb}</span>}
+                    <span className="relative flex-1 mt-3">
+                      {c.pieces[0] && (
+                        <span className="absolute left-0 bottom-0 h-full w-[60%] transition-transform duration-500 group-hover:-translate-y-1.5 group-hover:-rotate-2">
+                          <Image src={c.pieces[0].packshot!} alt="" fill sizes="(max-width: 768px) 55vw, 20vw" className="object-contain object-bottom drop-shadow-[0_14px_16px_rgba(13,43,82,0.2)]" />
                         </span>
+                      )}
+                      {c.pieces[1] && (
+                        <span className="absolute right-0 bottom-0 h-[78%] w-[46%] transition-transform duration-500 delay-75 group-hover:-translate-y-1 group-hover:rotate-2">
+                          <Image src={c.pieces[1].packshot!} alt="" fill sizes="(max-width: 768px) 45vw, 15vw" className="object-contain object-bottom drop-shadow-[0_14px_16px_rgba(13,43,82,0.2)]" />
+                        </span>
+                      )}
+                    </span>
+                    <span className="relative z-10 mt-2 flex items-center justify-between gap-3">
+                      <span className="text-sm font-medium text-ink">{plural(c.count, "produkt", "produkty", "produktów")} · od {formatPrice(c.from)}</span>
+                      <span className="h-11 w-11 shrink-0 rounded-full bg-ink text-background flex items-center justify-center group-hover:bg-accent-primary-strong transition-colors">
+                        <ArrowRight className="h-4 w-4" aria-hidden="true" />
                       </span>
                     </span>
                   </button>
@@ -225,34 +268,92 @@ export function Landing({ products }: { products: Product[] }) {
         </div>
       </section>
 
-      {/* ─── SIZING GUIDE ─── */}
+      {/* ─── BED CHOOSER + SIZING ─── */}
       <section id="jak-wybrac" className="on-sand grain bg-sand py-16 sm:py-24 px-4 sm:px-6 scroll-mt-16">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-16">
-          <Reveal className="lg:sticky lg:top-28 lg:self-start">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="mb-10 sm:mb-12">
             <SectionHeading eyebrow="Poradnik" title={<>Jak dobrać <span className="accent-script">legowisko</span></>}>
-              Dobrze dobrany rozmiar to połowa wygody. Trzy proste kroki, zanim klikniesz „Dodaj do koszyka”.
+              Zacznij od tego, jak Twój pupil śpi. Potem dobierz rozmiar z kilkucentymetrowym zapasem.
             </SectionHeading>
-            <Link href="#kolekcja" onClick={() => setCategory(categories.some((c) => c.id === "legowiska") ? "legowiska" : "all")}
-              className="btn-primary min-h-12 px-6 mt-8 inline-flex items-center gap-2 text-sm">
-              Zobacz legowiska <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
           </Reveal>
-          <ol className="space-y-4">
-            {sizingSteps.map(({ t, d }, i) => (
-              <Reveal as="li" key={t} delay={i * 0.08} className="flex gap-5 sm:gap-7 rounded-[1.75rem] bg-card/80 border border-neutral-warm/55 p-6 sm:p-8">
-                <span aria-hidden="true" className="w-9 sm:w-11 shrink-0 text-center font-display italic text-5xl sm:text-6xl leading-none text-accent-primary-strong tabular-nums">{i + 1}</span>
+
+          {beds.length > 0 && (
+            <ol className="grid gap-4 sm:gap-5 md:grid-cols-3">
+              {beds.map((b, i) => (
+                <Reveal as="li" key={b.handle} delay={i * 0.06} className="h-full">
+                  <Link href={`/produkt/${b.handle}`} className="group flex h-full flex-col rounded-[2rem] bg-card border border-neutral-warm/60 p-3 hover:shadow-[0_28px_56px_-34px_rgba(13,43,82,0.55)] transition-shadow">
+                    <ProductStage src={b.product!.packshot!} alt={b.product!.name} className="aspect-[4/3]" sizes="(max-width: 768px) 100vw, 33vw" padding="p-[10%]" />
+                    <div className="flex flex-1 flex-col px-3 pb-3 pt-5">
+                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-primary-strong">{b.who}</p>
+                      <h3 className="text-2xl text-ink mt-2 leading-tight">{b.product!.name}</h3>
+                      <ul className="mt-3 space-y-1.5 text-sm text-ink/80">
+                        {b.facts.map((f) => (
+                          <li key={f} className="flex gap-2"><span aria-hidden="true" className="mt-[0.55rem] h-1.5 w-1.5 shrink-0 rounded-full bg-accent-secondary" />{f}</li>
+                        ))}
+                      </ul>
+                      <span className="mt-auto pt-5 flex items-center justify-between">
+                        <span className="font-display text-2xl text-ink tabular-nums"><span className="font-sans text-xs font-semibold text-ink/75 mr-1">od</span>{formatPrice(b.product!.minPrice)}</span>
+                        <span className="h-11 w-11 rounded-full bg-accent-primary/15 text-accent-primary-strong flex items-center justify-center group-hover:bg-accent-primary-strong group-hover:text-white transition-colors">
+                          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                        </span>
+                      </span>
+                    </div>
+                  </Link>
+                </Reveal>
+              ))}
+            </ol>
+          )}
+
+          <div className="grid gap-4 sm:gap-5 md:grid-cols-2 mt-4 sm:mt-5">
+            {[
+              { icon: Ruler, t: "Zmierz pupila", d: "Długość od nosa do nasady ogona, gdy leży wyciągnięty, i średnicę, gdy śpi zwinięty w kłębek." },
+              { icon: Plus, t: "Dodaj kilka centymetrów", d: "Wybierz rozmiar z zapasem. Wymiary w opisach są przybliżone (1–3 cm różnicy), a w razie wątpliwości napisz do nas." },
+            ].map(({ icon: Icon, t, d }, i) => (
+              <Reveal key={t} delay={0.1 + i * 0.06} className="flex gap-4 rounded-[1.75rem] bg-card/70 border border-neutral-warm/60 p-6">
+                <span className="h-11 w-11 shrink-0 rounded-full bg-ink text-background flex items-center justify-center">
+                  <Icon className="h-5 w-5" aria-hidden="true" />
+                </span>
                 <div>
-                  <h3 className="text-2xl text-ink">{t}</h3>
-                  <p className="text-sm sm:text-base text-ink/80 leading-relaxed mt-2">{d}</p>
+                  <h3 className="text-xl text-ink">{t}</h3>
+                  <p className="text-sm sm:text-base text-ink/80 leading-relaxed mt-1">{d}</p>
                 </div>
               </Reveal>
             ))}
-          </ol>
+          </div>
         </div>
       </section>
 
+      {/* ─── EVERYDAY MOMENTS (real photos) ─── */}
+      {moments.length >= 4 && (
+        <section className="py-16 sm:py-24 px-4 sm:px-6">
+          <div className="max-w-6xl mx-auto">
+            <Reveal className="mb-8 sm:mb-10">
+              <SectionHeading eyebrow="Na co dzień" title={<>Z pupilem <span className="accent-script">w domu i w drodze</span></>}>
+                Zdjęcia produktów w użyciu, od producentów. Kliknij, żeby przejść do produktu.
+              </SectionHeading>
+            </Reveal>
+            <ul className="grid grid-cols-2 md:grid-cols-4 auto-rows-[10rem] sm:auto-rows-[13rem] gap-3 sm:gap-4">
+              {moments.map((m, i) => (
+                <Reveal as="li" key={m.product.handle} delay={Math.min(i, 4) * 0.05}
+                  className={i === 0 ? "col-span-2 row-span-2" : i >= 3 ? "col-span-2" : ""}>
+                  <Link href={`/produkt/${m.product.handle}`} className="group relative block h-full overflow-hidden rounded-[1.5rem] bg-sand">
+                    <Image src={m.src} alt={m.product.name} fill sizes={i === 0 ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 50vw, 25vw"}
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]" />
+                    <span className="absolute left-3 bottom-3 right-3 sm:left-4 sm:bottom-4 inline-flex">
+                      <span className="max-w-full truncate rounded-full bg-background/95 px-3 py-1.5 text-xs sm:text-sm font-semibold text-ink shadow-sm group-hover:bg-accent-primary-strong group-hover:text-white transition-colors">
+                        {m.product.name}
+                      </span>
+                    </span>
+                  </Link>
+                </Reveal>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
       {/* ─── FAQ ─── */}
-      <section id="faq" className="py-16 sm:py-24 px-4 sm:px-6 scroll-mt-16">
+      <section id="faq" className="py-16 sm:py-24 px-4 sm:px-6 scroll-mt-16 border-t border-neutral-warm/55">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-[0.8fr_1.2fr] gap-8 lg:gap-16">
           <Reveal>
             <SectionHeading eyebrow="FAQ" title={<>Masz <span className="accent-script">pytania?</span></>}>
@@ -293,11 +394,11 @@ export function Landing({ products }: { products: Product[] }) {
                 Zobacz produkty <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
-            {ctaPhoto && (
-              <div aria-hidden="true" className="relative hidden lg:block">
-                <div className="absolute -right-10 -bottom-24 h-72 w-72 rounded-full bg-accent-primary" />
-                <div className="relative ml-auto w-[78%] aspect-[4/5] overflow-hidden rounded-t-[999px] rounded-b-[1.5rem] border-4 border-background/15">
-                  <Image src={ctaPhoto} alt="" fill sizes="30vw" className="object-cover" />
+            {ctaPiece && (
+              <div aria-hidden="true" className="relative hidden lg:block h-full min-h-[18rem]">
+                <div className="absolute right-[4%] top-1/2 -translate-y-1/2 w-[86%] aspect-square rounded-full bg-accent-primary" />
+                <div className="absolute right-[10%] top-1/2 -translate-y-[46%] w-[74%] aspect-square">
+                  <Image src={ctaPiece} alt="" fill sizes="30vw" className="object-contain drop-shadow-[0_24px_30px_rgba(0,0,0,0.35)]" />
                 </div>
               </div>
             )}

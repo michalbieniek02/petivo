@@ -74,7 +74,7 @@ export function ProductGrid({ products, category: controlled, onCategory }: Prop
         </label>
       </div>
 
-      <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite">
+      <div className="grid gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite">
         {visible.map((p, i) => {
           const featured = showFeatured && i === 0;
           return (

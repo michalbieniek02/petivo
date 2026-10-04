@@ -5,52 +5,81 @@ import { Product, formatPrice } from "@/lib/products";
 import { categoryById } from "@/lib/categories";
 import { ProductStage } from "./product-stage";
 
-function variantsLabel(n: number) {
-  const few = n % 10 >= 2 && n % 10 <= 4 && !(n % 100 >= 12 && n % 100 <= 14);
-  return `${n} ${few ? "warianty" : "wariantów"}`;
+/** Polish plural: 1 kolor, 2–4 kolory, 5+ kolorów (12–14 also "kolorów"). */
+function plural(n: number, one: string, few: string, many: string) {
+  if (n === 1) return `${n} ${one}`;
+  const isFew = n % 10 >= 2 && n % 10 <= 4 && !(n % 100 >= 12 && n % 100 <= 14);
+  return `${n} ${isFew ? few : many}`;
+}
+
+/** Number of colours, when the product has a colour option. */
+function coloursOf(product: Product) {
+  const opt = product.options.find((o) => /kolor/i.test(o.name));
+  return opt ? opt.values.length : 0;
 }
 
 export function ProductCard({ product, featured = false }: { product: Product; featured?: boolean }) {
   const hasVariants = product.variants.length > 1;
   const category = categoryById(product.category);
   const cover = product.gallery.find((g) => g.kind !== "cutout");
-  const frame = featured ? "aspect-[4/3] sm:aspect-square lg:aspect-auto lg:h-full lg:min-h-[26rem]" : "aspect-square sm:aspect-[4/5]";
-  const sizes = featured ? "(max-width: 1024px) 100vw, 40vw" : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
+  const colours = coloursOf(product);
+  const variantsNote = colours > 1 ? plural(colours, "kolor", "kolory", "kolorów") : plural(product.variants.length, "wariant", "warianty", "wariantów");
+  const frame = featured ? "aspect-[4/3] sm:aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[28rem]" : "aspect-square";
+  const sizes = featured ? "(max-width: 1024px) 100vw, 45vw" : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
 
-  const visual = product.cutout ? (
-    <ProductStage src={product.cutout} alt={product.name} className={frame} sizes={sizes} />
+  const visual = product.packshot ? (
+    <ProductStage src={product.packshot} alt={product.name} className={frame} sizes={sizes} padding={featured ? "p-[14%]" : "p-[13%]"} />
   ) : cover ? (
-    <div className={`relative overflow-hidden rounded-[1.25rem] ${frame} ${cover.kind === "photo" ? "bg-sand" : "bg-white"}`}>
-      <Image src={cover.src} alt={product.name} fill sizes={sizes}
-        className={`transition-transform duration-700 ease-out group-hover:scale-[1.04] ${cover.kind === "photo" ? "object-cover" : "object-contain p-5"}`} />
+    <div className={`relative overflow-hidden rounded-[1.5rem] bg-sand ${frame}`}>
+      <Image src={cover.src} alt={product.name} fill sizes={sizes} className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]" />
     </div>
-  ) : (
-    <div className={`relative overflow-hidden rounded-[1.25rem] bg-white ${frame}`}>
-      <Image src={product.images[0]} alt={product.name} fill sizes={sizes} className="object-contain p-6" />
-    </div>
-  );
+  ) : null;
+
+  if (featured) {
+    return (
+      <Link href={`/produkt/${product.handle}`}
+        className="group relative grid lg:grid-cols-[1.15fr_1fr] h-full overflow-hidden rounded-[2rem] bg-card border border-neutral-warm/55 hover:shadow-[0_30px_60px_-36px_rgba(13,43,82,0.55)] transition-shadow duration-300">
+        <div className="relative p-2.5 lg:p-3">{visual}</div>
+        <div className="flex flex-col justify-center px-6 pb-7 pt-4 lg:px-10 lg:py-10">
+          <p className="inline-flex self-start rounded-full bg-badge-deep px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-white">Polecamy na start</p>
+          <h3 className="text-3xl lg:text-[2.6rem] leading-[1.05] text-ink mt-4">{product.name}</h3>
+          <p className="text-ink/75 text-base lg:text-lg leading-snug mt-3">{product.tagline}</p>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-3 mt-7">
+            <span className="font-display text-3xl text-ink tabular-nums">
+              {hasVariants && <span className="font-sans text-sm font-semibold text-ink/75 mr-1.5">od</span>}
+              {formatPrice(product.minPrice)}
+            </span>
+            <span className="btn-primary min-h-11 px-5 inline-flex items-center gap-1.5 text-sm">
+              Zobacz <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
+            </span>
+          </div>
+          {hasVariants && <p className="mt-4 text-sm text-accent-secondary-strong">{variantsNote} do wyboru</p>}
+        </div>
+      </Link>
+    );
+  }
 
   return (
-    <Link href={`/produkt/${product.handle}`}
-      className={`group relative surface rounded-[1.75rem] p-2.5 h-full flex hover:border-ink/30 hover:shadow-[0_24px_48px_-28px_rgba(27,54,68,0.45)] transition-[border-color,box-shadow] duration-300 ${featured ? "flex-col lg:flex-row lg:items-stretch" : "flex-col"}`}>
-      <span className="absolute top-5 left-5 z-10 rounded-full bg-background/95 px-3 py-1 text-xs font-semibold text-accent-primary-strong backdrop-blur">
-        {category.singular}
-      </span>
-      <div className={featured ? "lg:w-[55%]" : ""}>{visual}</div>
-      <div className={`flex flex-col flex-1 px-3 pb-3 pt-5 ${featured ? "lg:px-10 lg:py-10 lg:justify-center" : ""}`}>
-        {featured && <p className="mb-3 inline-flex self-start rounded-full bg-badge-deep px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-white">Polecamy na start</p>}
-        <h3 className={`text-ink leading-tight ${featured ? "text-2xl lg:text-4xl" : "text-xl"}`}>{product.name}</h3>
-        <p className={`text-ink/75 leading-snug mt-2 ${featured ? "text-base lg:text-lg" : "text-sm"}`}>{product.tagline}</p>
-        {hasVariants && <p className="mt-2 text-xs font-medium text-accent-secondary-strong">{variantsLabel(product.variants.length)}</p>}
-        <div className={`flex items-center justify-between gap-4 mt-auto pt-5 ${featured ? "lg:mt-8 lg:pt-0" : ""}`}>
-          <div className={`font-display text-ink tabular-nums ${featured ? "text-3xl" : "text-2xl"}`}>
-            {hasVariants && <span className="text-xs font-sans font-semibold text-ink/70 mr-1.5">od</span>}
+    <Link href={`/produkt/${product.handle}`} className="group flex h-full flex-col rounded-[1.5rem] focus-visible:outline-offset-4">
+      <div className="relative">
+        {visual}
+        <span className="absolute top-3.5 left-3.5 z-10 rounded-full bg-background/95 px-3 py-1 text-xs font-semibold text-accent-primary-strong">
+          {category.singular}
+        </span>
+        <span aria-hidden="true"
+          className="absolute bottom-3.5 right-3.5 z-10 h-11 w-11 rounded-full bg-background text-ink flex items-center justify-center shadow-sm transition-colors group-hover:bg-accent-primary-strong group-hover:text-white">
+          <ArrowRight className="h-4 w-4" />
+        </span>
+      </div>
+      <div className="flex flex-1 flex-col px-1 pt-4">
+        <h3 className="text-xl leading-tight text-ink group-hover:text-accent-primary-strong transition-colors">{product.name}</h3>
+        <p className="text-sm text-ink/75 leading-snug mt-1.5">{product.tagline}</p>
+        <div className="mt-auto pt-3 flex items-baseline justify-between gap-3">
+          <span className="font-display text-2xl text-ink tabular-nums">
+            {hasVariants && <span className="font-sans text-xs font-semibold text-ink/75 mr-1">od</span>}
             {formatPrice(product.minPrice)}
-          </div>
-          <span className={`inline-flex items-center gap-1.5 text-sm font-semibold transition-colors ${featured ? "btn-primary min-h-11 px-5 py-2.5" : "h-10 w-10 justify-center rounded-full bg-accent-primary/15 text-accent-primary-strong group-hover:bg-accent-primary-strong group-hover:text-white"}`}>
-            {featured ? "Zobacz" : <span className="sr-only">Zobacz</span>}
-            <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
           </span>
+          {hasVariants && <span className="text-xs font-medium text-accent-secondary-strong">{variantsNote}</span>}
         </div>
       </div>
     </Link>

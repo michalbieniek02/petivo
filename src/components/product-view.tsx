@@ -65,7 +65,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
     if (next) selectVariant(next);
   };
 
-  const cartImage = product.optionName && variant.image ? variant.image : product.cutout ?? product.images[0];
+  const cartImage = product.optionName && variant.image ? variant.image : product.packshot ?? product.images[0];
   const cartItem = {
     variantId: variant.id,
     handle: product.handle,
