@@ -34,13 +34,9 @@ jobs:
         run: |
           umask 077
           : > .next/standalone/.env.production
-          [ -n "$RESEND_API_KEY" ] && printf 'RESEND_API_KEY=%s
-' "$RESEND_API_KEY" >> .next/standalone/.env.production
-          [ -n "$CONTACT_TO" ] && printf 'CONTACT_TO=%s
-' "$CONTACT_TO" >> .next/standalone/.env.production
-          [ -n "$CONTACT_FROM" ] && printf 'CONTACT_FROM=%s
-' "$CONTACT_FROM" >> .next/standalone/.env.production
-          true
+          if [ -n "$RESEND_API_KEY" ]; then echo "RESEND_API_KEY=$RESEND_API_KEY" >> .next/standalone/.env.production; fi
+          if [ -n "$CONTACT_TO" ]; then echo "CONTACT_TO=$CONTACT_TO" >> .next/standalone/.env.production; fi
+          if [ -n "$CONTACT_FROM" ]; then echo "CONTACT_FROM=$CONTACT_FROM" >> .next/standalone/.env.production; fi
 
       - name: Package standalone server
         run: |
