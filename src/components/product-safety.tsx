@@ -70,25 +70,25 @@ export function ProductSafety({ handle }: Props) {
   const productId = PRODUCT_IDS[handle];
 
   return (
-    <section aria-labelledby="safety-title" className="mt-10 rounded-2xl border border-white/10 bg-white/[0.03] p-5 sm:p-6">
-      <h3 id="safety-title" className="flex items-center gap-2 text-base font-extrabold text-white">
-        <AlertTriangle className="h-4 w-4 text-purple-300" aria-hidden="true" />
+    <section aria-labelledby="safety-title" className="mt-10 rounded-2xl border border-ink/15 bg-card p-5 sm:p-6">
+      <h3 id="safety-title" className="flex items-center gap-2 text-lg text-ink">
+        <AlertTriangle className="h-4 w-4 text-cocoa" aria-hidden="true" />
         Ostrzeżenia i bezpieczne użytkowanie
       </h3>
-      <ul className="mt-4 space-y-2 text-sm leading-relaxed text-white/70">
+      <ul className="mt-4 space-y-2 text-sm leading-relaxed text-ink/85">
         {items.map((t) => (
           <li key={t} className="flex gap-3">
-            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-purple-400" aria-hidden="true" />
+            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-camel" aria-hidden="true" />
             <span>{t}</span>
           </li>
         ))}
       </ul>
       {productId && (
-        <p className="mt-4 text-xs text-white/65">
-          <strong className="font-semibold text-white/80">Identyfikator produktu:</strong> {productId}
+        <p className="mt-4 text-xs text-ink/80">
+          <strong className="font-semibold text-ink">Identyfikator produktu:</strong> {productId}
         </p>
       )}
-      <p className="mt-4 text-xs text-white/55">
+      <p className="mt-4 text-xs text-ink/75">
         To ogólne zasady bezpieczeństwa. Szczegółowe informacje o produkcie znajdziesz w jego opisie oraz na etykiecie lub w ulotce dołączonej do produktu.
       </p>
     </section>

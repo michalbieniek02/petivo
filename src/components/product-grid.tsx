@@ -5,11 +5,20 @@ import { Reveal } from "./scroll-reveal";
 import { CATEGORIES, type CategoryId } from "@/lib/categories";
 import type { Product } from "@/lib/products";
 
-type Filter = "all" | CategoryId;
+export type Filter = "all" | CategoryId;
 type Sort = "featured" | "asc" | "desc";
 
-export function ProductGrid({ products }: { products: Product[] }) {
-  const [category, setCategory] = useState<Filter>("all");
+interface Props {
+  products: Product[];
+  /** controlled category (e.g. set by the category tiles above the grid) */
+  category?: Filter;
+  onCategory?: (c: Filter) => void;
+}
+
+export function ProductGrid({ products, category: controlled, onCategory }: Props) {
+  const [own, setOwn] = useState<Filter>("all");
+  const category = controlled ?? own;
+  const setCategory = onCategory ?? setOwn;
   const [sort, setSort] = useState<Sort>("featured");
 
   // Only categories that actually have products get a filter button.
@@ -42,21 +51,21 @@ export function ProductGrid({ products }: { products: Product[] }) {
                 onClick={() => setCategory(c.id)}
                 className={`min-h-11 shrink-0 rounded-full border px-4 text-sm font-semibold transition-colors ${
                   category === c.id
-                    ? "border-purple-400/70 bg-purple-500/15 text-white"
-                    : "border-white/10 text-white/70 hover:border-white/25 hover:text-white"
+                    ? "border-ink bg-ink text-cream"
+                    : "border-ink/15 bg-card text-ink/85 hover:border-ink/40 hover:text-ink"
                 }`}
               >
-                {c.label} <span className="ml-1 tabular-nums text-white/50">{c.count}</span>
+                {c.label} <span className={`ml-1 tabular-nums ${category === c.id ? "text-camel" : "text-ink/75"}`}>{c.count}</span>
               </button>
             ))}
           </div>
         )}
-        <label className="flex items-center gap-3 text-sm text-white/65 sm:ml-auto">
+        <label className="flex items-center gap-3 text-sm text-ink/80 sm:ml-auto">
           Sortuj
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as Sort)}
-            className="min-h-11 rounded-full border border-white/10 bg-[var(--panel)] px-4 text-sm text-white focus:border-purple-400 focus:outline-none"
+            className="min-h-11 rounded-full border border-ink/15 bg-card px-4 text-sm text-ink focus:border-ink focus:outline-none"
           >
             <option value="featured">Polecane</option>
             <option value="asc">Cena rosnąco</option>
@@ -65,7 +74,7 @@ export function ProductGrid({ products }: { products: Product[] }) {
         </label>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite">
+      <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-live="polite">
         {visible.map((p, i) => {
           const featured = showFeatured && i === 0;
           return (

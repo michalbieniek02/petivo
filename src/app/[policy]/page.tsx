@@ -24,10 +24,10 @@ export default async function PolicyPage({ params }: PageProps<"/[policy]">) {
   if (!policy) notFound();
 
   return (
-    <main id="main-content" className="min-h-screen bg-[#06060e] text-white overflow-x-hidden">
+    <main id="main-content" className="min-h-screen bg-paper text-ink overflow-x-hidden">
       <SiteNav />
       <article className="pt-28 pb-20 px-4 sm:px-6">
-        <div className="max-w-3xl mx-auto glass rounded-3xl border border-white/[0.06] p-6 sm:p-12">
+        <div className="max-w-3xl mx-auto surface rounded-[2rem] p-6 sm:p-12">
           <div className="policy-body" dangerouslySetInnerHTML={{ __html: policyHtml(policy.key) }} />
           {slug === "kontakt" && <ContactForm />}
         </div>

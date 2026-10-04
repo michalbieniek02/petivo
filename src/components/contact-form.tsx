@@ -4,7 +4,7 @@ import { useState, type FormEvent } from "react";
 import { Check, Send } from "lucide-react";
 
 const field =
-  "w-full rounded-xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-purple-400 focus:outline-none";
+  "w-full rounded-xl border border-ink/20 bg-card px-4 py-3 text-sm text-ink placeholder:text-ink/50 focus:border-ink focus:outline-none";
 
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
@@ -41,49 +41,48 @@ export function ContactForm() {
 
   if (status === "sent") {
     return (
-      <div role="status" className="mt-8 rounded-2xl border border-purple-400/30 bg-purple-500/10 p-6 text-center">
-        <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full"
-          style={{ background: "linear-gradient(135deg, #8b5cf6, #22d3ee)" }}>
-          <Check className="h-5 w-5 text-white" aria-hidden="true" />
+      <div role="status" className="mt-8 rounded-2xl border border-ink/15 bg-sand p-6 text-center">
+        <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-ink">
+          <Check className="h-5 w-5 text-cream" aria-hidden="true" />
         </div>
-        <p className="font-bold text-white">Dziękujemy, wiadomość wysłana.</p>
-        <p className="mt-1 text-sm text-white/65">Odpowiemy na podany adres e-mail, zwykle w ciągu 2 dni roboczych.</p>
+        <p className="font-display text-xl text-ink">Dziękujemy, wiadomość wysłana.</p>
+        <p className="mt-1 text-sm text-ink/80">Odpowiemy na podany adres e-mail, zwykle w ciągu 2 dni roboczych.</p>
       </div>
     );
   }
 
   return (
     <form onSubmit={onSubmit} className="mt-8 space-y-4" noValidate>
-      <h3 className="text-lg font-extrabold text-white">Napisz do nas</h3>
+      <h3 className="text-2xl text-ink">Napisz do nas</h3>
       <div className="grid gap-4 sm:grid-cols-2">
-        <label className="block text-sm text-white/70">
+        <label className="block text-sm font-medium text-ink/85">
           Imię
           <input name="name" required maxLength={100} autoComplete="given-name" className={`${field} mt-1.5`} />
         </label>
-        <label className="block text-sm text-white/70">
+        <label className="block text-sm font-medium text-ink/85">
           E-mail
           <input name="email" type="email" required maxLength={200} autoComplete="email" className={`${field} mt-1.5`} />
         </label>
       </div>
-      <label className="block text-sm text-white/70">
-        Numer zamówienia <span className="text-white/40">(opcjonalnie)</span>
+      <label className="block text-sm font-medium text-ink/85">
+        Numer zamówienia <span className="font-normal text-ink/75">(opcjonalnie)</span>
         <input name="order" maxLength={50} className={`${field} mt-1.5`} />
       </label>
-      <label className="block text-sm text-white/70">
+      <label className="block text-sm font-medium text-ink/85">
         Wiadomość
         <textarea name="message" required minLength={10} maxLength={3000} rows={6} className={`${field} mt-1.5 resize-y`} />
       </label>
       <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
         <label>Nie wypełniaj tego pola<input name="website" tabIndex={-1} autoComplete="off" /></label>
       </div>
-      <label className="flex items-start gap-3 text-xs leading-relaxed text-white/65">
-        <input type="checkbox" name="consent" required className="mt-0.5 h-4 w-4 shrink-0 accent-violet-500" />
+      <label className="flex items-start gap-3 text-xs leading-relaxed text-ink/80">
+        <input type="checkbox" name="consent" required className="mt-0.5 h-4 w-4 shrink-0 accent-[#1b3644]" />
         <span>
           Zgadzam się na przetworzenie moich danych w celu odpowiedzi na wiadomość, zgodnie z{" "}
-          <Link href="/polityka-prywatnosci" className="underline underline-offset-4 hover:text-white">Polityką prywatności</Link>.
+          <Link href="/polityka-prywatnosci" className="underline underline-offset-4 decoration-camel hover:text-cocoa">Polityką prywatności</Link>.
         </span>
       </label>
-      {error && <p role="alert" className="text-sm text-red-400">{error}</p>}
+      {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
       <button type="submit" disabled={status === "sending"}
         className="btn-primary inline-flex min-h-11 items-center justify-center gap-2 px-6 py-3 text-sm disabled:opacity-60">
         {status === "sending" ? "Wysyłanie…" : <>Wyślij wiadomość <Send className="h-4 w-4" aria-hidden="true" /></>}

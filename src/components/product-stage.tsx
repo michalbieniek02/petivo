@@ -10,15 +10,14 @@ interface Props {
   radius?: string;
 }
 
-export function ProductStage({ src, alt, sizes, priority, className = "", padding = "p-[12%]", radius = "rounded-2xl" }: Props) {
+/** Background-free product shot on a warm sand backdrop with a soft floor shadow. */
+export function ProductStage({ src, alt, sizes, priority, className = "", padding = "p-[12%]", radius = "rounded-[1.25rem]" }: Props) {
   return (
     <div className={`relative overflow-hidden ${radius} ${className}`}
-      style={{ background: "radial-gradient(120% 90% at 50% 15%, rgba(139,92,246,0.22) 0%, rgba(34,211,238,0.07) 45%, rgba(255,255,255,0.02) 75%)" }}>
-      <div className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none"
-        style={{ background: "linear-gradient(to top, rgba(255,255,255,0.04), transparent)" }} />
-      <div className="absolute left-1/2 bottom-[8%] -translate-x-1/2 w-3/5 h-[8%] rounded-[50%] bg-black/70 blur-2xl pointer-events-none" />
+      style={{ background: "radial-gradient(110% 85% at 50% 20%, #fbf6e6 0%, var(--sand) 70%)" }}>
+      <div className="absolute left-1/2 bottom-[9%] -translate-x-1/2 w-3/5 h-[7%] rounded-[50%] bg-cocoa/25 blur-xl pointer-events-none" />
       <Image src={src} alt={alt} fill sizes={sizes} priority={priority}
-        className={`object-contain ${padding} drop-shadow-[0_28px_36px_rgba(0,0,0,0.5)] transition-transform duration-500 ease-out group-hover:-translate-y-1.5 group-hover:scale-[1.03]`} />
+        className={`object-contain ${padding} drop-shadow-[0_18px_24px_rgba(94,64,23,0.25)] transition-transform duration-500 ease-out group-hover:-translate-y-1.5 group-hover:scale-[1.03]`} />
     </div>
   );
 }

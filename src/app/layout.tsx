@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/cart-provider";
 import { CartDrawer } from "@/components/cart-drawer";
@@ -10,11 +10,17 @@ const inter = Inter({
   weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
+// soft serif for headings: warm, homey, reads well in Polish
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin", "latin-ext"],
-  weight: ["600", "700", "800"],
+  axes: ["SOFT", "opsz"],
+  style: ["normal", "italic"],
 });
+
+export const viewport: Viewport = {
+  themeColor: "#f7f2e2",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://petivo.shop"),
@@ -38,7 +44,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="pl" className={`${inter.variable} ${jakarta.variable}`}>
+    <html lang="pl" className={`${inter.variable} ${fraunces.variable}`}>
       <body>
         <CartProvider>
           {children}
