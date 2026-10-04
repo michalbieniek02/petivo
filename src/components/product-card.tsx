@@ -13,11 +13,18 @@ function variantsLabel(n: number) {
 export function ProductCard({ product, featured = false }: { product: Product; featured?: boolean }) {
   const hasVariants = product.variants.length > 1;
   const category = categoryById(product.category);
+  const cover = product.gallery.find((g) => g.kind !== "cutout");
 
   const visual = product.cutout ? (
     <ProductStage src={product.cutout} alt={product.name}
       className={featured ? "aspect-square lg:aspect-auto lg:h-full lg:min-h-[26rem]" : "aspect-square"}
       sizes={featured ? "(max-width: 1024px) 100vw, 40vw" : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"} />
+  ) : cover ? (
+    <div className={`relative overflow-hidden rounded-2xl ${featured ? "aspect-square lg:aspect-auto lg:h-full lg:min-h-[26rem]" : "aspect-square"} ${cover.kind === "photo" ? "bg-[var(--panel)]" : "bg-white"}`}>
+      <Image src={cover.src} alt={product.name} fill
+        sizes={featured ? "(max-width: 1024px) 100vw, 40vw" : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"}
+        className={cover.kind === "photo" ? "object-cover" : "object-contain p-5"} />
+    </div>
   ) : (
     <div className="relative aspect-square rounded-2xl overflow-hidden bg-white">
       <Image src={product.images[0]} alt={product.name} fill sizes="(max-width: 640px) 100vw, 33vw" className="object-contain p-6" />

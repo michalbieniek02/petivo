@@ -4,9 +4,9 @@
  * Categories without products are never shown.
  */
 export const CATEGORIES = [
-  { id: "karmniki", label: "Karmniki", singular: "Karmnik", types: ["Dozowniki karmy dla zwierząt"], name: /karmnik|dozownik/i },
-  { id: "fontanny", label: "Fontanny", singular: "Fontanna", types: ["Fontanny dla zwierząt"], name: /fontann|poidł/i },
-  { id: "filtry", label: "Filtry", singular: "Filtry", types: ["Filtry do fontann"], name: /^filtr/i },
+  { id: "legowiska", label: "Legowiska", singular: "Legowisko", types: ["Legowiska"], name: /legowisk|posłan/i },
+  { id: "spacer", label: "Spacer i podróż", singular: "Spacer i podróż", types: ["Spacer i podróż"], name: /szelki|smycz|miska|pokrowiec|obroż/i },
+  { id: "zabawa", label: "Zabawa i zajęcie", singular: "Zabawa i zajęcie", types: ["Zabawa i zajęcie"], name: /mata|drapak|zabawk/i },
   { id: "akcesoria", label: "Akcesoria", singular: "Akcesoria", types: ["Akcesoria dla zwierząt"], name: /^$/ },
 ] as const;
 

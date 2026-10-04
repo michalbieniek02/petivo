@@ -2,49 +2,71 @@ import { AlertTriangle } from "lucide-react";
 
 /** Product identifiers supplied by the manufacturer/marketplace listing (GPSR product identification). Add more as they are confirmed. */
 const PRODUCT_IDS: Record<string, string> = {
-  "automatyczny-karmnik-z-kamera-hd-wifi": "1005008830731346-12000046864972887",
-  "fontanna-dla-kota-stal-nierdzewna": "1005009978909432-12000050748414453",
-  "karmnik-z-kamera-1080p-noktowizja": "1005007086094845-12000040329923260",
-  "karmnik-dla-dwoch-kotow-wifi": "1005005858662276-12000051588027873",
-  "automatyczny-karmnik-z-wyswietlaczem": "1005007306852958-12000040179834213",
+  "legowisko-donut-puszyste": "1005006415813548-12000037090335942",
+  "legowisko-pianka-3d-zmywalna-poszewka": "1005007554367777-12000041280664870",
+  "legowisko-domek-dla-kota": "1005006967503445-12000038885667935",
+  "mata-do-lizania-silikonowa": "1005007306665783-12000060794538137",
+  "mata-wechowa-dla-psa": "1005007370484175-12000040464804596",
+  "szelki-ze-smycza-dla-malego-psa": "1005008144996105-12000043981126637",
+  "pokrowiec-samochodowy-dla-psa": "1005006860985075-12000038541930354",
+  "drapak-tekturowy-dla-kota": "1005010285552258-12000051791873518",
+  "skladana-miska-podrozna": "1005007413274233-12000040650733276",
 };
 
 interface Props {
   handle: string;
-  title: string;
 }
 
-/** General safety information shown on every product page (GPSR). Product-specific details are in the manufacturer's manual. */
-export function ProductSafety({ handle, title }: Props) {
-  const isFountain = /fontann/i.test(handle) || /fontann/i.test(title);
-  const hasCamera = /kamer/i.test(handle) || /kamer/i.test(title);
+/** General safety information shown on every product page (GPSR). Product-specific details are on the product label or in the supplier's leaflet. */
+export function ProductSafety({ handle }: Props) {
+  const is = (re: RegExp) => re.test(handle);
 
   const common = [
-    "Używaj urządzenia wyłącznie zgodnie z instrukcją producenta i zgodnie z jego przeznaczeniem.",
-    "Zasilaj urządzenie wyłącznie zasilaczem lub ładowarką o parametrach podanych w instrukcji. Nie używaj uszkodzonego kabla, zasilacza ani wtyczki.",
-    "Przed czyszczeniem odłącz urządzenie od zasilania. Nie zanurzaj w wodzie części elektrycznych, kabla ani wtyczki.",
-    "Urządzenie nie jest zabawką. Nie pozostawiaj dzieci bez nadzoru w pobliżu urządzenia.",
-    "Nie rozbieraj ani nie naprawiaj urządzenia samodzielnie. W razie uszkodzenia przestań go używać i skontaktuj się ze Sprzedawcą.",
+    "Produkt nie jest zabawką dla dzieci. Przechowuj go poza zasięgiem małych dzieci.",
+    "Przed użyciem sprawdź, czy produkt nie jest uszkodzony. W razie uszkodzenia przestań go używać i skontaktuj się ze Sprzedawcą.",
+    "Nie zostawiaj zwierzęcia z produktem bez nadzoru, jeśli zwierzę gryzie lub połyka jego elementy.",
   ];
 
-  const specific = isFountain
-    ? [
-        "Nie uruchamiaj pompy bez wody. Regularnie uzupełniaj wodę i wymieniaj filtr zgodnie z instrukcją.",
-        "Ustaw fontannę na stabilnej, suchej powierzchni, tak aby kabel nie był narażony na zalanie.",
-      ]
-    : [
-        "Używaj wyłącznie suchej karmy o rozmiarze granulek wskazanym w opisie. Nie używaj do karmy mokrej.",
-        "Jeżeli urządzenie umożliwia zasilanie bateryjne (np. awaryjne), stosuj baterie wskazane w instrukcji, nie mieszaj starych z nowymi i wyjmij je, gdy nie używasz urządzenia przez dłuższy czas. Zużyte baterie oddaj do punktu zbiórki.",
-        "Karmnik nie zastępuje opieki nad zwierzęciem. Regularnie sprawdzaj, czy urządzenie działa i czy zwierzę ma dostęp do wody.",
-      ];
+  const specific: string[] = [];
+  if (is(/legowisk/)) {
+    specific.push(
+      "Nie stawiaj legowiska blisko grzejników, kominka ani innych źródeł ciepła i ognia.",
+      "Rozmiar dobierz do pupila: zwierzę powinno swobodnie się w nim zmieścić. Wymiary mogą się różnić o 1–3 cm.",
+      "Czyść legowisko regularnie. Zalecamy delikatne pranie ręczne i suszenie na powietrzu, chyba że opis produktu stanowi inaczej.",
+    );
+  }
+  if (is(/szelki/)) {
+    specific.push(
+      "Dobierz rozmiar do obwodu klatki piersiowej i wagi pupila. Paski powinny przylegać, ale nie uciskać (zmieści się pod nimi palec).",
+      "Szelki i smycz służą do spacerów pod nadzorem. Nie używaj ich do przywiązywania zwierzęcia i nie zostawiaj pupila w szelkach bez nadzoru.",
+      "Odblaskowe elementy poprawiają widoczność, ale nie zastępują ostrożności w ruchu drogowym.",
+    );
+  }
+  if (is(/pokrowiec/)) {
+    specific.push(
+      "Pokrowiec chroni tapicerkę, ale nie zastępuje pasów ani szelek bezpieczeństwa dla psa w samochodzie.",
+      "Przed zakupem zmierz szerokość tylnej kanapy. Mocuj pokrowiec zgodnie z instrukcją i nie zasłaniaj nim pasów bezpieczeństwa dla pasażerów.",
+    );
+  }
+  if (is(/mata-wechowa|mata-do-lizania/)) {
+    specific.push(
+      "Używaj maty pod nadzorem. Nie jest zabawką do gryzienia i nie powinna być połykana.",
+      "Używaj tylko smakołyków i karmy odpowiednich dla Twojego zwierzęcia. Po użyciu umyj matę lub wypierz ją zgodnie z opisem.",
+    );
+  }
+  if (is(/drapak/)) {
+    specific.push(
+      "Drapak z tektury z czasem się zużywa. Nie pozwalaj zwierzęciu zjadać kawałków kartonu i wymień drapak po zużyciu.",
+    );
+  }
+  if (is(/miska/)) {
+    specific.push(
+      "Przed pierwszym użyciem umyj miskę. Nie zostawiaj napełnionej miski w nagrzanym samochodzie ani w pełnym słońcu.",
+      "Miska nie jest zabawką do gryzienia. Nie podgrzewaj jej w kuchence mikrofalowej.",
+    );
+  }
 
-  const camera = hasCamera
-    ? [
-        "Kamera rejestruje obraz i może rejestrować osoby. Używaj jej zgodnie z prawem i szanuj prywatność domowników i gości. Obraz z kamery przetwarza producent aplikacji; zapoznaj się z jej polityką prywatności.",
-      ]
-    : [];
-
-  const items = [...common, ...specific, ...camera];
+  const items = [...specific, ...common];
   const productId = PRODUCT_IDS[handle];
 
   return (
@@ -67,7 +89,7 @@ export function ProductSafety({ handle, title }: Props) {
         </p>
       )}
       <p className="mt-4 text-xs text-white/55">
-        To ogólne zasady bezpieczeństwa. Pełne ostrzeżenia, dane techniczne i instrukcja obsługi znajdują się w dokumentacji dołączonej do produktu.
+        To ogólne zasady bezpieczeństwa. Szczegółowe informacje o produkcie znajdziesz w jego opisie oraz na etykiecie lub w ulotce dołączonej do produktu.
       </p>
     </section>
   );

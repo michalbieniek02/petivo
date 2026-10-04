@@ -78,7 +78,96 @@ export const GALLERY: Record<string, Entry[]> = {
     cardPl("Sa0b34f6795be4a6"),
     dup("Sd088473bdfc34ea"),
   ],
+  // ── bedding, walking and play: only curated supplier photos (no English infographics or health claims) ──
+  "legowisko-donut-puszyste": [
+    card("Se24b62dc00974bc"), // cappuccino (the supplier main shot shows 14 colours; we offer 5)
+    card("Se8f636805fa34e0"), // graphite
+    card("S5b4742ea1fa745a"), // light grey
+    card("Sa62e3987ad4641a"), // cream
+    card("S68613391656744"), // dusty rose
+  ],
+  "legowisko-pianka-3d-zmywalna-poszewka": [
+    photo("S4e25b088914e4b1"),
+    photo("S094343b69fc64df"),
+    photo("Sbdd5ea6bddee4f2"),
+    card("S50c2457a58d54f7"),
+    card("Sf3fddd64ee02412"),
+    card("Sc3c209a67cf549f"),
+    card("Sb2cb055bae554eb"),
+  ],
+  "legowisko-domek-dla-kota": [
+    photo("Scba01f9f59d2436"),
+    photo("Sea395c7d328d490"),
+    photo("S92ebf8f89bb6415"),
+    photo("Sd56960cacfc3420"),
+    photo("S142bc2ea6f77439"),
+    photo("S94d20f3ab8154ea"),
+    photo("Sdf0bbfad98bc424"),
+  ],
+  "szelki-ze-smycza-dla-malego-psa": [
+    card("S1335f68af3ff408"),
+    photo("S9f010bf11356484"),
+    photo("Sf55cfe7d73634da"),
+    card("Scd2caf33b0254bc"),
+    card("S56b3b32b26ce4f3"),
+    card("Sa2a9f72f50b9450"),
+    card("S635c544b4214435"),
+    card("S872080d7733f4f"),
+    card("Sf6845da3b0d74e9"),
+  ],
+  "pokrowiec-samochodowy-dla-psa": [
+    photo("Sb6123774f3bc404"),
+    photo("S717aad8a309c4fc"),
+    photo("Sf1704423a5eb49b"),
+    card("S2ed000d8801d45c"),
+    card("S4a4137c0cf234cd"),
+  ],
+  "mata-wechowa-dla-psa": [
+    card("S074ff4a6d833439"),
+    card("Sfdfb4996f81b4cb"),
+    card("Sa952da7a93b1488"),
+    card("S687be71aa4364343"),
+  ],
+  "mata-do-lizania-silikonowa": [
+    card("S3975cb38dbec4a9"),
+    card("Se317c6220463438"),
+    card("Se2fffec51d61494"),
+    card("Sd1924714f10843f"),
+    card("S2cc575760efa44a"),
+    card("S2cecfd1496d3450"),
+  ],
+  "drapak-tekturowy-dla-kota": [
+    card("Sd8910e1fe6fd455"),
+    photo("Sa47decf069a1481"),
+    card("S1148bce68ec3469"),
+    card("Sd3e27e26bee0443"),
+    card("S88406298fba049c"),
+    card("S1f2b7052e413422"),
+  ],
+  "skladana-miska-podrozna": [
+    card("S6ffbad7479414b1"),
+    photo("S4662e0b7906e495"),
+    card("S57b3b58a6358489"),
+    card("S5db62cf52ef044d"),
+    card("S5aefbbd4318a494"),
+    card("Sc7087d3c99314d7"),
+    card("S4f22781e14c345c"),
+    card("S108f9d29ebd54f9"),
+  ],
 };
+
+/** Products whose gallery is an allow-list: images not listed above are dropped. */
+const STRICT = new Set([
+  "legowisko-donut-puszyste",
+  "legowisko-pianka-3d-zmywalna-poszewka",
+  "legowisko-domek-dla-kota",
+  "szelki-ze-smycza-dla-malego-psa",
+  "pokrowiec-samochodowy-dla-psa",
+  "mata-wechowa-dla-psa",
+  "mata-do-lizania-silikonowa",
+  "drapak-tekturowy-dla-kota",
+  "skladana-miska-podrozna",
+]);
 
 export interface Slide {
   src: string;
@@ -112,7 +201,10 @@ export function buildGallery(handle: string, images: { src: string; width: numbe
     return i === -1 ? entries.length : i;
   };
   return images
-    .filter((img) => !findEntry(handle, img.src)?.hide)
+    .filter((img) => {
+      const e = findEntry(handle, img.src);
+      return !e?.hide && !(STRICT.has(handle) && !e);
+    })
     .sort((a, b) => rank(a.src) - rank(b.src))
     .map((img) => {
       const e = findEntry(handle, img.src);

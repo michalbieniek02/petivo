@@ -12,9 +12,20 @@ import { ProductSafety } from "./product-safety";
 import { SiteNav } from "./site-nav";
 import { SiteFooter } from "./site-footer";
 
+/** Sizes like "40 cm", "50 cm" read better in numeric order; other values keep Shopify's order. */
+function sortValues(values: string[]) {
+  if (!values.every((v) => /\d/.test(v))) return values;
+  return [...values].sort((a, b) => parseFloat(a.replace(",", ".").match(/[\d.]+/)![0]) - parseFloat(b.replace(",", ".").match(/[\d.]+/)![0]));
+}
+
 export function ProductView({ product, others }: { product: Product; others: Product[] }) {
-  const [variant, setVariant] = useState(product.variants[0]);
-  const [imageIdx, setImageIdx] = useState(0);
+  // Start on the cheapest variant, with the gallery already showing that variant's photo.
+  const initialVariant = [...product.variants].sort((a, b) => a.price - b.price)[0];
+  const [variant, setVariant] = useState(initialVariant);
+  const [imageIdx, setImageIdx] = useState(() => {
+    const i = initialVariant.image ? product.gallery.findIndex((s) => s.src === initialVariant.image || s.shopifySrc === initialVariant.image) : -1;
+    return i >= 0 ? i + (product.cutout ? 1 : 0) : 0;
+  });
   const buyRef = useRef<HTMLDivElement>(null);
   const [showBar, setShowBar] = useState(false);
 
@@ -44,6 +55,14 @@ export function ProductView({ product, others }: { product: Product; others: Pro
     if (isPrimaryCutout(v.image)) return setImageIdx(0);
     const idx = v.image ? product.gallery.findIndex((s) => s.src === v.image || s.shopifySrc === v.image) : -1;
     if (idx >= 0) setImageIdx(idx + (primary ? 1 : 0));
+  };
+
+  // Picking a value keeps the other options when that combination exists, otherwise jumps to the first variant with that value.
+  const chooseOption = (i: number, value: string) => {
+    const next =
+      product.variants.find((v) => v.options[i] === value && v.options.every((o, j) => j === i || o === variant.options[j])) ??
+      product.variants.find((v) => v.options[i] === value);
+    if (next) selectVariant(next);
   };
 
   const cartImage = product.optionName && variant.image ? variant.image : product.cutout ?? product.images[0];
@@ -93,7 +112,37 @@ export function ProductView({ product, others }: { product: Product; others: Pro
                 {freeShipping ? "Darmowa dostawa w Polsce" : `Dostawa w Polsce ${SHIPPING_PL} zł, darmowa od ${FREE_SHIPPING_FROM} zł`}
               </p>
 
-              {product.optionName && (
+              {product.options.length > 1 ? (
+                // two or more options (e.g. colour + size): one button group per option
+                product.options.map((opt, i) => {
+                  const priceFor = (value: string) =>
+                    product.variants.find((v) => v.options[i] === value && v.options.every((o, j) => j === i || o === variant.options[j]))?.price;
+                  const prices = opt.values.map(priceFor).filter((x): x is number => x !== undefined);
+                  const showPrice = new Set(prices).size > 1;
+                  return (
+                    <fieldset key={opt.name} className="mt-6">
+                      <legend className="text-xs font-semibold tracking-[0.16em] uppercase text-white/65 mb-3">
+                        {opt.name}: <span className="normal-case tracking-normal text-white/85">{variant.options[i]}</span>
+                      </legend>
+                      <div className="flex flex-wrap gap-2">
+                        {sortValues(opt.values).map((value) => {
+                          const exists = product.variants.some((v) => v.options[i] === value);
+                          if (!exists) return null;
+                          const price = priceFor(value);
+                          const active = variant.options[i] === value;
+                          return (
+                            <button key={value} type="button" onClick={() => chooseOption(i, value)} aria-pressed={active}
+                              className={`min-h-11 rounded-xl px-4 py-2 text-sm border transition-colors ${active ? "border-purple-400 bg-purple-500/15 text-white" : "border-white/10 text-white/75 hover:border-white/30 hover:text-white"} ${price === undefined ? "opacity-60" : ""}`}>
+                              {value}
+                              {showPrice && price !== undefined && <span className="ml-2 text-white/60 tabular-nums">{formatPrice(price)}</span>}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </fieldset>
+                  );
+                })
+              ) : product.optionName && (
                 <fieldset className="mt-7">
                   <legend className="text-xs font-semibold tracking-[0.16em] uppercase text-white/65 mb-3">{product.optionName}</legend>
                   <div className="grid min-[480px]:grid-cols-2 gap-2">
@@ -123,7 +172,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
 
               <div className="product-desc mt-10 pt-10 border-t border-white/[0.06]"
                 dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
-              <ProductSafety handle={product.handle} title={product.name} />
+              <ProductSafety handle={product.handle} />
             </div>
           </div>
         </div>

@@ -7,9 +7,8 @@ import { CartButton } from "./cart-drawer";
 
 const links = [
   { href: "/#kolekcja", label: "Sklep" },
-  { href: "/#funkcje", label: "Karmnik z kamerą" },
-  { href: "/#fontanna", label: "Fontanna" },
-  { href: "/#jak-dziala", label: "Jak działa" },
+  { href: "/#jak-wybrac", label: "Jak dobrać" },
+  { href: "/dostawa", label: "Dostawa" },
   { href: "/#faq", label: "FAQ" },
 ];
 

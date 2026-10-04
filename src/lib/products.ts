@@ -4,11 +4,15 @@ import { buildGallery, galleryCutout, type Slide } from "./gallery";
 const STORE = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || "ecxva5-gd.myshopify.com";
 
 const ORDER = [
-  "automatyczny-karmnik-z-kamera-hd-wifi",
-  "karmnik-z-kamera-1080p-noktowizja",
-  "karmnik-dla-dwoch-kotow-wifi",
-  "automatyczny-karmnik-z-wyswietlaczem",
-  "fontanna-dla-kota-stal-nierdzewna",
+  "legowisko-donut-puszyste",
+  "legowisko-pianka-3d-zmywalna-poszewka",
+  "legowisko-domek-dla-kota",
+  "szelki-ze-smycza-dla-malego-psa",
+  "pokrowiec-samochodowy-dla-psa",
+  "mata-wechowa-dla-psa",
+  "mata-do-lizania-silikonowa",
+  "drapak-tekturowy-dla-kota",
+  "skladana-miska-podrozna",
 ];
 
 const CUTOUTS: Record<string, string> = {
@@ -22,6 +26,8 @@ const CUTOUTS: Record<string, string> = {
 export interface Variant {
   id: number;
   title: string;
+  /** selected value for each product option, in option order */
+  options: string[];
   price: number;
   compareAt: number | null;
   image: string | null;
@@ -40,6 +46,8 @@ export interface Product {
   /** curated slides for the product page gallery */
   gallery: Slide[];
   optionName: string | null;
+  /** product options with all their values (empty for single-variant products) */
+  options: { name: string; values: string[] }[];
   variants: Variant[];
   minPrice: number;
 }
@@ -50,11 +58,14 @@ interface RawProduct {
   vendor: string;
   product_type: string;
   body_html: string;
-  options: { name: string }[];
+  options: { name: string; values: string[] }[];
   images: { src: string; width: number; height: number }[];
   variants: {
     id: number;
     title: string;
+    option1: string | null;
+    option2: string | null;
+    option3: string | null;
     price: string;
     compare_at_price: string | null;
     featured_image: { src: string } | null;
@@ -82,6 +93,7 @@ function toProduct(p: RawProduct): Product {
   const variants = p.variants.map((v) => ({
     id: v.id,
     title: v.title,
+    options: [v.option1, v.option2, v.option3].filter((o): o is string => !!o),
     price: parseFloat(v.price),
     compareAt: v.compare_at_price ? parseFloat(v.compare_at_price) : null,
     image: v.featured_image
@@ -100,6 +112,7 @@ function toProduct(p: RawProduct): Product {
     images: p.images.map((i) => i.src).filter((src) => !localCutout(src)),
     gallery: buildGallery(p.handle, p.images.filter((i) => !localCutout(i.src))),
     optionName: hasOptions ? p.options[0]?.name ?? null : null,
+    options: hasOptions ? p.options.map((o) => ({ name: o.name, values: o.values })) : [],
     variants,
     minPrice: Math.min(...variants.map((v) => v.price)),
   };

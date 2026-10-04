@@ -18,20 +18,20 @@ const jakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://petivo.shop"),
-  title: "Petivo — automatyczne karmniki i fontanny dla kota i psa",
+  title: "Petivo — legowiska, maty i akcesoria dla psa i kota",
   description:
-    "Karmniki z kamerą i aplikacją, karmnik dla dwóch kotów i fontanna ze stali nierdzewnej. Darmowa dostawa w Polsce od 200 zł.",
+    "Puszyste legowiska, szelki ze smyczą, pokrowiec do samochodu, maty do zabawy i drapak. Opisy po polsku i darmowa dostawa w Polsce od 200 zł.",
   openGraph: {
     type: "website",
     locale: "pl_PL",
-    title: "Petivo — karmniki i fontanny dla pupili",
-    description: "Karmniki z kamerą i aplikacją oraz fontanna dla kota. Steruj karmieniem z telefonu.",
-    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Petivo — karmniki z kamerą i fontanny dla kota i psa" }],
+    title: "Petivo — legowiska i akcesoria dla pupili",
+    description: "Legowiska, maty do zabawy i akcesoria na spacery dla psa i kota. Darmowa dostawa w Polsce od 200 zł.",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "Petivo — legowiska, maty i akcesoria dla psa i kota" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Petivo — karmniki i fontanny dla pupili",
-    description: "Karmniki z kamerą i aplikacją oraz fontanna dla kota. Steruj karmieniem z telefonu.",
+    title: "Petivo — legowiska i akcesoria dla pupili",
+    description: "Legowiska, maty do zabawy i akcesoria na spacery dla psa i kota. Darmowa dostawa w Polsce od 200 zł.",
     images: ["/og.png"],
   },
 };
