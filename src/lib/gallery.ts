@@ -16,9 +16,12 @@ interface Entry {
   kind: SlideKind;
   hide?: boolean;
   pl?: boolean;
+  /** file-name suffix, bumped when a cut-out is redone (busts image caches) */
+  v?: string;
 }
 
-const cut = (key: string): Entry => ({ key, kind: "cutout" });
+const cut = (key: string, v?: string): Entry => ({ key, kind: "cutout", v });
+const cutFile = (handle: string, e: Entry) => `/products/gallery/${handle}-${e.key}${e.v ? "-" + e.v : ""}.webp`;
 const photo = (key: string): Entry => ({ key, kind: "photo" });
 const card = (key: string): Entry => ({ key, kind: "card" });
 const photoPl = (key: string): Entry => ({ key, kind: "photo", pl: true });
@@ -99,7 +102,7 @@ export const GALLERY: Record<string, Entry[]> = {
     cut("Sb2cb055bae554eb"), // pink
   ],
   "legowisko-domek-dla-kota": [
-    cut("Sdf0bbfad98bc424"),
+    cut("Sdf0bbfad98bc424", "v2"), // AI cut-out (BiRefNet) + edge clean-up
     photo("Scba01f9f59d2436"),
     photo("Sea395c7d328d490"),
     photo("S92ebf8f89bb6415"),
@@ -200,7 +203,7 @@ function findEntry(handle: string, src: string) {
 /** Local cut-out for a Shopify image, if we made one. */
 export function galleryCutout(handle: string, src: string): string | null {
   const e = findEntry(handle, src);
-  return e?.kind === "cutout" ? `/products/gallery/${handle}-${e.key}.webp` : null;
+  return e?.kind === "cutout" ? cutFile(handle, e) : null;
 }
 
 export function buildGallery(handle: string, images: { src: string; width: number; height: number }[]): Slide[] {
@@ -220,7 +223,7 @@ export function buildGallery(handle: string, images: { src: string; width: numbe
       const e = findEntry(handle, img.src);
       const kind = e?.kind ?? "photo";
       const local = kind === "cutout"
-        ? `/products/gallery/${handle}-${e!.key}.webp`
+        ? cutFile(handle, e!)
         : e?.pl ? `/products/gallery/pl/${handle}-${e.key}.webp` : null;
       return {
         src: local ?? img.src,
@@ -235,5 +238,5 @@ export function buildGallery(handle: string, images: { src: string; width: numbe
 /** First background-free packshot listed for a product, if any. */
 export function firstCutout(handle: string): string | null {
   const e = GALLERY[handle]?.find((x) => x.kind === "cutout" && !x.hide);
-  return e ? `/products/gallery/${handle}-${e.key}.webp` : null;
+  return e ? cutFile(handle, e) : null;
 }
