@@ -166,7 +166,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
               <ul className="mt-5 grid sm:grid-cols-2 gap-x-5 gap-y-3 text-sm text-ink/85 bg-sand/70 border border-neutral-warm/55 rounded-2xl p-4">
                 <li className="flex items-start gap-2.5"><CreditCard className="h-4 w-4 mt-0.5 shrink-0 text-accent-secondary-strong" aria-hidden="true" /> Bezpieczna płatność kartą lub PayPal</li>
                 <li className="flex items-start gap-2.5"><RotateCcw className="h-4 w-4 mt-0.5 shrink-0 text-accent-secondary-strong" aria-hidden="true" /> 14 dni na odstąpienie od umowy</li>
-                <li className="flex items-start gap-2.5"><Truck className="h-4 w-4 mt-0.5 shrink-0 text-accent-secondary-strong" aria-hidden="true" /> Darmowa dostawa w Polsce od {FREE_SHIPPING_FROM} zł · zwykle 5–10 dni roboczych</li>
+                <li className="flex items-start gap-2.5"><Truck className="h-4 w-4 mt-0.5 shrink-0 text-accent-secondary-strong" aria-hidden="true" /> Darmowa dostawa w Polsce od {FREE_SHIPPING_FROM} zł · zwykle 7–14 dni roboczych</li>
                 <li className="flex items-start gap-2.5"><Factory className="h-4 w-4 mt-0.5 shrink-0 text-accent-secondary-strong" aria-hidden="true" /> Producent: {product.vendor}</li>
               </ul>
 

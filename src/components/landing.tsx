@@ -61,7 +61,7 @@ const promises = [
 
 const faqs = [
   { q: "Jak dobrać rozmiar legowiska?", a: "Zmierz pupila, gdy leży wyciągnięty i gdy śpi zwinięty, i wybierz rozmiar o kilka centymetrów większy. Przy każdym produkcie podajemy wymiary w centymetrach. Są przybliżone, bo ręczny pomiar może się różnić o 1–3 cm." },
-  { q: "Ile trwa dostawa?", a: `Zamówienia wysyłamy od producentów — dostawa trwa zwykle 5–10 dni roboczych. W Polsce dostawa jest darmowa od ${FREE_SHIPPING_FROM} zł, poniżej ${SHIPPING_PL} zł.` },
+  { q: "Ile trwa dostawa?", a: `Zamówienia wysyłamy od producentów — dostawa trwa zwykle 7–14 dni roboczych. W Polsce dostawa jest darmowa od ${FREE_SHIPPING_FROM} zł, poniżej ${SHIPPING_PL} zł.` },
   { q: "Czy mogę zwrócić produkt?", a: "Tak. Masz 14 dni na odstąpienie od umowy bez podania przyczyny, a reklamacje przyjmujemy przez 2 lata zgodnie z prawem konsumenckim. Wzór formularza odstąpienia znajdziesz na stronie „Formularz odstąpienia od umowy”." },
   { q: "Jak prać legowisko?", a: "Zalecamy delikatne pranie ręczne i suszenie na powietrzu. W legowisku z pianki 3D zdejmowaną poszewkę możesz wyprać osobno." },
   { q: "Kto jest producentem produktów?", a: "Petivo to nazwa sklepu. Przy każdym produkcie podajemy producenta, podmiot odpowiedzialny w Unii Europejskiej oraz ogólne ostrzeżenia bezpieczeństwa." },
