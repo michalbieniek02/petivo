@@ -41,9 +41,9 @@ export function ContactForm() {
 
   if (status === "sent") {
     return (
-      <div role="status" className="mt-8 rounded-2xl border border-ink/15 bg-sand p-6 text-center">
+      <div role="status" className="mt-8 rounded-2xl border border-neutral-warm/80 bg-sand p-6 text-center">
         <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-ink">
-          <Check className="h-5 w-5 text-cream" aria-hidden="true" />
+          <Check className="h-5 w-5 text-background" aria-hidden="true" />
         </div>
         <p className="font-display text-xl text-ink">Dziękujemy, wiadomość wysłana.</p>
         <p className="mt-1 text-sm text-ink/80">Odpowiemy na podany adres e-mail, zwykle w ciągu 2 dni roboczych.</p>
@@ -79,7 +79,7 @@ export function ContactForm() {
         <input type="checkbox" name="consent" required className="mt-0.5 h-4 w-4 shrink-0 accent-[#1b3644]" />
         <span>
           Zgadzam się na przetworzenie moich danych w celu odpowiedzi na wiadomość, zgodnie z{" "}
-          <Link href="/polityka-prywatnosci" className="underline underline-offset-4 decoration-camel hover:text-cocoa">Polityką prywatności</Link>.
+          <Link href="/polityka-prywatnosci" className="underline underline-offset-4 decoration-accent-primary hover:text-accent-primary-strong">Polityką prywatności</Link>.
         </span>
       </label>
       {error && <p role="alert" className="text-sm text-destructive">{error}</p>}

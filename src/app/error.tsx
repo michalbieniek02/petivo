@@ -5,9 +5,9 @@ import { PawPrint } from "lucide-react";
 
 export default function ErrorPage({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
-    <main id="main-content" className="min-h-screen bg-paper text-ink px-6 flex items-center justify-center">
+    <main id="main-content" className="min-h-screen bg-background text-ink px-6 flex items-center justify-center">
       <div className="max-w-lg text-center">
-        <PawPrint className="h-14 w-14 text-camel mx-auto" aria-hidden="true" />
+        <PawPrint className="h-14 w-14 text-accent-primary mx-auto" aria-hidden="true" />
         <h1 className="text-4xl sm:text-5xl mt-6">Coś przerwało ładowanie sklepu</h1>
         <p className="text-ink/80 leading-relaxed mt-5">
           Spróbuj ponownie. Jeśli problem nie zniknie, wróć na stronę główną za chwilę.

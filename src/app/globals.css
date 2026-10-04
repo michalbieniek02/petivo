@@ -5,9 +5,11 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Palette: Sanzo Wada, "A Dictionary of Color Combinations" (1918), combination of
- * cream #f5f5b8 · camel #d99e73 · cocoa #5e4017 · slate #1b3644.
- * Paper, card and sand are lighter mixes of cream and camel for large surfaces.
+ * Brand colours (Sanzo Wada based set):
+ *   background #F6F1E4 · ink #0D2B52 · accent-primary (terracotta) #C2612C
+ *   accent-secondary (sage) #7E8743 · neutral-warm #D99E73 · badges #730F1F / #D1BD19 / #417777
+ * The *-strong variants are the same hues darkened just enough for WCAG AA (4.5:1) wherever the
+ * colour carries text: white text on terracotta buttons, terracotta/sage text on the cream background.
  */
 @theme inline {
   --color-background: var(--background);
@@ -16,14 +18,18 @@
   --font-display: var(--font-fraunces);
   --font-mono: var(--font-geist-mono);
 
-  --color-paper: var(--paper);
-  --color-card: var(--card);
-  --color-sand: var(--sand);
-  --color-cream: var(--cream);
-  --color-camel: var(--camel);
-  --color-cocoa: var(--cocoa);
   --color-ink: var(--ink);
   --color-ink-deep: var(--ink-deep);
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-primary-strong: var(--accent-primary-strong);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-accent-secondary-strong: var(--accent-secondary-strong);
+  --color-neutral-warm: var(--neutral-warm);
+  --color-badge-deep: var(--badge-deep);
+  --color-badge-mustard: var(--badge-mustard);
+  --color-badge-teal: var(--badge-teal);
+  --color-card: var(--card);
+  --color-sand: var(--sand);
 
   --color-ring: var(--ring);
   --color-input: var(--input);
@@ -46,32 +52,38 @@
 }
 
 :root {
-  /* palette */
-  --cream: #f5f5b8;
-  --camel: #d99e73;
-  --cocoa: #5e4017;
-  --ink: #1b3644;
-  --ink-deep: #132833;
+  /* brand colours */
+  --background: #F6F1E4;
+  --ink: #0D2B52;
+  --accent-primary: #C2612C;
+  --accent-secondary: #7E8743;
+  --neutral-warm: #D99E73;
+  --badge-deep: #730F1F;
+  --badge-mustard: #D1BD19;
+  --badge-teal: #417777;
 
-  /* surfaces derived from the palette */
-  --paper: #f7f2e2;
-  --card: #fffcf3;
-  --sand: #efe3c8;
-  --line: rgba(27, 54, 68, 0.12);
-  --line-strong: rgba(27, 54, 68, 0.24);
+  /* AA-safe variants for text (see header comment) */
+  --accent-primary-strong: #A95426;   /* white text 5.3:1, on background 4.7:1 */
+  --accent-secondary-strong: #697038; /* on background 4.7:1 */
+  --ink-deep: #081E3A;
+
+  /* surfaces derived from the brand colours */
+  --card: #FCF8F0;
+  --sand: #F0DFCB;                    /* neutral-warm 22% over the background */
+  --line: rgba(217, 158, 115, 0.55);  /* neutral-warm borders */
+  --line-strong: rgba(13, 43, 82, 0.28);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 
   /* shadcn tokens */
-  --background: var(--paper);
   --foreground: var(--ink);
   --card-foreground: var(--ink);
-  --primary: var(--ink);
-  --primary-foreground: var(--cream);
+  --primary: var(--accent-primary-strong);
+  --primary-foreground: #ffffff;
   --secondary: var(--sand);
   --secondary-foreground: var(--ink);
   --muted: var(--sand);
-  --muted-foreground: #4b5f68;
-  --accent: var(--camel);
+  --muted-foreground: #4a5a6e;
+  --accent: var(--neutral-warm);
   --accent-foreground: var(--ink);
   --destructive: #b42318;
   --border: var(--line);
@@ -84,7 +96,7 @@
   * { @apply border-border; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
-    background: var(--paper);
+    background: var(--background);
     color: var(--ink);
     color-scheme: light;
     font-family: var(--font-inter), -apple-system, system-ui, sans-serif;
@@ -103,7 +115,7 @@
   p { text-wrap: pretty; }
 
   ::selection {
-    background: rgba(217, 158, 115, 0.45);
+    background: rgba(217, 158, 115, 0.5);
     color: var(--ink);
   }
 
@@ -113,12 +125,12 @@
   }
   /* on dark (ink) sections the ring switches to cream */
   :where(.on-ink) :where(a, button, [role="button"], input, select, textarea):focus-visible {
-    outline-color: var(--cream);
+    outline-color: var(--background);
   }
 
   * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(94, 64, 23, 0.4) transparent;
+    scrollbar-color: rgba(194, 97, 44, 0.45) transparent;
   }
 }
 
@@ -129,9 +141,9 @@
     font-style: italic;
     font-weight: 500;
     font-variation-settings: "SOFT" 100;
-    color: var(--cocoa);
+    color: var(--accent-primary-strong);
   }
-  .on-ink .accent-script { color: var(--camel); }
+  .on-ink .accent-script { color: var(--neutral-warm); }
 
   /* flat card surface */
   .surface {
@@ -142,7 +154,7 @@
   /* section on the dark slate colour */
   .on-ink {
     background: var(--ink);
-    color: var(--cream);
+    color: var(--background);
   }
 
   /* subtle paper grain, decorative only */
@@ -154,7 +166,7 @@
     z-index: -1;
     pointer-events: none;
     opacity: 0.35;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .37 0 0 0 0 .25 0 0 0 0 .09 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .05 0 0 0 0 .17 0 0 0 0 .32 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
   /* swipeable strips (filters, thumbnails) without a visible scrollbar */
@@ -175,51 +187,50 @@
     font-weight: 600;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--cocoa);
+    color: var(--accent-secondary-strong);
   }
   .eyebrow::before {
     content: "";
     width: 1.5rem;
     height: 2px;
     border-radius: 2px;
-    background: var(--camel);
+    background: var(--accent-primary);
   }
-  .on-ink .eyebrow { color: var(--camel); }
-  .on-ink .eyebrow::before { background: var(--cream); }
+  /* on the sand band sage text drops below 4.5:1, so labels there use ink */
+  .on-sand .eyebrow { color: var(--ink); }
+  .on-ink .eyebrow { color: var(--neutral-warm); }
+  .on-ink .eyebrow::before { background: var(--background); }
 
-  /* buttons */
+  /* buttons: terracotta primary CTA, sage secondary */
   .btn-primary {
-    background: var(--ink);
-    color: var(--cream);
+    background: var(--accent-primary-strong);
+    color: #ffffff;
     font-weight: 600;
     border-radius: 100px;
-    border: 1px solid var(--ink);
+    border: 1px solid var(--accent-primary-strong);
     transition: transform 0.2s var(--ease-out), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 10px 24px -14px rgba(27, 54, 68, 0.8);
+    box-shadow: 0 10px 24px -14px rgba(169, 84, 38, 0.9);
   }
   .btn-primary:hover {
-    background: var(--cocoa);
-    border-color: var(--cocoa);
+    background: #8E4520;
+    border-color: #8E4520;
     transform: translateY(-1px);
-    box-shadow: 0 14px 28px -14px rgba(94, 64, 23, 0.8);
+    box-shadow: 0 14px 28px -14px rgba(142, 69, 32, 0.9);
   }
   .btn-primary:active { transform: translateY(0); }
-  .btn-primary:disabled { transform: none; box-shadow: none; background: var(--ink); }
-  /* primary button on a slate section */
-  .on-ink .btn-primary { background: var(--cream); color: var(--ink); border-color: var(--cream); box-shadow: none; }
-  .on-ink .btn-primary:hover { background: var(--camel); border-color: var(--camel); color: var(--ink); }
+  .btn-primary:disabled { transform: none; box-shadow: none; background: var(--accent-primary-strong); }
 
   .btn-ghost {
     background: transparent;
-    color: var(--ink);
+    color: var(--accent-secondary-strong);
     font-weight: 600;
     border-radius: 100px;
-    border: 1px solid var(--line-strong);
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+    border: 1.5px solid var(--accent-secondary);
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
   }
   .btn-ghost:hover {
-    background: rgba(27, 54, 68, 0.05);
-    border-color: var(--ink);
+    background: rgba(126, 135, 67, 0.1);
+    border-color: var(--accent-secondary-strong);
   }
 
   .skip-link {
@@ -230,7 +241,7 @@
     transform: translateY(-160%);
     border-radius: 9999px;
     background: var(--ink);
-    color: var(--cream);
+    color: var(--background);
     padding: 0.65rem 1rem;
     font-size: 0.875rem;
     font-weight: 700;
@@ -256,9 +267,9 @@
 .product-desc strong { color: var(--ink); }
 .product-desc ul { list-style: none; padding: 0; margin: 0 0 1rem; }
 .product-desc li { position: relative; padding-left: 1.5rem; margin-bottom: 0.5rem; }
-.product-desc li::before { content: ""; position: absolute; left: 0.1rem; top: 0.62em; width: 0.5rem; height: 0.5rem; border-radius: 9999px; background: var(--camel); }
+.product-desc li::before { content: ""; position: absolute; left: 0.1rem; top: 0.62em; width: 0.5rem; height: 0.5rem; border-radius: 9999px; background: var(--accent-primary); }
 .product-desc img { max-width: 100%; height: auto; border-radius: 1rem; margin: 1rem 0; }
-.product-desc a { color: var(--cocoa); text-decoration: underline; text-underline-offset: 3px; }
+.product-desc a { color: var(--accent-primary-strong); text-decoration: underline; text-underline-offset: 3px; }
 
 /* policy pages */
 .policy-body { color: rgba(27, 54, 68, 0.85); font-size: 0.95rem; line-height: 1.75; }
@@ -271,5 +282,5 @@
 .policy-body ul { list-style: disc; }
 .policy-body ol { list-style: decimal; }
 .policy-body li { margin-bottom: 0.55rem; padding-left: 0.25rem; }
-.policy-body li::marker { color: var(--cocoa); }
-.policy-body a { color: var(--cocoa); text-decoration: underline; text-underline-offset: 3px; }
+.policy-body li::marker { color: var(--accent-primary); }
+.policy-body a { color: var(--accent-primary-strong); text-decoration: underline; text-underline-offset: 3px; }

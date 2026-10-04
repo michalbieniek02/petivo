@@ -11,7 +11,7 @@ export interface GallerySlide {
   height: number;
 }
 
-const STAGE = "radial-gradient(110% 85% at 50% 20%, #fbf6e6 0%, var(--sand) 70%)";
+const STAGE = "radial-gradient(110% 85% at 50% 20%, #FBF6EC 0%, var(--sand) 70%)";
 const SIZES = "(max-width: 1024px) 100vw, 55vw";
 
 function SlideView({ slide, alt, priority }: { slide: GallerySlide; alt: string; priority: boolean }) {
@@ -20,9 +20,9 @@ function SlideView({ slide, alt, priority }: { slide: GallerySlide; alt: string;
   if (slide.kind === "cutout") {
     return (
       <>
-        <div aria-hidden="true" className="absolute left-1/2 bottom-[9%] -translate-x-1/2 w-3/5 h-[7%] rounded-[50%] bg-cocoa/25 blur-xl" />
+        <div aria-hidden="true" className="absolute left-1/2 bottom-[9%] -translate-x-1/2 w-3/5 h-[7%] rounded-[50%] bg-ink/20 blur-xl" />
         <Image src={slide.src} alt={alt} fill priority={priority} sizes={SIZES}
-          className="object-contain p-[11%] drop-shadow-[0_18px_24px_rgba(94,64,23,0.25)]" />
+          className="object-contain p-[11%] drop-shadow-[0_18px_24px_rgba(13,43,82,0.2)]" />
       </>
     );
   }
@@ -98,7 +98,7 @@ export function ProductGallery({ slides, name, index, onIndex }: Props) {
 
   return (
     <div>
-      <div className="relative aspect-square rounded-[1.75rem] overflow-hidden border border-ink/10 touch-pan-y select-none"
+      <div className="relative aspect-square rounded-[1.75rem] overflow-hidden border border-neutral-warm/55 touch-pan-y select-none"
         style={{ background: STAGE }} onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerCancel={() => (swipeStart.current = null)}
         role="group" aria-roledescription="galeria" aria-label={`Zdjęcia produktu: ${index + 1} z ${n}`}>
         <div key={current.src} className="absolute inset-0 animate-in fade-in duration-300">
@@ -107,14 +107,14 @@ export function ProductGallery({ slides, name, index, onIndex }: Props) {
         {n > 1 && (
           <>
             <button type="button" onClick={() => go(-1)} aria-label="Poprzednie zdjęcie"
-              className="absolute left-3 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full flex items-center justify-center bg-paper/90 backdrop-blur border border-ink/10 text-ink shadow-sm hover:bg-ink hover:text-cream transition-colors">
+              className="absolute left-3 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full flex items-center justify-center bg-background/90 backdrop-blur border border-neutral-warm/55 text-ink shadow-sm hover:bg-ink hover:text-background transition-colors">
               <ChevronLeft className="h-5 w-5" aria-hidden="true" />
             </button>
             <button type="button" onClick={() => go(1)} aria-label="Następne zdjęcie"
-              className="absolute right-3 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full flex items-center justify-center bg-paper/90 backdrop-blur border border-ink/10 text-ink shadow-sm hover:bg-ink hover:text-cream transition-colors">
+              className="absolute right-3 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full flex items-center justify-center bg-background/90 backdrop-blur border border-neutral-warm/55 text-ink shadow-sm hover:bg-ink hover:text-background transition-colors">
               <ChevronRight className="h-5 w-5" aria-hidden="true" />
             </button>
-            <span aria-hidden="true" className="absolute right-3 bottom-3 rounded-full bg-paper/90 backdrop-blur border border-ink/10 px-2.5 py-1 text-xs font-semibold text-ink tabular-nums">
+            <span aria-hidden="true" className="absolute right-3 bottom-3 rounded-full bg-background/90 backdrop-blur border border-neutral-warm/55 px-2.5 py-1 text-xs font-semibold text-ink tabular-nums">
               {index + 1} / {n}
             </span>
           </>

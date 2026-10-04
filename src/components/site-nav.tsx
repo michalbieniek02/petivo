@@ -30,14 +30,14 @@ export function SiteNav() {
   return (
     <>
       <a href="#main-content" className="skip-link">Przejdź do treści</a>
-      <nav aria-label="Główna nawigacja" className="fixed top-0 left-0 right-0 z-40 bg-paper/85 backdrop-blur-xl backdrop-saturate-150 border-b border-ink/10">
+      <nav aria-label="Główna nawigacja" className="fixed top-0 left-0 right-0 z-40 bg-background/85 backdrop-blur-xl backdrop-saturate-150 border-b border-neutral-warm/55">
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-3 px-4 sm:px-6 h-16">
           <Link href="/" aria-label="Petivo — strona główna" className="inline-flex items-center shrink-0">
             <Image src="/brand/petivo-logo-ink.png" alt="Petivo" width={1323} height={273} priority sizes="200px" className="h-7 sm:h-9 w-auto" />
           </Link>
           <div className="hidden md:flex items-center gap-7 text-sm font-medium text-ink/80">
             {links.map((l) => (
-              <Link key={l.href} href={l.href} className="hover:text-ink underline-offset-8 decoration-camel decoration-2 hover:underline transition-colors duration-200">
+              <Link key={l.href} href={l.href} className="hover:text-ink underline-offset-8 decoration-accent-primary decoration-2 hover:underline transition-colors duration-200">
                 {l.label}
               </Link>
             ))}
@@ -49,13 +49,13 @@ export function SiteNav() {
             </Link>
             <button type="button" onClick={() => setMenuOpen((o) => !o)}
               aria-expanded={menuOpen} aria-controls="mobile-menu" aria-label={menuOpen ? "Zamknij menu" : "Otwórz menu"}
-              className="md:hidden h-11 w-11 flex items-center justify-center rounded-full text-ink bg-card border border-ink/15 hover:border-ink/40 transition-colors">
+              className="md:hidden h-11 w-11 flex items-center justify-center rounded-full text-ink bg-card border border-neutral-warm/80 hover:border-ink/40 transition-colors">
               {menuOpen ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
             </button>
           </div>
         </div>
         {menuOpen && (
-          <div id="mobile-menu" className="md:hidden border-t border-ink/10 bg-paper px-3 pb-4 pt-2">
+          <div id="mobile-menu" className="md:hidden border-t border-neutral-warm/55 bg-background px-3 pb-4 pt-2">
             <ul>
               {[...links, { href: "/kontakt", label: "Kontakt" }].map((l) => (
                 <li key={l.href}>

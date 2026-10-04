@@ -77,14 +77,14 @@ export function ProductView({ product, others }: { product: Product; others: Pro
   const freeShipping = variant.price >= FREE_SHIPPING_FROM;
 
   return (
-    <main id="main-content" className="min-h-dvh bg-paper text-ink overflow-x-clip">
+    <main id="main-content" className="min-h-dvh bg-background text-ink overflow-x-clip">
       <SiteNav />
 
       <section className="pt-20 sm:pt-24 pb-14 sm:pb-20 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <nav aria-label="Okruszki" className="mb-5 sm:mb-8">
             <ol className="flex flex-wrap items-center gap-1.5 text-sm text-ink/75">
-              <li><Link href="/#kolekcja" className="hover:text-ink underline-offset-4 hover:underline decoration-camel">Sklep</Link></li>
+              <li><Link href="/#kolekcja" className="hover:text-ink underline-offset-4 hover:underline decoration-accent-primary">Sklep</Link></li>
               <li aria-hidden="true"><ChevronRight className="h-3.5 w-3.5" /></li>
               <li>{category.label}</li>
               <li aria-hidden="true" className="hidden sm:block"><ChevronRight className="h-3.5 w-3.5" /></li>
@@ -121,7 +121,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
                   const showPrice = new Set(prices).size > 1;
                   return (
                     <fieldset key={opt.name} className="mt-6">
-                      <legend className="text-xs font-semibold tracking-[0.16em] uppercase text-cocoa mb-3">
+                      <legend className="text-xs font-semibold tracking-[0.16em] uppercase text-accent-secondary-strong mb-3">
                         {opt.name}: <span className="normal-case tracking-normal text-ink">{variant.options[i]}</span>
                       </legend>
                       <div className="flex flex-wrap gap-2">
@@ -132,9 +132,9 @@ export function ProductView({ product, others }: { product: Product; others: Pro
                           const active = variant.options[i] === value;
                           return (
                             <button key={value} type="button" onClick={() => chooseOption(i, value)} aria-pressed={active}
-                              className={`min-h-11 rounded-xl px-4 py-2 text-sm border transition-colors ${active ? "border-ink bg-ink text-cream" : "border-ink/15 bg-card text-ink hover:border-ink/45"} ${price === undefined ? "opacity-60" : ""}`}>
+                              className={`min-h-11 rounded-xl px-4 py-2 text-sm border transition-colors ${active ? "border-ink bg-ink text-background" : "border-neutral-warm/80 bg-card text-ink hover:border-ink/45"} ${price === undefined ? "opacity-60" : ""}`}>
                               {value}
-                              {showPrice && price !== undefined && <span className={`ml-2 tabular-nums ${active ? "text-camel" : "text-ink/70"}`}>{formatPrice(price)}</span>}
+                              {showPrice && price !== undefined && <span className={`ml-2 tabular-nums ${active ? "text-neutral-warm" : "text-ink/75"}`}>{formatPrice(price)}</span>}
                             </button>
                           );
                         })}
@@ -144,13 +144,13 @@ export function ProductView({ product, others }: { product: Product; others: Pro
                 })
               ) : product.optionName && (
                 <fieldset className="mt-7">
-                  <legend className="text-xs font-semibold tracking-[0.16em] uppercase text-cocoa mb-3">{product.optionName}</legend>
+                  <legend className="text-xs font-semibold tracking-[0.16em] uppercase text-accent-secondary-strong mb-3">{product.optionName}</legend>
                   <div className="grid min-[480px]:grid-cols-2 gap-2">
                     {product.variants.map((v) => (
                       <button key={v.id} type="button" onClick={() => selectVariant(v)} aria-pressed={v.id === variant.id}
-                        className={`min-h-12 flex items-center justify-between gap-3 rounded-xl px-4 py-2.5 text-sm text-left border transition-colors ${v.id === variant.id ? "border-ink bg-ink text-cream" : "border-ink/15 bg-card text-ink hover:border-ink/45"}`}>
+                        className={`min-h-12 flex items-center justify-between gap-3 rounded-xl px-4 py-2.5 text-sm text-left border transition-colors ${v.id === variant.id ? "border-ink bg-ink text-background" : "border-neutral-warm/80 bg-card text-ink hover:border-ink/45"}`}>
                         <span>{v.title}</span>
-                        <span className={`shrink-0 tabular-nums ${v.id === variant.id ? "text-camel" : "text-ink/70"}`}>{formatPrice(v.price)}</span>
+                        <span className={`shrink-0 tabular-nums ${v.id === variant.id ? "text-neutral-warm" : "text-ink/75"}`}>{formatPrice(v.price)}</span>
                       </button>
                     ))}
                   </div>
@@ -163,14 +163,14 @@ export function ProductView({ product, others }: { product: Product; others: Pro
                 </AddToCartBtn>
               </div>
 
-              <ul className="mt-5 grid sm:grid-cols-2 gap-x-5 gap-y-3 text-sm text-ink/85 bg-sand/70 border border-ink/10 rounded-2xl p-4">
-                <li className="flex items-start gap-2.5"><CreditCard className="h-4 w-4 mt-0.5 shrink-0 text-cocoa" aria-hidden="true" /> Bezpieczna płatność kartą lub PayPal</li>
-                <li className="flex items-start gap-2.5"><RotateCcw className="h-4 w-4 mt-0.5 shrink-0 text-cocoa" aria-hidden="true" /> 14 dni na odstąpienie od umowy</li>
-                <li className="flex items-start gap-2.5"><Truck className="h-4 w-4 mt-0.5 shrink-0 text-cocoa" aria-hidden="true" /> Darmowa dostawa w Polsce od {FREE_SHIPPING_FROM} zł · zwykle 5–10 dni roboczych</li>
-                <li className="flex items-start gap-2.5"><Factory className="h-4 w-4 mt-0.5 shrink-0 text-cocoa" aria-hidden="true" /> Producent: {product.vendor}</li>
+              <ul className="mt-5 grid sm:grid-cols-2 gap-x-5 gap-y-3 text-sm text-ink/85 bg-sand/70 border border-neutral-warm/55 rounded-2xl p-4">
+                <li className="flex items-start gap-2.5"><CreditCard className="h-4 w-4 mt-0.5 shrink-0 text-accent-secondary-strong" aria-hidden="true" /> Bezpieczna płatność kartą lub PayPal</li>
+                <li className="flex items-start gap-2.5"><RotateCcw className="h-4 w-4 mt-0.5 shrink-0 text-accent-secondary-strong" aria-hidden="true" /> 14 dni na odstąpienie od umowy</li>
+                <li className="flex items-start gap-2.5"><Truck className="h-4 w-4 mt-0.5 shrink-0 text-accent-secondary-strong" aria-hidden="true" /> Darmowa dostawa w Polsce od {FREE_SHIPPING_FROM} zł · zwykle 5–10 dni roboczych</li>
+                <li className="flex items-start gap-2.5"><Factory className="h-4 w-4 mt-0.5 shrink-0 text-accent-secondary-strong" aria-hidden="true" /> Producent: {product.vendor}</li>
               </ul>
 
-              <div className="product-desc mt-10 pt-10 border-t border-ink/10"
+              <div className="product-desc mt-10 pt-10 border-t border-neutral-warm/55"
                 dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
               <ProductSafety handle={product.handle} />
             </div>
@@ -179,7 +179,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
       </section>
 
       {others.length > 0 && (
-        <section className="py-14 sm:py-20 px-4 sm:px-6 border-t border-ink/10">
+        <section className="py-14 sm:py-20 px-4 sm:px-6 border-t border-neutral-warm/55">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl sm:text-4xl mb-8">Zobacz <span className="accent-script">też</span></h2>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -193,7 +193,7 @@ export function ProductView({ product, others }: { product: Product; others: Pro
       <div aria-hidden="true" className="h-20 lg:hidden" />
 
       <div aria-hidden={!showBar} inert={!showBar}
-        className={`lg:hidden fixed inset-x-0 bottom-0 z-30 border-t border-ink/10 bg-paper/95 backdrop-blur px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] transition-transform duration-300 ${showBar ? "translate-y-0" : "translate-y-full"}`}>
+        className={`lg:hidden fixed inset-x-0 bottom-0 z-30 border-t border-neutral-warm/55 bg-background/95 backdrop-blur px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] transition-transform duration-300 ${showBar ? "translate-y-0" : "translate-y-full"}`}>
         <div className="flex items-center gap-3">
           <div className="min-w-0 flex-1">
             <p className="text-xs text-ink/75 truncate">{product.optionName ? `${product.name} · ${variant.title}` : product.name}</p>

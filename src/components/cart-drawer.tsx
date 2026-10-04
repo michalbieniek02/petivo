@@ -60,11 +60,11 @@ export function CartDrawer() {
             onKeyDown={trapFocus}
             initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed right-0 top-0 bottom-0 h-dvh z-50 w-full max-w-md flex flex-col bg-paper border-l border-ink/10 shadow-[-20px_0_60px_-30px_rgba(27,54,68,0.5)]"
+            className="fixed right-0 top-0 bottom-0 h-dvh z-50 w-full max-w-md flex flex-col bg-background border-l border-neutral-warm/55 shadow-[-20px_0_60px_-30px_rgba(27,54,68,0.5)]"
           >
-            <div className="flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5 border-b border-ink/10">
+            <div className="flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5 border-b border-neutral-warm/55">
               <div className="flex items-center gap-3">
-                <ShoppingBag className="h-5 w-5 text-cocoa" aria-hidden="true" />
+                <ShoppingBag className="h-5 w-5 text-accent-primary-strong" aria-hidden="true" />
                 <span id="cart-title" className="font-display text-xl text-ink">Koszyk {count > 0 && `(${count})`}</span>
               </div>
               <button ref={closeButton} onClick={closeCart} aria-label="Zamknij koszyk"
@@ -77,7 +77,7 @@ export function CartDrawer() {
               {items.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center gap-4 text-center">
                   <div className="h-16 w-16 rounded-full flex items-center justify-center bg-sand">
-                    <Package className="h-7 w-7 text-cocoa" aria-hidden="true" />
+                    <Package className="h-7 w-7 text-accent-primary-strong" aria-hidden="true" />
                   </div>
                   <p className="font-display text-xl text-ink">Koszyk jest pusty</p>
                   <Link href="/#kolekcja" onClick={closeCart} className="btn-ghost min-h-11 px-5 inline-flex items-center text-sm">
@@ -92,12 +92,12 @@ export function CartDrawer() {
                         className="h-[72px] w-[72px] object-cover rounded-xl bg-white flex-shrink-0" />
                       <div className="flex-1 min-w-0">
                         <Link href={`/produkt/${item.handle}`} onClick={closeCart}
-                          className="block font-semibold text-ink text-sm truncate hover:text-cocoa transition-colors">
+                          className="block font-semibold text-ink text-sm truncate hover:text-accent-primary-strong transition-colors">
                           {item.name}
                         </Link>
                         {item.variantTitle && <p className="text-ink/75 text-xs mt-0.5 truncate">{item.variantTitle}</p>}
                         <div className="flex items-center justify-between mt-3">
-                          <div className="flex items-center rounded-full border border-ink/15 bg-paper">
+                          <div className="flex items-center rounded-full border border-neutral-warm/80 bg-background">
                             <button onClick={() => setQty(item.variantId, item.qty - 1)} aria-label={item.qty === 1 ? `Usuń ${item.name} z koszyka` : `Zmniejsz ilość ${item.name}`}
                               className="h-9 w-9 flex items-center justify-center text-ink/75 hover:text-ink">
                               {item.qty === 1 ? <Trash2 className="h-3.5 w-3.5" /> : <Minus className="h-3.5 w-3.5" />}
@@ -118,7 +118,7 @@ export function CartDrawer() {
             </div>
 
             {items.length > 0 && (
-              <div className="px-4 sm:px-6 py-4 sm:py-6 pb-[max(1rem,env(safe-area-inset-bottom))] border-t border-ink/10 bg-card space-y-4">
+              <div className="px-4 sm:px-6 py-4 sm:py-6 pb-[max(1rem,env(safe-area-inset-bottom))] border-t border-neutral-warm/55 bg-card space-y-4">
                 <div>
                   <p className="text-xs text-ink/85 mb-2">
                     {total >= FREE_SHIPPING
@@ -129,7 +129,7 @@ export function CartDrawer() {
                     aria-valuemin={0} aria-valuemax={FREE_SHIPPING} aria-valuenow={Math.min(total, FREE_SHIPPING)}
                     aria-label="Postęp do darmowej dostawy">
                     <div className="h-full rounded-full transition-[width] duration-500"
-                      style={{ width: `${Math.min(100, (total / FREE_SHIPPING) * 100)}%`, background: "linear-gradient(90deg, var(--camel), var(--cocoa))" }} />
+                      style={{ width: `${Math.min(100, (total / FREE_SHIPPING) * 100)}%`, background: "linear-gradient(90deg, var(--accent-secondary), var(--accent-primary))" }} />
                   </div>
                 </div>
                 <dl className="space-y-1.5 text-sm">
@@ -165,10 +165,10 @@ export function CartButton() {
 
   return (
     <button onClick={openCart} aria-label={count > 0 ? `Otwórz koszyk, liczba produktów: ${count}` : "Otwórz koszyk"}
-      className="relative h-11 w-11 flex items-center justify-center rounded-full text-ink bg-card border border-ink/15 hover:border-ink/40 transition-colors">
+      className="relative h-11 w-11 flex items-center justify-center rounded-full text-ink bg-card border border-neutral-warm/80 hover:border-ink/40 transition-colors">
       <ShoppingBag className="h-4 w-4" aria-hidden="true" />
       {count > 0 && (
-        <span className="absolute -top-1 -right-1 h-5 min-w-5 px-1 rounded-full text-[11px] font-bold text-ink bg-camel flex items-center justify-center tabular-nums">
+        <span className="absolute -top-1 -right-1 h-5 min-w-5 px-1 rounded-full text-[11px] font-bold text-white bg-accent-primary-strong flex items-center justify-center tabular-nums">
           {count}
         </span>
       )}

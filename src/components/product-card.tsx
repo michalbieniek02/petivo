@@ -33,21 +33,21 @@ export function ProductCard({ product, featured = false }: { product: Product; f
   return (
     <Link href={`/produkt/${product.handle}`}
       className={`group relative surface rounded-[1.75rem] p-2.5 h-full flex hover:border-ink/30 hover:shadow-[0_24px_48px_-28px_rgba(27,54,68,0.45)] transition-[border-color,box-shadow] duration-300 ${featured ? "flex-col lg:flex-row lg:items-stretch" : "flex-col"}`}>
-      <span className="absolute top-5 left-5 z-10 rounded-full bg-paper/90 px-3 py-1 text-xs font-semibold text-cocoa backdrop-blur">
+      <span className="absolute top-5 left-5 z-10 rounded-full bg-background/95 px-3 py-1 text-xs font-semibold text-accent-primary-strong backdrop-blur">
         {category.singular}
       </span>
       <div className={featured ? "lg:w-[55%]" : ""}>{visual}</div>
       <div className={`flex flex-col flex-1 px-3 pb-3 pt-5 ${featured ? "lg:px-10 lg:py-10 lg:justify-center" : ""}`}>
-        {featured && <p className="eyebrow mb-3">Polecamy na start</p>}
+        {featured && <p className="mb-3 inline-flex self-start rounded-full bg-badge-deep px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-white">Polecamy na start</p>}
         <h3 className={`text-ink leading-tight ${featured ? "text-2xl lg:text-4xl" : "text-xl"}`}>{product.name}</h3>
         <p className={`text-ink/75 leading-snug mt-2 ${featured ? "text-base lg:text-lg" : "text-sm"}`}>{product.tagline}</p>
-        {hasVariants && <p className="mt-2 text-xs font-medium text-cocoa">{variantsLabel(product.variants.length)}</p>}
+        {hasVariants && <p className="mt-2 text-xs font-medium text-accent-secondary-strong">{variantsLabel(product.variants.length)}</p>}
         <div className={`flex items-center justify-between gap-4 mt-auto pt-5 ${featured ? "lg:mt-8 lg:pt-0" : ""}`}>
           <div className={`font-display text-ink tabular-nums ${featured ? "text-3xl" : "text-2xl"}`}>
             {hasVariants && <span className="text-xs font-sans font-semibold text-ink/70 mr-1.5">od</span>}
             {formatPrice(product.minPrice)}
           </div>
-          <span className={`inline-flex items-center gap-1.5 text-sm font-semibold transition-colors ${featured ? "btn-primary min-h-11 px-5 py-2.5" : "h-10 w-10 justify-center rounded-full bg-sand text-ink group-hover:bg-ink group-hover:text-cream"}`}>
+          <span className={`inline-flex items-center gap-1.5 text-sm font-semibold transition-colors ${featured ? "btn-primary min-h-11 px-5 py-2.5" : "h-10 w-10 justify-center rounded-full bg-accent-primary/15 text-accent-primary-strong group-hover:bg-accent-primary-strong group-hover:text-white"}`}>
             {featured ? "Zobacz" : <span className="sr-only">Zobacz</span>}
             <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" aria-hidden="true" />
           </span>

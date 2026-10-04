@@ -8,40 +8,40 @@ export function SiteFooter() {
       <div className="max-w-6xl mx-auto grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr]">
         <div>
           <Image src="/brand/petivo-logo-cream.png" alt="Petivo" width={1323} height={273} sizes="240px" className="h-10 w-auto" />
-          <p className="font-display text-lg text-cream/90 mt-5 max-w-xs leading-snug">
+          <p className="font-display text-lg text-background/90 mt-5 max-w-xs leading-snug">
             Legowiska, maty i akcesoria na spacer dla psa i kota.
           </p>
-          <p className="text-sm text-cream/80 leading-relaxed mt-4">
-            <a href="mailto:kontakt@petivo.shop" className="hover:text-cream transition-colors underline underline-offset-4 decoration-camel">
+          <p className="text-sm text-background/80 leading-relaxed mt-4">
+            <a href="mailto:kontakt@petivo.shop" className="hover:text-background transition-colors underline underline-offset-4 decoration-accent-primary">
               kontakt@petivo.shop
             </a>
             <br />
-            <Link href="/kontakt" className="hover:text-cream transition-colors underline underline-offset-4 decoration-camel">
+            <Link href="/kontakt" className="hover:text-background transition-colors underline underline-offset-4 decoration-accent-primary">
               Formularz kontaktowy
             </Link>
           </p>
         </div>
         <nav aria-label="Sklep">
-          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-camel mb-4">Sklep</p>
-          <ul className="space-y-2.5 text-sm text-cream/80">
-            <li><Link href="/#kolekcja" className="hover:text-cream transition-colors">Produkty</Link></li>
-            <li><Link href="/#jak-wybrac" className="hover:text-cream transition-colors">Jak dobrać legowisko</Link></li>
-            <li><Link href="/#faq" className="hover:text-cream transition-colors">FAQ</Link></li>
-            <li><Link href="/dostawa" className="hover:text-cream transition-colors">Dostawa</Link></li>
+          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-neutral-warm mb-4">Sklep</p>
+          <ul className="space-y-2.5 text-sm text-background/80">
+            <li><Link href="/#kolekcja" className="hover:text-background transition-colors">Produkty</Link></li>
+            <li><Link href="/#jak-wybrac" className="hover:text-background transition-colors">Jak dobrać legowisko</Link></li>
+            <li><Link href="/#faq" className="hover:text-background transition-colors">FAQ</Link></li>
+            <li><Link href="/dostawa" className="hover:text-background transition-colors">Dostawa</Link></li>
           </ul>
         </nav>
         <nav aria-label="Informacje prawne">
-          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-camel mb-4">Informacje</p>
-          <ul className="space-y-2.5 text-sm text-cream/80">
+          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-neutral-warm mb-4">Informacje</p>
+          <ul className="space-y-2.5 text-sm text-background/80">
             {POLICIES.filter((p) => p.slug !== "dostawa").map((p) => (
               <li key={p.slug}>
-                <Link href={`/${p.slug}`} className="hover:text-cream transition-colors">{p.title}</Link>
+                <Link href={`/${p.slug}`} className="hover:text-background transition-colors">{p.title}</Link>
               </li>
             ))}
           </ul>
         </nav>
       </div>
-      <p className="max-w-6xl mx-auto text-xs text-cream/65 mt-12 pt-6 border-t border-cream/15">© 2026 Petivo. Wszelkie prawa zastrzeżone.</p>
+      <p className="max-w-6xl mx-auto text-xs text-background/65 mt-12 pt-6 border-t border-background/15">© 2026 Petivo. Wszelkie prawa zastrzeżone.</p>
     </footer>
   );
 }

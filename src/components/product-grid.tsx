@@ -51,11 +51,11 @@ export function ProductGrid({ products, category: controlled, onCategory }: Prop
                 onClick={() => setCategory(c.id)}
                 className={`min-h-11 shrink-0 rounded-full border px-4 text-sm font-semibold transition-colors ${
                   category === c.id
-                    ? "border-ink bg-ink text-cream"
-                    : "border-ink/15 bg-card text-ink/85 hover:border-ink/40 hover:text-ink"
+                    ? "border-ink bg-ink text-background"
+                    : "border-neutral-warm/80 bg-card text-ink/85 hover:border-ink/40 hover:text-ink"
                 }`}
               >
-                {c.label} <span className={`ml-1 tabular-nums ${category === c.id ? "text-camel" : "text-ink/75"}`}>{c.count}</span>
+                {c.label} <span className={`ml-1 tabular-nums ${category === c.id ? "text-neutral-warm" : "text-ink/75"}`}>{c.count}</span>
               </button>
             ))}
           </div>
@@ -65,7 +65,7 @@ export function ProductGrid({ products, category: controlled, onCategory }: Prop
           <select
             value={sort}
             onChange={(e) => setSort(e.target.value as Sort)}
-            className="min-h-11 rounded-full border border-ink/15 bg-card px-4 text-sm text-ink focus:border-ink focus:outline-none"
+            className="min-h-11 rounded-full border border-neutral-warm/80 bg-card px-4 text-sm text-ink focus:border-ink focus:outline-none"
           >
             <option value="featured">Polecane</option>
             <option value="asc">Cena rosnąco</option>

@@ -95,7 +95,7 @@ export function Landing({ products }: { products: Product[] }) {
 
   return (
     <MotionConfig reducedMotion="user">
-    <main id="main-content" className="min-h-dvh bg-paper text-ink overflow-x-hidden">
+    <main id="main-content" className="min-h-dvh bg-background text-ink overflow-x-hidden">
 
       <SiteNav />
 
@@ -125,7 +125,7 @@ export function Landing({ products }: { products: Product[] }) {
             {cheapest !== null && (
               <p className="mt-7 text-sm text-ink/75">
                 {products.length} produktów od <strong className="font-semibold text-ink">{formatPrice(cheapest)}</strong>
-                <span aria-hidden="true" className="mx-2 text-camel">●</span>
+                <span aria-hidden="true" className="mx-2 text-accent-primary">●</span>
                 darmowa dostawa od {FREE_SHIPPING_FROM} zł
               </p>
             )}
@@ -136,7 +136,7 @@ export function Landing({ products }: { products: Product[] }) {
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
               className="relative mx-auto w-full max-w-[30rem] lg:max-w-none">
-              <div aria-hidden="true" className="absolute -right-6 top-6 h-40 w-40 sm:h-56 sm:w-56 rounded-full bg-camel/45" />
+              <div aria-hidden="true" className="absolute -right-6 top-6 h-40 w-40 sm:h-56 sm:w-56 rounded-full bg-neutral-warm/45" />
               <Link href={`/produkt/${hero[0].handle}`}
                 className="group relative block ml-auto w-[78%] aspect-[4/5] overflow-hidden rounded-t-[999px] rounded-b-[2rem] bg-sand shadow-[0_40px_80px_-40px_rgba(27,54,68,0.55)]">
                 <Image src={photoOf(hero[0])!.src} alt={hero[0].name} fill priority sizes="(max-width: 1024px) 80vw, 36vw"
@@ -152,10 +152,10 @@ export function Landing({ products }: { products: Product[] }) {
                     <span className="block text-xs font-semibold text-ink truncate">{hero[1].name}</span>
                     <span className="block text-xs text-ink/75 tabular-nums">od {formatPrice(hero[1].minPrice)}</span>
                   </span>
-                  <ArrowUpRight className="h-4 w-4 shrink-0 text-cocoa" aria-hidden="true" />
+                  <ArrowUpRight className="h-4 w-4 shrink-0 text-accent-primary-strong" aria-hidden="true" />
                 </span>
               </Link>
-              <span className="absolute right-6 bottom-4 hidden sm:inline-flex rounded-full bg-ink text-cream px-4 py-2 text-xs font-semibold shadow-lg">
+              <span className="absolute right-6 bottom-4 hidden sm:inline-flex rounded-full bg-ink text-background px-4 py-2 text-xs font-semibold shadow-lg">
                 {hero[0].name.split(" — ")[0]} · od {formatPrice(hero[0].minPrice)}
               </span>
             </motion.div>
@@ -168,10 +168,10 @@ export function Landing({ products }: { products: Product[] }) {
         <ul className="max-w-6xl mx-auto px-4 sm:px-6 py-7 sm:py-8 grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-5">
           {promises.map(({ icon: Icon, title, desc }) => (
             <li key={title} className="flex items-start gap-3">
-              <Icon className="h-5 w-5 mt-0.5 shrink-0 text-camel" aria-hidden="true" />
+              <Icon className="h-5 w-5 mt-0.5 shrink-0 text-neutral-warm" aria-hidden="true" />
               <span>
-                <span className="block text-sm font-semibold text-cream">{title}</span>
-                <span className="block text-xs text-cream/75 mt-0.5 leading-relaxed">{desc}</span>
+                <span className="block text-sm font-semibold text-background">{title}</span>
+                <span className="block text-xs text-background/75 mt-0.5 leading-relaxed">{desc}</span>
               </span>
             </li>
           ))}
@@ -195,12 +195,12 @@ export function Landing({ products }: { products: Product[] }) {
                         className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.05]" />
                     )}
                     <span aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/45 to-transparent" />
-                    <span className="absolute inset-x-0 bottom-0 p-5 sm:p-6 text-cream">
+                    <span className="absolute inset-x-0 bottom-0 p-5 sm:p-6 text-background">
                       <span className="block font-display text-2xl sm:text-3xl leading-tight">{c.label}</span>
-                      {CATEGORY_BLURB[c.id] && <span className="block text-sm text-cream/85 mt-1.5">{CATEGORY_BLURB[c.id]}</span>}
+                      {CATEGORY_BLURB[c.id] && <span className="block text-sm text-background/85 mt-1.5">{CATEGORY_BLURB[c.id]}</span>}
                       <span className="mt-4 flex items-center justify-between gap-3">
-                        <span className="text-sm text-cream/90">{c.count} {c.count === 1 ? "produkt" : c.count < 5 ? "produkty" : "produktów"} · od {formatPrice(c.from)}</span>
-                        <span className="h-10 w-10 shrink-0 rounded-full bg-cream text-ink flex items-center justify-center group-hover:bg-camel transition-colors">
+                        <span className="text-sm text-background/90">{c.count} {c.count === 1 ? "produkt" : c.count < 5 ? "produkty" : "produktów"} · od {formatPrice(c.from)}</span>
+                        <span className="h-10 w-10 shrink-0 rounded-full bg-accent-primary-strong text-white flex items-center justify-center group-hover:bg-background group-hover:text-ink transition-colors">
                           <ArrowRight className="h-4 w-4" aria-hidden="true" />
                         </span>
                       </span>
@@ -226,7 +226,7 @@ export function Landing({ products }: { products: Product[] }) {
       </section>
 
       {/* ─── SIZING GUIDE ─── */}
-      <section id="jak-wybrac" className="grain bg-sand py-16 sm:py-24 px-4 sm:px-6 scroll-mt-16">
+      <section id="jak-wybrac" className="on-sand grain bg-sand py-16 sm:py-24 px-4 sm:px-6 scroll-mt-16">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-16">
           <Reveal className="lg:sticky lg:top-28 lg:self-start">
             <SectionHeading eyebrow="Poradnik" title={<>Jak dobrać <span className="accent-script">legowisko</span></>}>
@@ -239,8 +239,8 @@ export function Landing({ products }: { products: Product[] }) {
           </Reveal>
           <ol className="space-y-4">
             {sizingSteps.map(({ t, d }, i) => (
-              <Reveal as="li" key={t} delay={i * 0.08} className="flex gap-5 sm:gap-7 rounded-[1.75rem] bg-card/80 border border-ink/10 p-6 sm:p-8">
-                <span aria-hidden="true" className="w-9 sm:w-11 shrink-0 text-center font-display italic text-5xl sm:text-6xl leading-none text-cocoa/80 tabular-nums">{i + 1}</span>
+              <Reveal as="li" key={t} delay={i * 0.08} className="flex gap-5 sm:gap-7 rounded-[1.75rem] bg-card/80 border border-neutral-warm/55 p-6 sm:p-8">
+                <span aria-hidden="true" className="w-9 sm:w-11 shrink-0 text-center font-display italic text-5xl sm:text-6xl leading-none text-accent-primary-strong tabular-nums">{i + 1}</span>
                 <div>
                   <h3 className="text-2xl text-ink">{t}</h3>
                   <p className="text-sm sm:text-base text-ink/80 leading-relaxed mt-2">{d}</p>
@@ -258,14 +258,14 @@ export function Landing({ products }: { products: Product[] }) {
             <SectionHeading eyebrow="FAQ" title={<>Masz <span className="accent-script">pytania?</span></>}>
               Najczęstsze pytania o rozmiary, dostawę i zwroty.
             </SectionHeading>
-            <Link href="/kontakt" className="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-ink hover:text-cocoa transition-colors underline underline-offset-4 decoration-camel decoration-2">
+            <Link href="/kontakt" className="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-ink hover:text-accent-primary-strong transition-colors underline underline-offset-4 decoration-accent-primary decoration-2">
               Nie ma tu odpowiedzi? Napisz do nas
             </Link>
           </Reveal>
-          <Accordion className="divide-y divide-ink/10 border-y border-ink/10">
+          <Accordion className="divide-y divide-neutral-warm/55 border-y border-neutral-warm/55">
             {faqs.map(({ q, a }, i) => (
               <AccordionItem key={q} value={`${i}`} className="border-0">
-                <AccordionTrigger className="font-display text-lg sm:text-xl text-ink py-5 text-left gap-4 hover:no-underline hover:text-cocoa">
+                <AccordionTrigger className="font-display text-lg sm:text-xl text-ink py-5 text-left gap-4 hover:no-underline hover:text-accent-primary-strong">
                   {q}
                 </AccordionTrigger>
                 <AccordionContent className="text-ink/80 text-sm sm:text-base leading-relaxed pb-5 pr-6">
@@ -283,10 +283,10 @@ export function Landing({ products }: { products: Product[] }) {
           <div className="on-ink relative max-w-6xl mx-auto overflow-hidden rounded-[2.25rem] px-6 py-14 sm:px-14 sm:py-20 lg:grid lg:grid-cols-[1.3fr_1fr] lg:gap-12 lg:items-center">
             <div className="relative max-w-2xl">
               <p className="eyebrow mb-5">Petivo</p>
-              <h2 className="text-[2rem] leading-[1.08] sm:text-5xl text-cream">
+              <h2 className="text-[2rem] leading-[1.08] sm:text-5xl text-background">
                 Daj pupilowi miejsce, <span className="accent-script">które pokocha</span>
               </h2>
-              <p className="text-cream/85 text-base sm:text-lg mt-5 max-w-md">
+              <p className="text-background/85 text-base sm:text-lg mt-5 max-w-md">
                 Wybierz legowisko, akcesoria na spacer albo coś do zabawy. Darmowa dostawa w Polsce od {FREE_SHIPPING_FROM} zł.
               </p>
               <Link href="#kolekcja" className="btn-primary min-h-12 px-8 mt-9 inline-flex items-center justify-center gap-2 w-full min-[400px]:w-auto">
@@ -295,8 +295,8 @@ export function Landing({ products }: { products: Product[] }) {
             </div>
             {ctaPhoto && (
               <div aria-hidden="true" className="relative hidden lg:block">
-                <div className="absolute -right-10 -bottom-24 h-72 w-72 rounded-full bg-camel" />
-                <div className="relative ml-auto w-[78%] aspect-[4/5] overflow-hidden rounded-t-[999px] rounded-b-[1.5rem] border-4 border-cream/15">
+                <div className="absolute -right-10 -bottom-24 h-72 w-72 rounded-full bg-accent-primary" />
+                <div className="relative ml-auto w-[78%] aspect-[4/5] overflow-hidden rounded-t-[999px] rounded-b-[1.5rem] border-4 border-background/15">
                   <Image src={ctaPhoto} alt="" fill sizes="30vw" className="object-cover" />
                 </div>
               </div>

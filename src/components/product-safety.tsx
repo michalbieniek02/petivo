@@ -70,15 +70,15 @@ export function ProductSafety({ handle }: Props) {
   const productId = PRODUCT_IDS[handle];
 
   return (
-    <section aria-labelledby="safety-title" className="mt-10 rounded-2xl border border-ink/15 bg-card p-5 sm:p-6">
+    <section aria-labelledby="safety-title" className="mt-10 rounded-2xl border border-neutral-warm/80 bg-card p-5 sm:p-6">
       <h3 id="safety-title" className="flex items-center gap-2 text-lg text-ink">
-        <AlertTriangle className="h-4 w-4 text-cocoa" aria-hidden="true" />
+        <AlertTriangle className="h-4 w-4 text-accent-primary-strong" aria-hidden="true" />
         Ostrzeżenia i bezpieczne użytkowanie
       </h3>
       <ul className="mt-4 space-y-2 text-sm leading-relaxed text-ink/85">
         {items.map((t) => (
           <li key={t} className="flex gap-3">
-            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-camel" aria-hidden="true" />
+            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-primary" aria-hidden="true" />
             <span>{t}</span>
           </li>
         ))}
