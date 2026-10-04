@@ -88,7 +88,7 @@ function plural(n: number, one: string, few: string, many: string) {
 function SceneTag({ product, label, className }: { product: Product; label: string; className: string }) {
   return (
     <Link href={`/produkt/${product.handle}`}
-      className={`group absolute z-20 inline-flex items-center gap-2.5 rounded-full bg-card/95 backdrop-blur border border-neutral-warm/70 pl-3.5 pr-1.5 py-1.5 shadow-[0_12px_30px_-16px_rgba(13,43,82,0.6)] hover:border-accent-primary transition-colors ${className}`}>
+      className={`group absolute z-20 inline-flex items-center gap-2.5 rounded-full bg-card/95 backdrop-blur border border-neutral-warm/70 pl-3.5 pr-1.5 py-1.5 shadow-[0_12px_30px_-16px_rgba(35,57,74,0.6)] hover:border-accent-primary transition-colors ${className}`}>
       <span className="leading-tight">
         <span className="block text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-accent-secondary-strong">{label}</span>
         <span className="block text-sm font-semibold text-ink">od {formatPrice(product.minPrice)}</span>
@@ -176,9 +176,9 @@ export function Landing({ products }: { products: Product[] }) {
               className="relative mx-auto w-full max-w-[34rem] lg:max-w-none aspect-[1/1] sm:aspect-[10/9]">
               {/* backdrop arch, sun and a small sage moon */}
               <div aria-hidden="true" className="absolute inset-x-[3%] top-[2%] bottom-[9%] rounded-t-[999px] rounded-b-[2.5rem]"
-                style={{ background: "linear-gradient(180deg, #F8EBDD 0%, rgba(217,158,115,0.5) 100%)" }} />
-              <div aria-hidden="true" className="absolute right-[12%] top-[10%] w-[19%] aspect-square rounded-full bg-accent-primary/90" />
-              <div aria-hidden="true" className="absolute left-[20%] top-[14%] w-[6%] aspect-square rounded-full bg-accent-secondary/70" />
+                style={{ background: "linear-gradient(180deg, #FCF1F0 0%, rgba(232,180,184,0.55) 100%)" }} />
+              <div aria-hidden="true" className="absolute right-[12%] top-[10%] w-[19%] aspect-square rounded-full bg-neutral-warm" />
+              <div aria-hidden="true" className="absolute left-[20%] top-[14%] w-[6%] aspect-square rounded-full bg-accent-primary/70" />
               {/* contact shadows */}
               <div aria-hidden="true" className="absolute left-[9%] bottom-[11%] w-[42%] h-[6%] rounded-[50%] bg-ink/30 blur-xl" />
               <div aria-hidden="true" className="absolute right-[5%] bottom-[10%] w-[44%] h-[6%] rounded-[50%] bg-ink/25 blur-xl" />
@@ -186,12 +186,12 @@ export function Landing({ products }: { products: Product[] }) {
               <Link href={`/produkt/${scene.cat.handle}`} aria-label={scene.cat.name}
                 className="absolute left-[6%] bottom-[12%] w-[49%] aspect-[1.05] transition-transform duration-500 hover:-translate-y-1">
                 <Image src={scene.cat.packshot!} alt={scene.cat.name} fill priority sizes="(max-width: 1024px) 50vw, 28vw"
-                  className="object-contain object-bottom drop-shadow-[0_18px_22px_rgba(13,43,82,0.22)]" />
+                  className="object-contain object-bottom drop-shadow-[0_18px_22px_rgba(35,57,74,0.22)]" />
               </Link>
               <Link href={`/produkt/${scene.dog.handle}`} aria-label={scene.dog.name}
                 className="absolute right-[3%] bottom-[11%] z-10 w-[46%] aspect-[1.55] transition-transform duration-500 hover:-translate-y-1">
                 <Image src={scene.dog.packshot!} alt={scene.dog.name} fill priority sizes="(max-width: 1024px) 50vw, 26vw"
-                  className="object-contain object-bottom drop-shadow-[0_18px_22px_rgba(13,43,82,0.22)]" />
+                  className="object-contain object-bottom drop-shadow-[0_18px_22px_rgba(35,57,74,0.22)]" />
               </Link>
 
               <SceneTag product={scene.cat} label="Dla kota" className="left-[2%] bottom-0" />
@@ -233,12 +233,12 @@ export function Landing({ products }: { products: Product[] }) {
                     <span className="relative flex-1 mt-3">
                       {c.pieces[0] && (
                         <span className="absolute left-0 bottom-0 h-full w-[60%] transition-transform duration-500 group-hover:-translate-y-1.5 group-hover:-rotate-2">
-                          <Image src={c.pieces[0].packshot!} alt="" fill sizes="(max-width: 768px) 55vw, 20vw" className="object-contain object-bottom drop-shadow-[0_14px_16px_rgba(13,43,82,0.2)]" />
+                          <Image src={c.pieces[0].packshot!} alt="" fill sizes="(max-width: 768px) 55vw, 20vw" className="object-contain object-bottom drop-shadow-[0_14px_16px_rgba(35,57,74,0.2)]" />
                         </span>
                       )}
                       {c.pieces[1] && (
                         <span className="absolute right-0 bottom-0 h-[78%] w-[46%] transition-transform duration-500 delay-75 group-hover:-translate-y-1 group-hover:rotate-2">
-                          <Image src={c.pieces[1].packshot!} alt="" fill sizes="(max-width: 768px) 45vw, 15vw" className="object-contain object-bottom drop-shadow-[0_14px_16px_rgba(13,43,82,0.2)]" />
+                          <Image src={c.pieces[1].packshot!} alt="" fill sizes="(max-width: 768px) 45vw, 15vw" className="object-contain object-bottom drop-shadow-[0_14px_16px_rgba(35,57,74,0.2)]" />
                         </span>
                       )}
                     </span>
@@ -281,7 +281,7 @@ export function Landing({ products }: { products: Product[] }) {
             <ol className="grid gap-4 sm:gap-5 md:grid-cols-3">
               {beds.map((b, i) => (
                 <Reveal as="li" key={b.handle} delay={i * 0.06} className="h-full">
-                  <Link href={`/produkt/${b.handle}`} className="group flex h-full flex-col rounded-[2rem] bg-card border border-neutral-warm/60 p-3 hover:shadow-[0_28px_56px_-34px_rgba(13,43,82,0.55)] transition-shadow">
+                  <Link href={`/produkt/${b.handle}`} className="group flex h-full flex-col rounded-[2rem] bg-card border border-neutral-warm/60 p-3 hover:shadow-[0_28px_56px_-34px_rgba(35,57,74,0.55)] transition-shadow">
                     <ProductStage src={b.product!.packshot!} alt={b.product!.name} className="aspect-[4/3]" sizes="(max-width: 768px) 100vw, 33vw" padding="p-[10%]" />
                     <div className="flex flex-1 flex-col px-3 pb-3 pt-5">
                       <p className="text-xs font-semibold uppercase tracking-[0.14em] text-accent-primary-strong">{b.who}</p>

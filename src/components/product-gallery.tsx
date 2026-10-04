@@ -11,7 +11,7 @@ export interface GallerySlide {
   height: number;
 }
 
-const STAGE = "radial-gradient(110% 85% at 50% 20%, #FBF6EC 0%, var(--sand) 70%)";
+const STAGE = "radial-gradient(110% 85% at 50% 20%, #FFF9F7 0%, var(--sand) 70%)";
 const SIZES = "(max-width: 1024px) 100vw, 55vw";
 
 function SlideView({ slide, alt, priority }: { slide: GallerySlide; alt: string; priority: boolean }) {
@@ -22,7 +22,7 @@ function SlideView({ slide, alt, priority }: { slide: GallerySlide; alt: string;
       <>
         <div aria-hidden="true" className="absolute left-1/2 bottom-[9%] -translate-x-1/2 w-3/5 h-[7%] rounded-[50%] bg-ink/20 blur-xl" />
         <Image src={slide.src} alt={alt} fill priority={priority} sizes={SIZES}
-          className="object-contain p-[11%] drop-shadow-[0_18px_24px_rgba(13,43,82,0.2)]" />
+          className="object-contain p-[11%] drop-shadow-[0_18px_24px_rgba(35,57,74,0.2)]" />
       </>
     );
   }

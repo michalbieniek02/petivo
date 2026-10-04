@@ -33,7 +33,7 @@ export function SiteNav() {
       <nav aria-label="Główna nawigacja" className="fixed top-0 left-0 right-0 z-40 bg-background/85 backdrop-blur-xl backdrop-saturate-150 border-b border-neutral-warm/55">
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-3 px-4 sm:px-6 h-16">
           <Link href="/" aria-label="Petivo — strona główna" className="inline-flex items-center shrink-0">
-            <Image src="/brand/petivo-logo-ink.png" alt="Petivo" width={1323} height={273} priority sizes="200px" className="h-7 sm:h-9 w-auto" />
+            <Image src="/brand/petivo-logo-ink-v2.png" alt="Petivo" width={1323} height={273} priority sizes="200px" className="h-7 sm:h-9 w-auto" />
           </Link>
           <div className="hidden md:flex items-center gap-7 text-sm font-medium text-ink/80">
             {links.map((l) => (

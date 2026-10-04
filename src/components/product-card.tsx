@@ -38,7 +38,7 @@ export function ProductCard({ product, featured = false }: { product: Product; f
   if (featured) {
     return (
       <Link href={`/produkt/${product.handle}`}
-        className="group relative grid lg:grid-cols-[1.15fr_1fr] h-full overflow-hidden rounded-[2rem] bg-card border border-neutral-warm/55 hover:shadow-[0_30px_60px_-36px_rgba(13,43,82,0.55)] transition-shadow duration-300">
+        className="group relative grid lg:grid-cols-[1.15fr_1fr] h-full overflow-hidden rounded-[2rem] bg-card border border-neutral-warm/55 hover:shadow-[0_30px_60px_-36px_rgba(35,57,74,0.55)] transition-shadow duration-300">
         <div className="relative p-2.5 lg:p-3">{visual}</div>
         <div className="flex flex-col justify-center px-6 pb-7 pt-4 lg:px-10 lg:py-10">
           <p className="inline-flex self-start rounded-full bg-badge-deep px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-white">Polecamy na start</p>

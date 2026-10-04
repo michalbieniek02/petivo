@@ -6,8 +6,8 @@
 
 /*
  * Brand colours (Sanzo Wada based set):
- *   background #F6F1E4 · ink #0D2B52 · accent-primary (terracotta) #C2612C
- *   accent-secondary (sage) #7E8743 · neutral-warm #D99E73 · badges #730F1F / #D1BD19 / #417777
+ *   palette D "pudrowy i morski": background #FAF4F1 · ink #23394A · accent-primary (sea teal) #417777
+ *   accent-secondary (mauve) #8E5A6E · neutral-warm (powder pink) #E8B4B8 · badges #6E3A50 / #D1BD19 / #417777
  * The *-strong variants are the same hues darkened just enough for WCAG AA (4.5:1) wherever the
  * colour carries text: white text on terracotta buttons, terracotta/sage text on the cream background.
  */
@@ -53,25 +53,25 @@
 
 :root {
   /* brand colours */
-  --background: #F6F1E4;
-  --ink: #0D2B52;
-  --accent-primary: #C2612C;
-  --accent-secondary: #7E8743;
-  --neutral-warm: #D99E73;
-  --badge-deep: #730F1F;
+  --background: #FAF4F1;
+  --ink: #23394A;
+  --accent-primary: #417777;
+  --accent-secondary: #8E5A6E;
+  --neutral-warm: #E8B4B8;
+  --badge-deep: #6E3A50;
   --badge-mustard: #D1BD19;
   --badge-teal: #417777;
 
   /* AA-safe variants for text (see header comment) */
-  --accent-primary-strong: #A95426;   /* white text 5.3:1, on background 4.7:1 */
-  --accent-secondary-strong: #697038; /* on background 4.7:1 */
-  --ink-deep: #081E3A;
+  --accent-primary-strong: #3A6D6D;   /* white text 6.1:1, on background 5.6:1 */
+  --accent-secondary-strong: #8E5A6E; /* on background 5.0:1 */
+  --ink-deep: #172836;
 
   /* surfaces derived from the brand colours */
-  --card: #FCF8F0;
-  --sand: #F0DFCB;                    /* neutral-warm 22% over the background */
-  --line: rgba(217, 158, 115, 0.55);  /* neutral-warm borders */
-  --line-strong: rgba(13, 43, 82, 0.28);
+  --card: #FFFAF8;
+  --sand: #F5E4E4;                    /* powder pink ~25% over the background */
+  --line: rgba(232, 180, 184, 0.7);   /* powder-pink borders */
+  --line-strong: rgba(35, 57, 74, 0.28);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 
   /* shadcn tokens */
@@ -82,7 +82,7 @@
   --secondary: var(--sand);
   --secondary-foreground: var(--ink);
   --muted: var(--sand);
-  --muted-foreground: #4a5a6e;
+  --muted-foreground: #4d5f6c;
   --accent: var(--neutral-warm);
   --accent-foreground: var(--ink);
   --destructive: #b42318;
@@ -115,7 +115,7 @@
   p { text-wrap: pretty; }
 
   ::selection {
-    background: rgba(217, 158, 115, 0.5);
+    background: rgba(232, 180, 184, 0.6);
     color: var(--ink);
   }
 
@@ -130,7 +130,7 @@
 
   * {
     scrollbar-width: thin;
-    scrollbar-color: rgba(194, 97, 44, 0.45) transparent;
+    scrollbar-color: rgba(65, 119, 119, 0.45) transparent;
   }
 }
 
@@ -141,7 +141,7 @@
     font-style: italic;
     font-weight: 500;
     font-variation-settings: "SOFT" 100;
-    color: var(--accent-primary-strong);
+    color: var(--accent-secondary-strong);
   }
   .on-ink .accent-script { color: var(--neutral-warm); }
 
@@ -209,13 +209,13 @@
     border-radius: 100px;
     border: 1px solid var(--accent-primary-strong);
     transition: transform 0.2s var(--ease-out), background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 10px 24px -14px rgba(169, 84, 38, 0.9);
+    box-shadow: 0 10px 24px -14px rgba(58, 109, 109, 0.85);
   }
   .btn-primary:hover {
-    background: #8E4520;
-    border-color: #8E4520;
+    background: #2F5A5A;
+    border-color: #2F5A5A;
     transform: translateY(-1px);
-    box-shadow: 0 14px 28px -14px rgba(142, 69, 32, 0.9);
+    box-shadow: 0 14px 28px -14px rgba(47, 90, 90, 0.85);
   }
   .btn-primary:active { transform: translateY(0); }
   .btn-primary:disabled { transform: none; box-shadow: none; background: var(--accent-primary-strong); }
@@ -229,7 +229,7 @@
     transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
   }
   .btn-ghost:hover {
-    background: rgba(126, 135, 67, 0.1);
+    background: rgba(142, 90, 110, 0.08);
     border-color: var(--accent-secondary-strong);
   }
 
@@ -261,7 +261,7 @@
 }
 
 /* product description from Shopify */
-.product-desc { color: rgba(27, 54, 68, 0.85); font-size: 0.95rem; line-height: 1.75; }
+.product-desc { color: rgba(35, 57, 74, 0.88); font-size: 0.95rem; line-height: 1.75; }
 .product-desc h2, .product-desc h3 { color: var(--ink); font-weight: 600; font-size: 1.3rem; margin: 1.75rem 0 0.75rem; }
 .product-desc p { margin: 0 0 1rem; }
 .product-desc strong { color: var(--ink); }
@@ -272,12 +272,12 @@
 .product-desc a { color: var(--accent-primary-strong); text-decoration: underline; text-underline-offset: 3px; }
 
 /* policy pages */
-.policy-body { color: rgba(27, 54, 68, 0.85); font-size: 0.95rem; line-height: 1.75; }
+.policy-body { color: rgba(35, 57, 74, 0.88); font-size: 0.95rem; line-height: 1.75; }
 .policy-body h2 { color: var(--ink); font-family: var(--font-fraunces), Georgia, serif; font-weight: 600; font-size: 2.1rem; line-height: 1.15; letter-spacing: -0.015em; margin: 0 0 0.75rem; }
 .policy-body h3 { color: var(--ink); font-weight: 600; font-size: 1.25rem; margin: 2rem 0 0.75rem; }
 .policy-body p { margin: 0 0 1rem; }
 .policy-body strong { color: var(--ink); }
-.policy-body em { color: rgba(27, 54, 68, 0.85); }
+.policy-body em { color: rgba(35, 57, 74, 0.88); }
 .policy-body ul, .policy-body ol { margin: 0 0 1rem; padding-left: 1.4rem; }
 .policy-body ul { list-style: disc; }
 .policy-body ol { list-style: decimal; }

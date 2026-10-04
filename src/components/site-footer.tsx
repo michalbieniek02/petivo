@@ -7,7 +7,7 @@ export function SiteFooter() {
     <footer className="on-ink py-14 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr]">
         <div>
-          <Image src="/brand/petivo-logo-cream.png" alt="Petivo" width={1323} height={273} sizes="240px" className="h-10 w-auto" />
+          <Image src="/brand/petivo-logo-cream-v2.png" alt="Petivo" width={1323} height={273} sizes="240px" className="h-10 w-auto" />
           <p className="font-display text-lg text-background/90 mt-5 max-w-xs leading-snug">
             Legowiska, maty i akcesoria na spacer dla psa i kota.
           </p>

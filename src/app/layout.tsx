@@ -19,7 +19,7 @@ const fraunces = Fraunces({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#f7f2e2",
+  themeColor: "#FAF4F1",
 };
 
 export const metadata: Metadata = {
