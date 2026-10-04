@@ -26,6 +26,22 @@ jobs:
       - run: npm ci
       - run: npm run build
 
+      - name: Runtime config (contact form)
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          CONTACT_TO: ${{ secrets.CONTACT_TO }}
+          CONTACT_FROM: ${{ secrets.CONTACT_FROM }}
+        run: |
+          umask 077
+          : > .next/standalone/.env.production
+          [ -n "$RESEND_API_KEY" ] && printf 'RESEND_API_KEY=%s
+' "$RESEND_API_KEY" >> .next/standalone/.env.production
+          [ -n "$CONTACT_TO" ] && printf 'CONTACT_TO=%s
+' "$CONTACT_TO" >> .next/standalone/.env.production
+          [ -n "$CONTACT_FROM" ] && printf 'CONTACT_FROM=%s
+' "$CONTACT_FROM" >> .next/standalone/.env.production
+          true
+
       - name: Package standalone server
         run: |
           cp -r public .next/standalone/
