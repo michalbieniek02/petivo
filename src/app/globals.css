@@ -27,6 +27,8 @@
   --color-neutral-warm: var(--neutral-warm);
   --color-badge-deep: var(--badge-deep);
   --color-badge-mustard: var(--badge-mustard);
+  --color-promo: var(--promo);
+  --color-promo-ink: var(--promo-ink);
   --color-badge-teal: var(--badge-teal);
   --color-card: var(--card);
   --color-sand: var(--sand);
@@ -53,23 +55,25 @@
 
 :root {
   /* brand colours */
-  --background: #FAF4F1;
-  --ink: #23394A;
+  --background: #F8EEEA;
+  --ink: #1B2F3F;
   --accent-primary: #417777;
   --accent-secondary: #8E5A6E;
   --neutral-warm: #E8B4B8;
   --badge-deep: #6E3A50;
   --badge-mustard: #D1BD19;
   --badge-teal: #417777;
+  --promo: #E8946A;                   /* warm accent: free shipping, offers */
+  --promo-ink: #5A2A12;               /* text on --promo, ~5:1 */
 
   /* AA-safe variants for text (see header comment) */
-  --accent-primary-strong: #3A6D6D;   /* white text 6.1:1, on background 5.6:1 */
+  --accent-primary-strong: #2F6464;   /* white text ~7.6:1: buttons and links */
   --accent-secondary-strong: #8E5A6E; /* on background 5.0:1 */
-  --ink-deep: #172836;
+  --ink-deep: #12212D;
 
   /* surfaces derived from the brand colours */
-  --card: #FFFAF8;
-  --sand: #F5E4E4;                    /* powder pink ~25% over the background */
+  --card: #FFFFFF;
+  --sand: #F2DFDD;                    /* powder pink band, a step deeper than the background */
   --line: rgba(232, 180, 184, 0.7);   /* powder-pink borders */
   --line-strong: rgba(35, 57, 74, 0.28);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -82,7 +86,7 @@
   --secondary: var(--sand);
   --secondary-foreground: var(--ink);
   --muted: var(--sand);
-  --muted-foreground: #4d5f6c;
+  --muted-foreground: #46596A;
   --accent: var(--neutral-warm);
   --accent-foreground: var(--ink);
   --destructive: #b42318;

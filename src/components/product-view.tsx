@@ -108,9 +108,13 @@ export function ProductView({ product, others }: { product: Product; others: Pro
                   <span className="text-lg text-ink/70 line-through">{formatPrice(variant.compareAt)}</span>
                 )}
               </div>
-              <p className="text-sm text-ink/75 mt-1.5">
-                {freeShipping ? "Darmowa dostawa w Polsce" : `Dostawa w Polsce ${SHIPPING_PL} zł, darmowa od ${FREE_SHIPPING_FROM} zł`}
-              </p>
+              {freeShipping ? (
+                <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-promo px-3 py-1 text-sm font-semibold text-promo-ink">
+                  <Truck className="h-4 w-4" aria-hidden="true" /> Darmowa dostawa w Polsce
+                </p>
+              ) : (
+                <p className="text-sm text-ink/75 mt-1.5">{`Dostawa w Polsce ${SHIPPING_PL} zł, darmowa od ${FREE_SHIPPING_FROM} zł`}</p>
+              )}
 
               {product.options.length > 1 ? (
                 // two or more options (e.g. colour + size): one button group per option

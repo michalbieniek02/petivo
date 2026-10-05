@@ -129,7 +129,7 @@ export function CartDrawer() {
                     aria-valuemin={0} aria-valuemax={FREE_SHIPPING} aria-valuenow={Math.min(total, FREE_SHIPPING)}
                     aria-label="Postęp do darmowej dostawy">
                     <div className="h-full rounded-full transition-[width] duration-500"
-                      style={{ width: `${Math.min(100, (total / FREE_SHIPPING) * 100)}%`, background: "linear-gradient(90deg, var(--accent-secondary), var(--accent-primary))" }} />
+                      style={{ width: `${Math.min(100, (total / FREE_SHIPPING) * 100)}%`, background: total >= FREE_SHIPPING ? "var(--accent-primary)" : "linear-gradient(90deg, var(--promo), var(--accent-secondary))" }} />
                   </div>
                 </div>
                 <dl className="space-y-1.5 text-sm">

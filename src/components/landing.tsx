@@ -164,7 +164,7 @@ export function Landing({ products }: { products: Product[] }) {
               <p className="mt-7 text-sm text-ink/75">
                 {products.length} produktów od <strong className="font-semibold text-ink">{formatPrice(cheapest)}</strong>
                 <span aria-hidden="true" className="mx-2 text-accent-primary">●</span>
-                darmowa dostawa od {FREE_SHIPPING_FROM} zł
+                <span className="inline-block whitespace-nowrap rounded-full bg-promo px-2.5 py-0.5 font-semibold text-promo-ink">darmowa dostawa od {FREE_SHIPPING_FROM} zł</span>
               </p>
             )}
           </motion.div>
