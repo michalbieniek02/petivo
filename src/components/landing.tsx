@@ -42,16 +42,6 @@ const BED_TYPES = [
   { handle: "legowisko-domek-dla-kota", who: "Szuka kryjówki", facts: ["Półzamknięta konstrukcja z wejściem", "Rozmiary M 33 cm i XL 39–40 cm"] },
 ];
 
-/** Real-life photos for the "Na co dzień" mosaic (Shopify file-name prefixes). */
-const MOMENTS: { handle: string; key: string }[] = [
-  { handle: "legowisko-pianka-3d-zmywalna-poszewka", key: "Sbdd5ea6bddee4f2" },
-  { handle: "legowisko-domek-dla-kota", key: "Scba01f9f59d2436" },
-  { handle: "szelki-ze-smycza-dla-malego-psa", key: "S9f010bf11356484" },
-  { handle: "mata-wechowa-dla-psa", key: "Sa952da7a93b1488" },
-  { handle: "drapak-tekturowy-dla-kota", key: "Sa47decf069a1481" },
-  { handle: "pokrowiec-samochodowy-dla-psa", key: "Sb6123774f3bc404" },
-];
-
 const promises = [
   { icon: Truck,       title: `Darmowa dostawa od ${FREE_SHIPPING_FROM} zł`, desc: `W Polsce, poniżej tej kwoty ${SHIPPING_PL} zł` },
   { icon: RotateCcw,   title: "14 dni na zwrot",       desc: "Bez podawania przyczyny" },
@@ -115,12 +105,6 @@ export function Landing({ products }: { products: Product[] }) {
   }).filter((x) => x !== null);
 
   const beds = BED_TYPES.map((b) => ({ ...b, product: byHandle(b.handle) })).filter((b) => b.product?.packshot);
-
-  const moments = MOMENTS.map(({ handle, key }) => {
-    const p = byHandle(handle);
-    const slide = p?.gallery.find((g) => g.shopifySrc?.includes(key));
-    return p && slide ? { product: p, src: slide.src } : null;
-  }).filter((x) => x !== null);
 
   const cheapest = products.length ? Math.min(...products.map((p) => p.minPrice)) : null;
   const ctaPiece = byHandle("legowisko-donut-puszyste")?.gallery.find((g) => g.kind === "cutout" && g.src.includes("S68613391656744c"))?.src
@@ -322,35 +306,6 @@ export function Landing({ products }: { products: Product[] }) {
           </div>
         </div>
       </section>
-
-      {/* ─── EVERYDAY MOMENTS (real photos) ─── */}
-      {moments.length >= 4 && (
-        <section className="py-16 sm:py-24 px-4 sm:px-6">
-          <div className="max-w-6xl mx-auto">
-            <Reveal className="mb-8 sm:mb-10">
-              <SectionHeading eyebrow="Na co dzień" title={<>Z pupilem <span className="accent-script">w domu i w drodze</span></>}>
-                Zdjęcia produktów w użyciu, od producentów. Kliknij, żeby przejść do produktu.
-              </SectionHeading>
-            </Reveal>
-            <ul className="grid grid-cols-2 md:grid-cols-4 auto-rows-[10rem] sm:auto-rows-[13rem] gap-3 sm:gap-4">
-              {moments.map((m, i) => (
-                <Reveal as="li" key={m.product.handle} delay={Math.min(i, 4) * 0.05}
-                  className={i === 0 ? "col-span-2 row-span-2" : i >= 3 ? "col-span-2" : ""}>
-                  <Link href={`/produkt/${m.product.handle}`} className="group relative block h-full overflow-hidden rounded-[1.5rem] bg-sand">
-                    <Image src={m.src} alt={m.product.name} fill sizes={i === 0 ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 50vw, 25vw"}
-                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]" />
-                    <span className="absolute left-3 bottom-3 right-3 sm:left-4 sm:bottom-4 inline-flex">
-                      <span className="max-w-full truncate rounded-full bg-background/95 px-3 py-1.5 text-xs sm:text-sm font-semibold text-ink shadow-sm group-hover:bg-accent-primary-strong group-hover:text-white transition-colors">
-                        {m.product.name}
-                      </span>
-                    </span>
-                  </Link>
-                </Reveal>
-              ))}
-            </ul>
-          </div>
-        </section>
-      )}
 
       {/* ─── FAQ ─── */}
       <section id="faq" className="py-16 sm:py-24 px-4 sm:px-6 scroll-mt-16 border-t border-neutral-warm/55">
