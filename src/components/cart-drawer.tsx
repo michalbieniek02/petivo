@@ -148,7 +148,7 @@ export function CartDrawer() {
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </a>
                 <p className="text-xs text-ink/75 text-center inline-flex w-full items-center justify-center gap-1.5">
-                  <Lock className="h-3 w-3" aria-hidden="true" /> Karta lub PayPal · płatność obsługuje Shopify
+                  <Lock className="h-3 w-3" aria-hidden="true" /> BLIK, karta, PayPal · płatność obsługuje Shopify
                 </p>
               </div>
             )}

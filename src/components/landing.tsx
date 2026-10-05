@@ -16,9 +16,12 @@ import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
 
-/** Hero scene: the cat house and the dog bed, side by side. */
+/** Hero scene: the donut in front, the cat house and the dog bed behind it. */
 const HERO_CAT = "legowisko-domek-dla-kota";
 const HERO_DOG = "legowisko-pianka-3d-zmywalna-poszewka";
+const HERO_DONUT = "legowisko-donut-puszyste";
+/** cream donut cut-out: reads well against the pink arch */
+const HERO_DONUT_SHOT = "Sa62e3987ad4641a";
 
 /** Two packshots per category tile (first one is the larger). */
 const CATEGORY_PIECES: Record<CategoryId, string[]> = {
@@ -46,7 +49,7 @@ const promises = [
   { icon: Truck,       title: `Darmowa dostawa od ${FREE_SHIPPING_FROM} zł`, desc: `W Polsce, poniżej tej kwoty ${SHIPPING_PL} zł` },
   { icon: RotateCcw,   title: "14 dni na zwrot",       desc: "Bez podawania przyczyny" },
   { icon: ShieldCheck, title: "2 lata na reklamację",  desc: "Zgodnie z prawem konsumenckim" },
-  { icon: Lock,        title: "Bezpieczna płatność",   desc: "Karta lub PayPal przez Shopify" },
+  { icon: Lock,        title: "Bezpieczna płatność",   desc: "BLIK, karta, PayPal lub Klarna" },
 ];
 
 const faqs = [
@@ -75,10 +78,10 @@ function plural(n: number, one: string, few: string, many: string) {
 }
 
 /** Price tag pinned to a product in the hero scene. */
-function SceneTag({ product, label, className }: { product: Product; label: string; className: string }) {
+function SceneTag({ product, label, className, highlight = false }: { product: Product; label: string; className: string; highlight?: boolean }) {
   return (
     <Link href={`/produkt/${product.handle}`}
-      className={`group absolute z-20 inline-flex items-center gap-2.5 rounded-full bg-card/95 backdrop-blur border border-neutral-warm/70 pl-3.5 pr-1.5 py-1.5 shadow-[0_12px_30px_-16px_rgba(35,57,74,0.6)] hover:border-accent-primary transition-colors ${className}`}>
+      className={`group absolute z-20 inline-flex items-center gap-2.5 whitespace-nowrap rounded-full bg-card/95 backdrop-blur border pl-3.5 pr-1.5 py-1.5 shadow-[0_12px_30px_-16px_rgba(35,57,74,0.6)] hover:border-accent-primary transition-colors ${highlight ? "border-promo ring-2 ring-promo/35" : "border-neutral-warm/70"} ${className}`}>
       <span className="leading-tight">
         <span className="block text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-accent-secondary-strong">{label}</span>
         <span className="block text-sm font-semibold text-ink">od {formatPrice(product.minPrice)}</span>
@@ -94,8 +97,9 @@ export function Landing({ products }: { products: Product[] }) {
   const [category, setCategory] = useState<Filter>("all");
   const byHandle = (h: string) => products.find((p) => p.handle === h);
 
-  const cat = byHandle(HERO_CAT), dog = byHandle(HERO_DOG);
-  const scene = cat?.packshot && dog?.packshot ? { cat, dog } : null;
+  const cat = byHandle(HERO_CAT), dog = byHandle(HERO_DOG), donut = byHandle(HERO_DONUT);
+  const donutShot = donut?.gallery.find((g) => g.kind === "cutout" && g.src.includes(HERO_DONUT_SHOT))?.src ?? donut?.packshot;
+  const scene = cat?.packshot && dog?.packshot && donut && donutShot ? { cat, dog, donut, donutShot } : null;
 
   const categories = CATEGORIES.map((c) => {
     const inCat = products.filter((p) => p.category === c.id);
@@ -131,8 +135,8 @@ export function Landing({ products }: { products: Product[] }) {
               <span className="accent-script">dobrze na&nbsp;spacerze</span>
             </h1>
             <p className="text-base sm:text-lg text-ink/80 max-w-md mt-6 leading-relaxed">
-              Legowiska dla kota i psa, maty do zabawy i akcesoria na spacery i w podróż.
-              Opisy po polsku i dane producenta przy każdym produkcie.
+              Puszyste legowiska, w których pupil zwinie się w kłębek, a do tego maty do zabawy
+              i akcesoria na spacery. Wybierz rozmiar, a my zajmiemy się resztą.
             </p>
 
             <div className="flex flex-col min-[400px]:flex-row gap-3 mt-8 sm:mt-10">
@@ -151,35 +155,48 @@ export function Landing({ products }: { products: Product[] }) {
                 <span className="inline-block whitespace-nowrap rounded-full bg-promo px-2.5 py-0.5 font-semibold text-promo-ink">darmowa dostawa od {FREE_SHIPPING_FROM} zł</span>
               </p>
             )}
+            <ul aria-label="Metody płatności" className="mt-4 flex flex-wrap gap-1.5">
+              {["BLIK", "Karta", "Google Pay", "PayPal", "Klarna"].map((m) => (
+                <li key={m} className="rounded-md border border-neutral-warm/80 bg-card px-2 py-0.5 text-[0.7rem] font-semibold tracking-wide text-ink/80">{m}</li>
+              ))}
+            </ul>
           </motion.div>
 
-          {/* scene: the cat house and the dog bed, cut out, side by side on one floor */}
+          {/* scene: the donut in front, the cat house and the dog bed behind it, on one floor */}
           {scene && (
             <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
               className="relative mx-auto w-full max-w-[34rem] lg:max-w-none aspect-[1/1] sm:aspect-[10/9]">
               {/* backdrop arch, sun and a small sage moon */}
-              <div aria-hidden="true" className="absolute inset-x-[3%] top-[2%] bottom-[9%] rounded-t-[999px] rounded-b-[2.5rem]"
-                style={{ background: "linear-gradient(180deg, #FCF1F0 0%, rgba(232,180,184,0.55) 100%)" }} />
-              <div aria-hidden="true" className="absolute right-[12%] top-[10%] w-[19%] aspect-square rounded-full bg-neutral-warm" />
-              <div aria-hidden="true" className="absolute left-[20%] top-[14%] w-[6%] aspect-square rounded-full bg-accent-primary/70" />
-              {/* contact shadows */}
-              <div aria-hidden="true" className="absolute left-[9%] bottom-[11%] w-[42%] h-[6%] rounded-[50%] bg-ink/30 blur-xl" />
-              <div aria-hidden="true" className="absolute right-[5%] bottom-[10%] w-[44%] h-[6%] rounded-[50%] bg-ink/25 blur-xl" />
+              <div aria-hidden="true" className="absolute inset-x-[4%] top-[2%] bottom-[13%] rounded-t-[999px] rounded-b-[2.5rem]"
+                style={{ background: "linear-gradient(180deg, #FCF1F0 0%, rgba(232,180,184,0.6) 100%)" }} />
+              <div aria-hidden="true" className="absolute right-[13%] top-[8%] w-[17%] aspect-square rounded-full bg-neutral-warm" />
+              <div aria-hidden="true" className="absolute left-[19%] top-[13%] w-[5.5%] aspect-square rounded-full bg-accent-primary/70" />
+              {/* floor line and contact shadows */}
+              <div aria-hidden="true" className="absolute left-[4%] right-[4%] bottom-[13%] h-px bg-ink/10" />
+              <div aria-hidden="true" className="absolute left-[3%] bottom-[23%] w-[36%] h-[5%] rounded-[50%] bg-ink/25 blur-xl" />
+              <div aria-hidden="true" className="absolute right-[2%] bottom-[23%] w-[38%] h-[5%] rounded-[50%] bg-ink/20 blur-xl" />
+              <div aria-hidden="true" className="absolute left-[30%] bottom-[10%] w-[40%] h-[6%] rounded-[50%] bg-ink/30 blur-xl" />
 
               <Link href={`/produkt/${scene.cat.handle}`} aria-label={scene.cat.name}
-                className="absolute left-[6%] bottom-[12%] w-[49%] aspect-[1.05] transition-transform duration-500 hover:-translate-y-1">
-                <Image src={scene.cat.packshot!} alt={scene.cat.name} fill priority sizes="(max-width: 1024px) 50vw, 28vw"
+                className="absolute left-[2%] bottom-[24%] w-[37%] aspect-[1.05] transition-transform duration-500 hover:-translate-y-1">
+                <Image src={scene.cat.packshot!} alt={scene.cat.name} fill priority sizes="(max-width: 1024px) 40vw, 22vw"
                   className="object-contain object-bottom drop-shadow-[0_18px_22px_rgba(35,57,74,0.22)]" />
               </Link>
               <Link href={`/produkt/${scene.dog.handle}`} aria-label={scene.dog.name}
-                className="absolute right-[3%] bottom-[11%] z-10 w-[46%] aspect-[1.55] transition-transform duration-500 hover:-translate-y-1">
-                <Image src={scene.dog.packshot!} alt={scene.dog.name} fill priority sizes="(max-width: 1024px) 50vw, 26vw"
+                className="absolute right-[1%] bottom-[24%] w-[39%] aspect-[1.55] transition-transform duration-500 hover:-translate-y-1">
+                <Image src={scene.dog.packshot!} alt={scene.dog.name} fill priority sizes="(max-width: 1024px) 40vw, 22vw"
                   className="object-contain object-bottom drop-shadow-[0_18px_22px_rgba(35,57,74,0.22)]" />
               </Link>
+              <Link href={`/produkt/${scene.donut.handle}`} aria-label={scene.donut.name}
+                className="absolute left-1/2 -translate-x-1/2 bottom-[11%] z-10 w-[37%] aspect-[1.02] transition-transform duration-500 hover:-translate-y-1">
+                <Image src={scene.donutShot} alt={scene.donut.name} fill priority sizes="(max-width: 1024px) 50vw, 28vw"
+                  className="object-contain object-bottom drop-shadow-[0_22px_26px_rgba(35,57,74,0.28)]" />
+              </Link>
 
-              <SceneTag product={scene.cat} label="Dla kota" className="left-[2%] bottom-0" />
-              <SceneTag product={scene.dog} label="Dla psa" className="right-[2%] bottom-0" />
+              <SceneTag product={scene.cat} label="Dla kota" className="left-0 top-[27%]" />
+              <SceneTag product={scene.dog} label="Dla psa" className="right-0 top-[37%]" />
+              <SceneTag product={scene.donut} label="Puszysty donut" className="left-1/2 -translate-x-1/2 bottom-0" highlight />
             </motion.div>
           )}
         </div>
