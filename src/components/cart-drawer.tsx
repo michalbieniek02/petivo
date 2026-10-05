@@ -24,8 +24,23 @@ function trapFocus(event: KeyboardEvent<HTMLElement>) {
   }
 }
 
-export function CartDrawer() {
-  const { items, count, total, checkoutUrl, open, closeCart, setQty } = useCart();
+/** A cheap accessory offered in the cart when the basket is below free shipping. */
+export interface CartSuggestion {
+  variantId: number;
+  handle: string;
+  name: string;
+  short: string;
+  variantTitle: string | null;
+  price: number;
+  image: string;
+}
+
+export function CartDrawer({ suggestions = [] }: { suggestions?: CartSuggestion[] }) {
+  const { items, count, total, checkoutUrl, open, closeCart, setQty, addItem } = useCart();
+  const missing = FREE_SHIPPING - total;
+  const offers = missing > 0
+    ? suggestions.filter((s) => !items.some((i) => i.handle === s.handle)).sort((a, b) => a.price - b.price).slice(0, 2)
+    : [];
   const closeButton = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -113,6 +128,29 @@ export function CartDrawer() {
                       </div>
                     </div>
                   ))}
+
+                  {offers.length > 0 && (
+                    <div className="pt-3">
+                      <p className="text-sm font-semibold text-ink">Dobierz do darmowej dostawy</p>
+                      <p className="text-xs text-ink/75 mt-0.5">Brakuje {formatPrice(missing)}. Te drobiazgi przydadzą się każdemu pupilowi.</p>
+                      <ul className="mt-3 space-y-2">
+                        {offers.map((o) => (
+                          <li key={o.variantId} className="flex items-center gap-3 rounded-2xl border border-dashed border-neutral-warm p-2.5">
+                            <Image src={o.image} alt="" width={48} height={48}
+                              className={`h-12 w-12 rounded-xl bg-sand flex-shrink-0 ${o.image.startsWith("/products/") ? "object-contain p-1" : "object-cover"}`} />
+                            <span className="min-w-0 flex-1">
+                              <Link href={`/produkt/${o.handle}`} onClick={closeCart} className="block truncate text-sm font-medium text-ink hover:text-accent-primary-strong">{o.short}</Link>
+                              <span className="block text-xs text-ink/75 tabular-nums">{o.variantTitle ? `${o.variantTitle} · ` : ""}{formatPrice(o.price)}</span>
+                            </span>
+                            <button type="button" onClick={() => addItem({ variantId: o.variantId, handle: o.handle, name: o.name, variantTitle: o.variantTitle, price: o.price, image: o.image })} aria-label={`Dodaj do koszyka: ${o.name}`}
+                              className="min-h-10 shrink-0 rounded-full bg-accent-primary-strong px-3.5 text-xs font-semibold text-white hover:bg-ink transition-colors inline-flex items-center gap-1">
+                              <Plus className="h-3.5 w-3.5" aria-hidden="true" /> Dodaj
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

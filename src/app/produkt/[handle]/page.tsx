@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProduct, getProducts } from "@/lib/products";
+import { getProduct, getProducts, type Product } from "@/lib/products";
+import { PITCH } from "@/lib/pitch";
 import { ProductView } from "@/components/product-view";
 
 export const revalidate = 300;
@@ -26,6 +27,12 @@ export default async function ProductPage({ params }: PageProps<"/produkt/[handl
   const product = products.find((p) => p.handle === handle);
   if (!product) notFound();
 
+  // products that complete the purchase first, then the rest of the same category
+  const pairs = (PITCH[handle]?.pairs ?? []).map((h) => products.find((p) => p.handle === h)).filter((p): p is Product => !!p);
+  const others = [...pairs, ...products
+    .filter((p) => p.handle !== handle && !pairs.includes(p))
+    .sort((a, b) => Number(b.category === product.category) - Number(a.category === product.category))].slice(0, 4);
+
   const prices = product.variants.map((v) => v.price);
   const jsonLd = {
     "@context": "https://schema.org",
@@ -49,10 +56,7 @@ export default async function ProductPage({ params }: PageProps<"/produkt/[handl
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <ProductView product={product} others={products
-        .filter((p) => p.handle !== handle)
-        .sort((a, b) => Number(b.category === product.category) - Number(a.category === product.category))
-        .slice(0, 4)} />
+      <ProductView product={product} others={others} pairsCount={pairs.length} />
     </>
   );
 }

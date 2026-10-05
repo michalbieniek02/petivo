@@ -11,7 +11,10 @@ import { ProductStage } from "@/components/product-stage";
 import { formatPrice, type Product } from "@/lib/products";
 import { CATEGORIES, type CategoryId } from "@/lib/categories";
 import { FREE_SHIPPING_FROM, SHIPPING_PL } from "@/lib/shop";
-import { ArrowRight, Truck, RotateCcw, ShieldCheck, Lock, Ruler, Plus } from "lucide-react";
+import { ArrowRight, Truck, RotateCcw, ShieldCheck, Lock, Ruler, Plus, Sparkles, MessageCircle, FileText } from "lucide-react";
+import { BedQuiz } from "@/components/bed-quiz";
+import { useCart } from "@/components/cart-provider";
+import { PITCH, QUICK_ADD, SETS } from "@/lib/pitch";
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger,
 } from "@/components/ui/accordion";
@@ -45,6 +48,14 @@ const BED_TYPES = [
   { handle: "legowisko-domek-dla-kota", who: "Szuka kryjówki", facts: ["Półzamknięta konstrukcja z wejściem", "Rozmiary M 33 cm i XL 39–40 cm"] },
 ];
 
+/** "Why Petivo": only things the shop actually does. */
+const reasons = [
+  { icon: Sparkles, t: "Mały, przemyślany wybór", d: "Zamiast przewijać setki podobnych ofert, wybierasz spośród kilku produktów, które odpowiadają na codzienne potrzeby psa i kota." },
+  { icon: Ruler, t: "Rozmiar bez zgadywania", d: "Wymiary w centymetrach, wagi od producenta i dobór legowiska w 30 sekund. Wiesz, co zamawiasz." },
+  { icon: FileText, t: "Wszystko po polsku", d: "Opisy, zasady bezpieczeństwa i dane producenta przy każdym produkcie." },
+  { icon: MessageCircle, t: "Pomożemy w wyborze", d: "Nie wiesz, który rozmiar? Napisz przez formularz kontaktowy, a doradzimy przed zakupem." },
+];
+
 const promises = [
   { icon: Truck,       title: `Darmowa dostawa od ${FREE_SHIPPING_FROM} zł`, desc: `W Polsce, poniżej tej kwoty ${SHIPPING_PL} zł` },
   { icon: RotateCcw,   title: "14 dni na zwrot",       desc: "Bez podawania przyczyny" },
@@ -58,7 +69,8 @@ const faqs = [
   { q: "Czy mogę zwrócić produkt?", a: "Tak. Masz 14 dni na odstąpienie od umowy bez podania przyczyny, a reklamacje przyjmujemy przez 2 lata zgodnie z prawem konsumenckim. Wzór formularza odstąpienia znajdziesz na stronie „Formularz odstąpienia od umowy”." },
   { q: "Jak prać legowisko?", a: "Zalecamy delikatne pranie ręczne i suszenie na powietrzu. W legowisku z pianki 3D zdejmowaną poszewkę możesz wyprać osobno." },
   { q: "Kto jest producentem produktów?", a: "Petivo to nazwa sklepu. Przy każdym produkcie podajemy producenta, podmiot odpowiedzialny w Unii Europejskiej oraz ogólne ostrzeżenia bezpieczeństwa." },
-  { q: "Jak mogę zapłacić?", a: "Kartą płatniczą lub przez PayPal. Płatność obsługuje Shopify, a dane karty nie trafiają do nas." },
+  { q: "Jak mogę zapłacić?", a: "BLIK-iem, kartą płatniczą, przez Google Pay, PayPal lub Klarna (zapłać później). Płatność obsługuje Shopify, a dane karty nie trafiają do nas." },
+  { q: "Kiedy dostanę numer przesyłki?", a: "Gdy paczka zostanie nadana, wyślemy Ci e-mail z numerem i linkiem do śledzenia. Zwykle dzieje się to w ciągu 1–3 dni roboczych od zamówienia." },
 ];
 
 function SectionHeading({ eyebrow, title, children, center = false }: { eyebrow: string; title: React.ReactNode; children?: React.ReactNode; center?: boolean }) {
@@ -108,6 +120,12 @@ export function Landing({ products }: { products: Product[] }) {
     return { ...c, count: inCat.length, from: Math.min(...inCat.map((p) => p.minPrice)), pieces, style: CATEGORY_STYLE[c.id] };
   }).filter((x) => x !== null);
 
+  const { addItem } = useCart();
+  const sets = SETS.map((set) => {
+    const items = set.handles.map(byHandle).filter((p): p is Product => !!p?.packshot);
+    return { ...set, items, total: items.reduce((sum, p) => sum + p.minPrice, 0) };
+  }).filter((set) => set.items.length === set.handles.length && set.total >= FREE_SHIPPING_FROM);
+
   const beds = BED_TYPES.map((b) => ({ ...b, product: byHandle(b.handle) })).filter((b) => b.product?.packshot);
 
   const cheapest = products.length ? Math.min(...products.map((p) => p.minPrice)) : null;
@@ -135,16 +153,16 @@ export function Landing({ products }: { products: Product[] }) {
               <span className="accent-script">dobrze na&nbsp;spacerze</span>
             </h1>
             <p className="text-base sm:text-lg text-ink/80 max-w-md mt-6 leading-relaxed">
-              Puszyste legowiska, w których pupil zwinie się w kłębek, a do tego maty do zabawy
-              i akcesoria na spacery. Wybierz rozmiar, a my zajmiemy się resztą.
+              Zamiast setek przypadkowych ofert: kilka przemyślanych legowisk i akcesoriów dla psa i kota.
+              Jasne rozmiary, opisy po polsku i pomoc w doborze, a do tego 14 dni na zwrot.
             </p>
 
             <div className="flex flex-col min-[400px]:flex-row gap-3 mt-8 sm:mt-10">
               <Link href="#kolekcja" className="btn-primary min-h-12 px-7 inline-flex items-center justify-center gap-2 text-base">
-                Zobacz produkty <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                Znajdź coś dla pupila <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
               <Link href="#jak-wybrac" className="btn-ghost min-h-12 px-6 inline-flex items-center justify-center text-sm">
-                Jak dobrać legowisko
+                Dobierz legowisko w 30 s
               </Link>
             </div>
 
@@ -257,6 +275,29 @@ export function Landing({ products }: { products: Product[] }) {
         </section>
       )}
 
+      {/* ─── WHY PETIVO ─── */}
+      <section aria-labelledby="why-petivo" className="pt-16 sm:pt-24 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="mb-8 sm:mb-10">
+            <div className="max-w-2xl">
+              <p className="eyebrow mb-4">Dlaczego Petivo</p>
+              <h2 id="why-petivo" className="text-[2rem] leading-[1.08] sm:text-5xl lg:text-[3.4rem]">Mniej szukania, <span className="accent-script">więcej pewności</span></h2>
+            </div>
+          </Reveal>
+          <ul className="grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {reasons.map(({ icon: Icon, t, d }, i) => (
+              <Reveal as="li" key={t} delay={i * 0.05} className="rounded-[1.75rem] bg-card border border-neutral-warm/60 p-6">
+                <span className="h-11 w-11 rounded-full bg-accent-primary/15 text-accent-primary-strong flex items-center justify-center">
+                  <Icon className="h-5 w-5" aria-hidden="true" />
+                </span>
+                <h3 className="text-xl text-ink mt-4">{t}</h3>
+                <p className="text-sm text-ink/80 mt-2 leading-relaxed">{d}</p>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       {/* ─── COLLECTION ─── */}
       <section id="kolekcja" className="py-16 sm:py-24 px-4 sm:px-6 scroll-mt-16">
         <div className="max-w-6xl mx-auto">
@@ -269,13 +310,77 @@ export function Landing({ products }: { products: Product[] }) {
         </div>
       </section>
 
+      {/* ─── SETS ─── */}
+      {sets.length > 0 && (
+        <section aria-labelledby="sets-title" className="pb-16 sm:pb-24 px-4 sm:px-6">
+          <div className="max-w-6xl mx-auto">
+            <Reveal className="mb-8 sm:mb-10">
+              <div className="max-w-2xl">
+                <p className="eyebrow mb-4">Zestawy</p>
+                <h2 id="sets-title" className="text-[2rem] leading-[1.08] sm:text-5xl lg:text-[3.4rem]">Skompletuj <span className="accent-script">za jednym razem</span></h2>
+                <p className="text-ink/80 text-base sm:text-lg leading-relaxed mt-4">Każdy zestaw przekracza {FREE_SHIPPING_FROM} zł, więc dostawę masz gratis.</p>
+              </div>
+            </Reveal>
+            <ul className="grid gap-4 sm:gap-5 lg:grid-cols-3">
+              {sets.map((set, i) => (
+                <Reveal as="li" key={set.title} delay={i * 0.06} className="flex flex-col rounded-[2rem] bg-card border border-neutral-warm/60 p-5 sm:p-6">
+                  <div className="grid grid-cols-3 gap-2">
+                    {set.items.map((p) => (
+                      <ProductStage key={p.handle} src={p.packshot!} alt="" className="aspect-square" radius="rounded-2xl" sizes="(max-width: 1024px) 30vw, 10vw" padding="p-[10%]" />
+                    ))}
+                  </div>
+                  <h3 className="text-2xl text-ink mt-5">{set.title}</h3>
+                  <p className="text-sm text-ink/80 mt-1.5">{set.desc}</p>
+                  <ul className="mt-4 divide-y divide-neutral-warm/50 border-y border-neutral-warm/50">
+                    {set.items.map((p) => {
+                      const cheapest = [...p.variants].sort((a, b) => a.price - b.price)[0];
+                      const quick = QUICK_ADD.includes(p.handle) || p.variants.length === 1;
+                      return (
+                        <li key={p.handle} className="flex items-center justify-between gap-3 py-2.5">
+                          <Link href={`/produkt/${p.handle}`} className="min-w-0 text-sm text-ink hover:text-accent-primary-strong">
+                            <span className="block truncate font-medium">{PITCH[p.handle]?.short ?? p.name}</span>
+                            <span className="block text-xs text-ink/75 tabular-nums">od {formatPrice(p.minPrice)}</span>
+                          </Link>
+                          {quick ? (
+                            <button type="button" aria-label={`Dodaj do koszyka: ${p.name}`}
+                              onClick={() => addItem({ variantId: cheapest.id, handle: p.handle, name: p.name, variantTitle: p.optionName ? cheapest.title : null, price: cheapest.price, image: p.packshot ?? p.images[0] })}
+                              className="min-h-10 shrink-0 rounded-full bg-accent-primary-strong px-3.5 text-xs font-semibold text-white hover:bg-ink transition-colors inline-flex items-center gap-1">
+                              <Plus className="h-3.5 w-3.5" aria-hidden="true" /> Dodaj
+                            </button>
+                          ) : (
+                            <Link href={`/produkt/${p.handle}`} className="min-h-10 shrink-0 rounded-full border border-ink/25 px-3.5 text-xs font-semibold text-ink hover:border-ink inline-flex items-center gap-1">
+                              Wybierz rozmiar <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                            </Link>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  <div className="mt-auto pt-4 flex items-end justify-between gap-3">
+                    <span className="inline-block rounded-full bg-promo px-2.5 py-0.5 text-xs font-semibold text-promo-ink">darmowa dostawa</span>
+                    <span className="text-right">
+                      <span className="block text-xs text-ink/75">Razem od</span>
+                      <span className="font-display text-3xl text-ink tabular-nums">{formatPrice(set.total)}</span>
+                    </span>
+                  </div>
+                </Reveal>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
       {/* ─── BED CHOOSER + SIZING ─── */}
       <section id="jak-wybrac" className="on-sand grain bg-sand py-16 sm:py-24 px-4 sm:px-6 scroll-mt-16">
         <div className="max-w-6xl mx-auto">
           <Reveal className="mb-10 sm:mb-12">
-            <SectionHeading eyebrow="Poradnik" title={<>Jak dobrać <span className="accent-script">legowisko</span></>}>
-              Zacznij od tego, jak Twój pupil śpi. Potem dobierz rozmiar z kilkucentymetrowym zapasem.
+            <SectionHeading eyebrow="Poradnik" title={<>Nie wiesz, <span className="accent-script">co wybrać?</span></>}>
+              Odpowiedz na trzy pytania, a podpowiemy legowisko i rozmiar. Albo porównaj trzy typy poniżej.
             </SectionHeading>
+          </Reveal>
+
+          <Reveal className="mb-6 sm:mb-8">
+            <BedQuiz products={products} />
           </Reveal>
 
           {beds.length > 0 && (

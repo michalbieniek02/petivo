@@ -2,7 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/cart-provider";
-import { CartDrawer } from "@/components/cart-drawer";
+import { CartDrawer, type CartSuggestion } from "@/components/cart-drawer";
+import { getProducts } from "@/lib/products";
+import { PITCH, QUICK_ADD } from "@/lib/pitch";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -72,14 +74,26 @@ const siteJsonLd = {
   ],
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+/** Cheapest variant of each one-tap accessory, offered in the cart below free shipping. */
+async function cartSuggestions(): Promise<CartSuggestion[]> {
+  const products = await getProducts().catch(() => []);
+  return QUICK_ADD.flatMap((handle) => {
+    const p = products.find((x) => x.handle === handle);
+    if (!p) return [];
+    const v = [...p.variants].sort((a, b) => a.price - b.price)[0];
+    return [{ variantId: v.id, handle, name: p.name, short: PITCH[handle].short, variantTitle: p.optionName ? v.title : null, price: v.price, image: p.packshot ?? p.images[0] }];
+  });
+}
+
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const suggestions = await cartSuggestions();
   return (
     <html lang="pl" className={`${inter.variable} ${fraunces.variable}`}>
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }} />
         <CartProvider>
           {children}
-          <CartDrawer />
+          <CartDrawer suggestions={suggestions} />
         </CartProvider>
       </body>
     </html>

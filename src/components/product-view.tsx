@@ -1,10 +1,11 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { ChevronRight, CreditCard, Factory, RotateCcw, Truck } from "lucide-react";
+import { Check, ChevronRight, CreditCard, Factory, Lock, PawPrint, RotateCcw, Truck } from "lucide-react";
 import { Product, formatPrice } from "@/lib/products";
 import { categoryById } from "@/lib/categories";
 import { FREE_SHIPPING_FROM, SHIPPING_PL } from "@/lib/shop";
+import { PITCH } from "@/lib/pitch";
 import { AddToCartBtn } from "./add-to-cart-btn";
 import { ProductCard } from "./product-card";
 import { ProductGallery, type GallerySlide } from "./product-gallery";
@@ -18,7 +19,8 @@ function sortValues(values: string[]) {
   return [...values].sort((a, b) => parseFloat(a.replace(",", ".").match(/[\d.]+/)![0]) - parseFloat(b.replace(",", ".").match(/[\d.]+/)![0]));
 }
 
-export function ProductView({ product, others }: { product: Product; others: Product[] }) {
+export function ProductView({ product, others, pairsCount = 0 }: { product: Product; others: Product[]; pairsCount?: number }) {
+  const pitch = PITCH[product.handle];
   // Start on the cheapest variant, with the gallery already showing that variant's photo.
   const initialVariant = [...product.variants].sort((a, b) => a.price - b.price)[0];
   const [variant, setVariant] = useState(initialVariant);
@@ -39,6 +41,17 @@ export function ProductView({ product, others }: { product: Product; others: Pro
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
+  // ?rozmiar=XL from the bed chooser preselects that option value
+  useEffect(() => {
+    const want = new URLSearchParams(window.location.search).get("rozmiar");
+    if (!want) return;
+    const i = product.options.findIndex((o) => o.values.includes(want));
+    if (i < 0) return;
+    const next = product.variants.filter((v) => v.options[i] === want).sort((a, b) => a.price - b.price)[0];
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-off sync from the URL after hydration
+    if (next) setVariant(next);
+  }, [product]);
 
   // Main packshots (e.g. black/white colour variants) replace the first slide;
   // other variant images (fountain with filters) are slides further in the gallery.
@@ -101,6 +114,11 @@ export function ProductView({ product, others }: { product: Product; others: Pro
               <p className="eyebrow mb-3">{category.singular}</p>
               <h1 className="text-[2rem] leading-[1.08] min-[400px]:text-4xl sm:text-5xl hyphens-auto break-words">{product.name}</h1>
               <p className="text-lg text-ink/80 mt-3 leading-snug">{product.tagline}</p>
+              {pitch && (
+                <p className="mt-4 inline-flex items-start gap-2 rounded-2xl bg-accent-primary/10 px-3.5 py-2 text-sm font-medium text-accent-primary-strong">
+                  <PawPrint className="h-4 w-4 mt-0.5 shrink-0" aria-hidden="true" /> {pitch.forWhom}
+                </p>
+              )}
 
               <div className="mt-6 sm:mt-8 flex items-baseline gap-3">
                 <span className="font-display text-4xl text-ink tabular-nums">{formatPrice(variant.price)}</span>
@@ -163,16 +181,35 @@ export function ProductView({ product, others }: { product: Product; others: Pro
 
               <div ref={buyRef} className="mt-7">
                 <AddToCartBtn className="w-full justify-center min-h-14 text-base" item={cartItem}>
-                  Dodaj do koszyka
+                  Dodaj do koszyka <span aria-hidden="true">·</span> <span className="tabular-nums">{formatPrice(variant.price)}</span>
                 </AddToCartBtn>
+                <p className="mt-2.5 flex items-center justify-center gap-1.5 text-xs text-ink/75">
+                  <Lock className="h-3 w-3" aria-hidden="true" /> Bezpieczna płatność · 14 dni na zwrot · numer przesyłki e-mailem
+                </p>
               </div>
 
               <ul className="mt-5 grid sm:grid-cols-2 gap-x-5 gap-y-3 text-sm text-ink/85 bg-sand/70 border border-neutral-warm/55 rounded-2xl p-4">
-                <li className="flex items-start gap-2.5"><CreditCard className="h-4 w-4 mt-0.5 shrink-0 text-accent-secondary-strong" aria-hidden="true" /> Bezpieczna płatność kartą lub PayPal</li>
+                <li className="flex items-start gap-2.5"><CreditCard className="h-4 w-4 mt-0.5 shrink-0 text-accent-secondary-strong" aria-hidden="true" /> Płatność BLIK, kartą, PayPal lub Klarna</li>
                 <li className="flex items-start gap-2.5"><RotateCcw className="h-4 w-4 mt-0.5 shrink-0 text-accent-secondary-strong" aria-hidden="true" /> 14 dni na odstąpienie od umowy</li>
                 <li className="flex items-start gap-2.5"><Truck className="h-4 w-4 mt-0.5 shrink-0 text-accent-secondary-strong" aria-hidden="true" /> Darmowa dostawa w Polsce od {FREE_SHIPPING_FROM} zł · zwykle 7–14 dni roboczych</li>
                 <li className="flex items-start gap-2.5"><Factory className="h-4 w-4 mt-0.5 shrink-0 text-accent-secondary-strong" aria-hidden="true" /> Producent: {product.vendor}</li>
               </ul>
+
+              {pitch && (
+                <section aria-labelledby="why-title" className="mt-10">
+                  <h2 id="why-title" className="text-2xl sm:text-3xl">Dlaczego pupil może je <span className="accent-script">polubić</span></h2>
+                  <ul className="mt-5 space-y-3">
+                    {pitch.benefits.map((b) => (
+                      <li key={b} className="flex gap-3 text-ink/90">
+                        <span className="mt-0.5 h-6 w-6 shrink-0 rounded-full bg-accent-primary-strong text-white flex items-center justify-center">
+                          <Check className="h-3.5 w-3.5" aria-hidden="true" />
+                        </span>
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
 
               <div className="product-desc mt-10 pt-10 border-t border-neutral-warm/55"
                 dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
@@ -185,7 +222,8 @@ export function ProductView({ product, others }: { product: Product; others: Pro
       {others.length > 0 && (
         <section className="py-14 sm:py-20 px-4 sm:px-6 border-t border-neutral-warm/55">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl mb-8">Zobacz <span className="accent-script">też</span></h2>
+            <h2 className="text-3xl sm:text-4xl mb-2">{pairsCount > 0 ? <>Pasuje do tego <span className="accent-script">zakupu</span></> : <>Zobacz <span className="accent-script">też</span></>}</h2>
+            <p className="text-ink/75 mb-8">{`Dobierz coś jeszcze. Od ${FREE_SHIPPING_FROM} zł dostawa w Polsce jest darmowa.`}</p>
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {others.map((p) => <ProductCard key={p.handle} product={p} />)}
             </div>
