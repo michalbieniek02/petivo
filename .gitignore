@@ -51,3 +51,6 @@ next-env.d.ts
 
 # Vercel local link
 /.vercel/
+
+# claude-ads local state
+/.claude-ads/
