@@ -33,7 +33,6 @@ export default async function ProductPage({ params }: PageProps<"/produkt/[handl
     name: product.name,
     description: product.tagline,
     image: product.images.slice(0, 4),
-    brand: { "@type": "Brand", name: "Petivo" },
     url: `https://petivo.shop/produkt/${product.handle}`,
     offers: {
       "@type": "AggregateOffer",
