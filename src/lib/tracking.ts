@@ -3,7 +3,7 @@
  * advertising cookies in the banner; checkout events (Purchase) come from Shopify's
  * Facebook & Instagram channel, so the storefront only sends browse and cart events.
  */
-export const META_PIXEL_ID = "";
+export const META_PIXEL_ID = "1666997035145080";
 
 const CONSENT_KEY = "petivo-consent";
 export const CONSENT_OPEN_EVENT = "petivo:consent-open";
