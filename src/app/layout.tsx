@@ -4,6 +4,7 @@ import "./globals.css";
 import { CartProvider } from "@/components/cart-provider";
 import { CartDrawer, type CartSuggestion } from "@/components/cart-drawer";
 import { getProducts } from "@/lib/products";
+import { ConsentAndPixel } from "@/components/consent-and-pixel";
 import { PITCH, QUICK_ADD } from "@/lib/pitch";
 
 const inter = Inter({
@@ -94,6 +95,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <CartProvider>
           {children}
           <CartDrawer suggestions={suggestions} />
+          <ConsentAndPixel />
         </CartProvider>
       </body>
     </html>

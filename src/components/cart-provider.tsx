@@ -1,5 +1,6 @@
 "use client";
 import { createContext, useCallback, useContext, useEffect, useRef, useState, ReactNode } from "react";
+import { contentId, track } from "@/lib/tracking";
 
 const STORE = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN || "ecxva5-gd.myshopify.com";
 const STORAGE_KEY = "petivo-cart";
@@ -58,6 +59,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const closeCart = useCallback(() => setOpen(false), []);
 
   const addItem = useCallback((item: CartItemInput) => {
+    track("AddToCart", { content_ids: [contentId(item.variantId)], content_type: "product", content_name: item.name, value: item.price, currency: "PLN" });
     setItems((prev) => {
       const existing = prev.find((i) => i.variantId === item.variantId);
       if (existing) {

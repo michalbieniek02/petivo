@@ -6,6 +6,7 @@ import { Product, formatPrice } from "@/lib/products";
 import { categoryById } from "@/lib/categories";
 import { FREE_SHIPPING_FROM, SHIPPING_PL } from "@/lib/shop";
 import { PITCH } from "@/lib/pitch";
+import { contentId, track } from "@/lib/tracking";
 import { AddToCartBtn } from "./add-to-cart-btn";
 import { ProductCard } from "./product-card";
 import { ProductGallery, type GallerySlide } from "./product-gallery";
@@ -41,6 +42,10 @@ export function ProductView({ product, others, pairsCount = 0 }: { product: Prod
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
+  useEffect(() => {
+    track("ViewContent", { content_ids: [contentId(initialVariant.id)], content_type: "product", content_name: product.name, value: initialVariant.price, currency: "PLN" });
+  }, [product, initialVariant]);
 
   // ?rozmiar=XL from the bed chooser preselects that option value
   useEffect(() => {

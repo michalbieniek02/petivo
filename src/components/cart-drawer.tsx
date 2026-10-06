@@ -7,6 +7,7 @@ import { X, ShoppingBag, ArrowRight, Package, Minus, Plus, Trash2, Lock } from "
 import { useCart } from "./cart-provider";
 import { formatPrice } from "@/lib/products";
 import { FREE_SHIPPING_FROM as FREE_SHIPPING, SHIPPING_PL } from "@/lib/shop";
+import { contentId, track } from "@/lib/tracking";
 const FOCUSABLE = "a[href], button:not([disabled]), [tabindex]:not([tabindex='-1'])";
 
 function trapFocus(event: KeyboardEvent<HTMLElement>) {
@@ -181,6 +182,7 @@ export function CartDrawer({ suggestions = [] }: { suggestions?: CartSuggestion[
                   </div>
                 </dl>
                 <a href={checkoutUrl}
+                  onClick={() => track("InitiateCheckout", { content_ids: items.map((i) => contentId(i.variantId)), content_type: "product", num_items: count, value: total, currency: "PLN" })}
                   className="btn-primary min-h-12 py-4 text-sm w-full inline-flex items-center justify-center gap-2">
                   Przejdź do płatności
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />

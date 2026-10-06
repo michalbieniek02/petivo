@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { POLICIES } from "@/lib/policies";
+import { ConsentSettingsLink } from "./consent-and-pixel";
 
 export function SiteFooter() {
   return (
@@ -38,6 +39,7 @@ export function SiteFooter() {
                 <Link href={`/${p.slug}`} className="hover:text-background transition-colors">{p.title}</Link>
               </li>
             ))}
+            <li><ConsentSettingsLink className="hover:text-background transition-colors" /></li>
           </ul>
         </nav>
       </div>
